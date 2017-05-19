@@ -1,6 +1,6 @@
 <?php
 
-class SupportedController extends \Phalcon\Mvc\Controller {
+class SupportedController extends ControllerBase {
 
     public function initialize() {
         $this->tag->setTitle("GameAPIs");
