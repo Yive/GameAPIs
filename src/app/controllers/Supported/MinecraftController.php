@@ -9,11 +9,11 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-
+        $this->tag->prependTitle("Minecraft APIs - ");
     }
 
-    public function minecraftAction() {
-        $this->tag->prependTitle("Minecraft APIs - ");
+    public function queryAction() {
+        $this->tag->prependTitle("Minecraft Server Query API - ");
     }
 
 }

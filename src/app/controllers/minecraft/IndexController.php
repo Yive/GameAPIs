@@ -1,5 +1,7 @@
 <?php
 
+namespace GameAPIs\Controllers\Minecraft;
+
 class SupportedController extends ControllerBase {
 
     public function initialize() {

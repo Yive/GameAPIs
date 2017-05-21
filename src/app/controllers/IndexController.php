@@ -1,5 +1,7 @@
 <?php
 
+namespace GameAPIs\Controllers;
+
 class IndexController extends ControllerBase {
 
     public function initialize() {

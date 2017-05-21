@@ -7,7 +7,16 @@ $loader = new \Phalcon\Loader();
  */
 $loader->registerDirs(
     [
-        $config->application->controllersDir,
-        $config->application->modelsDir
+        $config->application->controllersDir
     ]
-)->register();
+);
+
+$loader->registerNamespaces(
+    [
+        'GameAPIs\Controllers'              => $config->application->controllersDir,
+        'GameAPIs\Controllers\Supported'    => $config->application->controllersDir.'Supported/',
+        'GameAPIs\Controllers\Minecraft'    => $config->application->controllersDir.'Minecraft/'
+    ]
+);
+
+$loader->register();
