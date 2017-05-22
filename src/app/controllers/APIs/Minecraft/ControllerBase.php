@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\Minecraft;
+namespace GameAPIs\Controllers\APIs\Minecraft;
 
 use Phalcon\Mvc\Controller;
 

@@ -10,40 +10,40 @@ $router->add('/', [
     'action'        => 'index',
 ]);
 
-$router->add('/supported/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported',
+$router->add('/docs/:action', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation',
     'controller'    => 'index',
     'action'        => 1
 ]);
 
-$router->add('/supported/minecraft/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported',
-    'controller'    => 'minecraft',
+$router->add('/docs/minecraft/:action', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
+    'controller'    => 'index',
     'action'        => 1
 ]);
 
-$router->add('/supported/minecraft/query/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported\Minecraft',
-    'controller'    => 'query',
-    'action'        => 1
+$router->add('/docs/minecraft/query/:controller', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Query',
+    'controller'    => 1,
+    'action'        => 'index'
 ]);
 
-$router->add('/supported/minecraft/images/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported\Minecraft',
-    'controller'    => 'images',
-    'action'        => 1
+$router->add('/docs/minecraft/images/:controller', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Images',
+    'controller'    => 1,
+    'action'        => 'index'
 ]);
 
-$router->add('/supported/minecraft/ecommerce/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported\Minecraft',
-    'controller'    => 'ecommerce',
-    'action'        => 1
+$router->add('/docs/minecraft/ecommerce/:controller', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Ecommerce',
+    'controller'    => 1,
+    'action'        => 'index'
 ]);
 
-$router->add('/supported/minecraft/extra/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Supported\Minecraft',
-    'controller'    => 'extra',
-    'action'        => 1
+$router->add('/docs/minecraft/extra/:controller', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Extra',
+    'controller'    => 1,
+    'action'        => 'index'
 ]);
 
 $router->notFound([

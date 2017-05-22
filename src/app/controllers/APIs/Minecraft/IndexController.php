@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\Supported;
+namespace GameAPIs\Controllers\APIs\Minecraft;
 
 class IndexController extends ControllerBase {
 

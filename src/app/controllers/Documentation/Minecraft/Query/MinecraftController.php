@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\Supported;
+namespace GameAPIs\Controllers\Documentation\Minecraft\Query;
 
 class MinecraftController extends ControllerBase {
 

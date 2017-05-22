@@ -1,8 +1,8 @@
 <?php
 
-namespace GameAPIs\Controllers\Minecraft;
+namespace GameAPIs\Controllers\Documentation;
 
-class SupportedController extends ControllerBase {
+class IndexController extends ControllerBase {
 
     public function initialize() {
         $this->tag->setTitle("GameAPIs");
