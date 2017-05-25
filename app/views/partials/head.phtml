@@ -9,10 +9,11 @@
         <?php echo $this->tag->getTitle(); ?>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+        <link href="/css/main.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
-        <section class="hero is-primary is-bold">
+        <section class="hero is-info is-bold">
             <div class="hero-head">
                 <header class="nav">
                     <div class="container">
@@ -55,7 +56,7 @@
                 <nav class="tabs is-boxed">
                     <div class="container">
                         <ul>
-                            <li class="is-active"><a>Overview</a></li>
+                            <li<?php if(strpos($this->tag->getTitle(), "Index")) { echo " class=\"is-active\""; } ?>><a>Overview</a></li>
                             <li><a>Supported Games</a></li>
                         </ul>
                     </div>

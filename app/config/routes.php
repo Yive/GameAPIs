@@ -4,16 +4,16 @@ use \Phalcon\Mvc\Router;
 
 $router = new Router(false);
 
-$router->add('/', [
-    'namespace'     => 'GameAPIs\Controllers',
+$router->notFound([
+    'namespace'     => 'GameAPIs\Controllers\Overview',
     'controller'    => 'index',
-    'action'        => 'index',
+    'action'        => 'notfound',
 ]);
 
-$router->add('/docs/:action', [
-    'namespace'     => 'GameAPIs\Controllers\Documentation',
+$router->add('/', [
+    'namespace'     => 'GameAPIs\Controllers\Overview',
     'controller'    => 'index',
-    'action'        => 1
+    'action'        => 'index',
 ]);
 
 $router->add('/docs/minecraft/:action', [
@@ -46,12 +46,5 @@ $router->add('/docs/minecraft/extra/:controller', [
     'action'        => 'index'
 ]);
 
-$router->notFound([
-    'namespace'     => 'GameAPIs\Controllers',
-    'controller'    => 'index',
-    'action'        => 'notfound',
-]);
-
-$router->removeExtraSlashes(true);
 $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
 return $router;

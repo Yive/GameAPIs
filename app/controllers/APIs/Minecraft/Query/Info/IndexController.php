@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers;
+namespace GameAPIs\Controllers\APIs\Minecraft\Query\Info;
 
 class IndexController extends ControllerBase {
 
@@ -9,11 +9,7 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-        $this->tag->prependTitle("Index - ");
-    }
 
-    public function notfoundAction() {
-        $this->tag->prependTitle("404 - ");
     }
 
 }

@@ -9,7 +9,8 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-
+        $this->tag->prependTitle("Test - ");
+        echo "string";
     }
 
     public function minecraftAction() {
