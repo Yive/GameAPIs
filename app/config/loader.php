@@ -7,7 +7,8 @@ $loader = new \Phalcon\Loader();
  */
 $loader->registerDirs(
     [
-        $config->application->controllersDir
+        $config->application->controllersDir,
+        $config->application->libraryDir
     ]
 );
 
@@ -31,7 +32,8 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Minecraft\Query\Players'         => $config->application->controllersDir.'APIs/Minecraft/Query/Players',
         'GameAPIs\Controllers\APIs\Minecraft\Query\Extensive'       => $config->application->controllersDir.'APIs/Minecraft/Query/Extensive',
         'GameAPIs\Controllers\APIs\Minecraft\Images'                => $config->application->controllersDir.'APIs/Minecraft/Images/',
-        'GameAPIs\Controllers\APIs\Minecraft\Ecommerce'             => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/'
+        'GameAPIs\Controllers\APIs\Minecraft\Ecommerce'             => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/',
+        'GameAPIs\Libraries\Minecraft\Query'                        => $config->application->libraryDir.'Minecraft/Query/'
     ]
 );
 
