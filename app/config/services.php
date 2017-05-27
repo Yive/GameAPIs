@@ -5,6 +5,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\Dispatcher as Dispatcher;
+use Phalcon\Mvc\Router;
 
 /**
  * Shared configuration service
@@ -47,8 +48,13 @@ $di->setShared('view', function () {
  * Add routing capabilities
  */
 $di->set('router', function () {
-        require __DIR__.'/routes.php';
+        $router = new Router(false);
 
+        require __DIR__.'/Routes/Overview/routes.php';
+        require __DIR__.'/Routes/Documentation/Minecraft/routes.php';
+        require __DIR__.'/Routes/APIs/Minecraft/routes.php';
+
+        $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
         return $router;
     }
 );

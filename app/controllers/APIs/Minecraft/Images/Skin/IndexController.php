@@ -12,4 +12,12 @@ class IndexController extends ControllerBase {
 
     }
 
+    public function 2dAction() {
+        
+    }
+
+    public function 3dAction() {
+
+    }
+
 }
