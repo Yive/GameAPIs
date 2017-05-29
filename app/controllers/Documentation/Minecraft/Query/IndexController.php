@@ -9,7 +9,7 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-        $this->tag->prependTitle("Minecraft Server Query API - ");
+        return $this->response->redirect("docs/minecraft/query/status");
     }
 
     public function queryAction() {

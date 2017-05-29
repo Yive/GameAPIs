@@ -1,54 +1,50 @@
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta property="og:title" content="GameServerAPIs"/>
         <meta property="og:type" content="website"/>
         <meta property="og:description" content="API service for game servers."/>
         <?php echo $this->tag->getTitle(); ?>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-        <link href="/css/main.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/github.min.css" rel="stylesheet"/>
+        <link href="/css/main.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+        <style>.hljs {background-color: transparent;}</style>
     </head>
     <body>
         <section class="hero is-info is-bold">
             <div class="hero-head">
-                <header class="nav">
-                    <div class="container">
-                        <div class="nav-left">
-                            <a class="nav-item">
-                                GameAPIs
-                            </a>
-                        </div>
-                        <span class="nav-toggle">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                        <div class="nav-right nav-menu">
-                            <a class="nav-item is-active">
-                                Home
-                            </a>
-                            <a class="nav-item">
-                                Examples
-                            </a>
-                            <a class="nav-item">
-                                Documentation
-                            </a>
-                        </div>
-                    </div>
-                </header>
+                    <nav class="level" style="box-shadow:0 1px 0 rgba(255,255,255,.2);padding:1rem;">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-5">1,281,385,000 Requests/month</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-5">2,130,940 Visitors/month</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-5">56 Supported Games</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-5">453 APIs</p>
+                </div>
+              </div>
+            </nav>
             </div>
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <h1 class="title">
-                        GameAPIs
-                    </h1>
-                    <h2 class="subtitle">
-                        API Web Service For Game Servers.
-                    </h2>
+                    <h1 class="title">Project</h1>
+                    <h2 class="subtitle">API Web Service For Game Servers.</h2>
                 </div>
             </div>
 
@@ -57,7 +53,8 @@
                     <div class="container">
                         <ul>
                             <li<?php if(strpos($this->tag->getTitle(), "Index")) { echo " class=\"is-active\""; } ?>><a>Overview</a></li>
-                            <li><a>Supported Games</a></li>
+                            <li<?php if(strpos($this->view->getViewsDir(), "Documentation")) { echo " class=\"is-active\""; } ?>><a>Documentation</a></li>
+                            <li><a>Examples</a></li>
                         </ul>
                     </div>
                 </nav>

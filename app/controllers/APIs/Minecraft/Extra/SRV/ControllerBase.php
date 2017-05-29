@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\Minecraft\Extra\MinecraftStatus;
+namespace GameAPIs\Controllers\APIs\Minecraft\Extra\SRV;
 
 use Phalcon\Mvc\Controller;
 

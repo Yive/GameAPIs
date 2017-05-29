@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\Minecraft\Query\Info;
+namespace GameAPIs\Controllers\APIs\Minecraft\Query\Status;
 
 use Phalcon\Mvc\Controller;
 

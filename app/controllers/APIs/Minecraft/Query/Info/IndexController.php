@@ -73,6 +73,7 @@ class IndexController extends ControllerBase {
                 $output['motds']['html']     = $response['htmlmotd'];
                 $output['motds']['clean']    = $response['cleanmotd'];
                 $output['favicon']           = $response['favicon'];
+                $output['hover']             = $response['sample_player_list'];
                 if(!empty($response['mods']['list'])) {
                     $output['mods'] = $response['mods'];
                 }
@@ -109,6 +110,7 @@ class IndexController extends ControllerBase {
                 $output['motds']['html']     = $response['htmlmotd'];
                 $output['motds']['clean']    = $response['cleanmotd'];
                 $output['favicon']           = $response['favicon'];
+                $output['hover']             = $response['sample_player_list'];
                 if(!empty($response['mods']['list'])) {
                     $output['mods'] = $response['mods'];
                 }
