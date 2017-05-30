@@ -12,7 +12,7 @@ class IndexController extends ControllerBase {
 
     public function indexAction() {
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         if (!$redis->exists('blockedservers:list')) {
             $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
             $redis->set('blockedservers:list', json_encode($json['blocked']), 10);
@@ -36,7 +36,6 @@ class IndexController extends ControllerBase {
             }
         }
         echo json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-        $redis->close();
     }
 
     public function checkAction() {
@@ -73,7 +72,7 @@ class IndexController extends ControllerBase {
             return $subdomains;
         }
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         $params = $this->dispatcher->getParams();
         $ips = explode(',', $params['ips']);
         $noipDomains = array("ddns.net","ddnsking.com","3utilities.com","bounceme.net","freedynamicdns.net","freedynamicdns.org","gotdns.ch","hopto.org","myftp.biz","myftp.org","myvnc.com","onthewifi.com","redirectme.net","servebeer.com","serveblog.net","servecounterstrike.com","serveftp.com","servegame.com","servehalflife.com","servehttp.com","serveirc.com","serveminecraft.net","servemp3.com","servepics.com","servequake.com","sytes.net","viewdns.net","webhop.me","zapto.org","access.ly","blogsyte.com","brasilia.me","cable-modem.org","ciscofreak.com","collegefan.org","couchpotatofries.org","damnserver.com","ddns.me","ditchyourip.com","dnsfor.me","dnsiskinky.com","dvrcam.info","dynns.com","eating-organic.net","fantasyleague.cc","geekgalaxy.com","golffan.us","health-carereform.com","homesecuritymac.com","homesecuritypc.com","hosthampster.com","hopto.me","ilovecollege.info","loginto.me","mlbfan.org","mmafan.biz","myactivedirectory.com","mydissent.net","myeffect.net","mymediapc.net","mypsx.net","mysecuritycamera.com","mysecuritycamera.net","mysecuritycamera.org","net-freaks.com","nflfan.org","nhlfan.net","pgafan.net","point2this.com","pointto.us","privatizehealthinsurance.net","quicksytes.com","read-books.org","securitytactics.com","serveexchange.com","servehumour.com","servep2p.com","servesarcasm.com","stufftoread.com","ufcfan.org","unusualperson.com","workisboring.com");
@@ -341,8 +340,11 @@ class IndexController extends ControllerBase {
                     }
                 }
             }
+            foreach ($output as $value) {
+                $unique = array_values(array_unique($value, SORT_REGULAR));
+                $output[$ip] = $unique;
+            }
         }
-        $redis->close();
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 }

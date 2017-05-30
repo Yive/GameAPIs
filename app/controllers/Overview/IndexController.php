@@ -14,7 +14,6 @@ class IndexController extends ControllerBase {
 
     public function notfoundAction() {
         $this->tag->prependTitle("404 - ");
-        echo $this->view->getViewsDir();
     }
 
 }

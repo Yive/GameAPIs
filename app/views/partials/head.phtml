@@ -52,9 +52,9 @@
                 <nav class="tabs is-boxed">
                     <div class="container">
                         <ul>
-                            <li<?php if(strpos($this->tag->getTitle(), "Index")) { echo " class=\"is-active\""; } ?>><a>Overview</a></li>
-                            <li<?php if(strpos($this->view->getViewsDir(), "Documentation")) { echo " class=\"is-active\""; } ?>><a>Documentation</a></li>
-                            <li><a>Examples</a></li>
+                            <li<?php if(strpos($this->tag->getTitle(), "Index")) { echo " class=\"is-active\""; } ?>><a href="/">Overview</a></li>
+                            <li<?php if(strpos($this->view->getViewsDir(), "Documentation")) { echo " class=\"is-active\""; } ?>><a href="/docs/">Documentation</a></li>
+                            <li><a href="/examples/">Examples</a></li>
                         </ul>
                     </div>
                 </nav>
