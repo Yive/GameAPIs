@@ -16,10 +16,9 @@ class IndexController extends ControllerBase {
         $size = $params['size'];
         $helm = $params['helm'];
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         if($redis->exists('avatar:2d:'.$name.':'.$size.':'.$helm)) {
             $data = base64_decode($redis->get('avatar:2d:'.$name.':'.$size.':'.$helm));
-            $redis->close();
             echo $data;
         } else {
             function get_skin($name) {
@@ -105,7 +104,6 @@ class IndexController extends ControllerBase {
             imagedestroy($im);
             imagedestroy($av);
             $redis->set('avatar:2d:'.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
-            $redis->close();
             echo $imagedata;
         }
     }

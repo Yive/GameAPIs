@@ -12,7 +12,7 @@ class IndexController extends ControllerBase {
 
     public function indexAction() {
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         $mojang = $redis->exists('mojang:status');
         if(!$mojang) {
             $status = json_decode(file_get_contents('https://status.mojang.com/check'),true);
@@ -31,7 +31,6 @@ class IndexController extends ControllerBase {
             $output = json_decode($redis->get('mojang:status'),true);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-        $redis->close();
     }
 
 }

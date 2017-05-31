@@ -28,10 +28,9 @@ class IndexController extends ControllerBase {
             $size = 25;
         }
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         if($redis->exists('skin:2d:'.$name.':'.$size.':'.$helm)) {
             $skin = base64_decode($redis->get('skin:2d:'.$name.':'.$size.':'.$helm));
-            $redis->close();
             echo $skin;
         } else {
             define('MC_SKINS_BASE_URL', 'http://skins.minecraft.net/MinecraftSkins/');
@@ -163,7 +162,6 @@ class IndexController extends ControllerBase {
             $imagedata = ob_get_contents();
             ob_end_clean();
             $redis->set('skin:2d:'.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
-            $redis->close();
 
             echo $imagedata;
         }
@@ -173,10 +171,9 @@ class IndexController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         $name = $params['name'];
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         if($redis->exists('skin:rawfile:'.$name)) {
             $skin = base64_decode($redis->get('skin:rawskin:'.$name));
-            $redis->close();
             echo $skin;
         } else {
             function file_get_contents_curl($url) {
@@ -198,7 +195,6 @@ class IndexController extends ControllerBase {
                 $skin = file_get_contents_curl('http://assets.mojang.com/SkinTemplates/steve.png');
             }
             $redis->set('skin:rawfile:'.$name, base64_encode($skin), 120);
-            $redis->close();
             echo $skin;
         }
     }

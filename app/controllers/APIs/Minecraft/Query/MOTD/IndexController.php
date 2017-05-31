@@ -47,7 +47,7 @@ class IndexController extends ControllerBase {
             $params['port'] = 25565;
         }
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         if($redis->exists('ping:'.$params['ip'].':'.$params['port'])) {
             $response = json_decode(base64_decode($redis->get('ping:'.$params['ip'].':'.$params['port'])),true);
             if(!$response['online']) {
@@ -94,7 +94,6 @@ class IndexController extends ControllerBase {
             $output['cached'] = false;
             $redis->set('ping:'.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
-        $redis->close();
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
@@ -104,7 +103,7 @@ class IndexController extends ControllerBase {
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->connect('/var/run/redis/redis.sock');
+        $redis->pconnect('/var/run/redis/redis.sock');
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
@@ -165,7 +164,6 @@ class IndexController extends ControllerBase {
                 $redis->set('ping:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
-        $redis->close();
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
