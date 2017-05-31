@@ -170,4 +170,10 @@ $router->add('/api/minecraft/extra/blockedservers/check/{ips}', [
     'action'        => 'check'
 ]);
 
+$router->add('/api/minecraft/extra/srv', [
+    'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Extra\SRV',
+    'controller'    => 'index',
+    'action'        => 'index'
+]);
+
  ?>
