@@ -47,7 +47,19 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Minecraft\Ecommerce\MinecraftMarket' => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/MinecraftMarket/',
          // CSGO APIs //
         'GameAPIs\Controllers\APIs\CSGO\Query'                          => $config->application->controllersDir.'APIs/CSGO/Query/',
+        'GameAPIs\Controllers\APIs\CSGO\Query\Info'                     => $config->application->controllersDir.'APIs/CSGO/Query/Info/',
         'GameAPIs\Controllers\APIs\CSGO\Query\Status'                   => $config->application->controllersDir.'APIs/CSGO/Query/Status/',
+        'GameAPIs\Controllers\APIs\CSGO\Query\Players'                  => $config->application->controllersDir.'APIs/CSGO/Query/Players/',
+         // CSS APIs //
+        'GameAPIs\Controllers\APIs\CSS\Query'                           => $config->application->controllersDir.'APIs/CSS/Query/',
+        'GameAPIs\Controllers\APIs\CSS\Query\Info'                      => $config->application->controllersDir.'APIs/CSS/Query/Info/',
+        'GameAPIs\Controllers\APIs\CSS\Query\Status'                    => $config->application->controllersDir.'APIs/CSS/Query/Status/',
+        'GameAPIs\Controllers\APIs\CSS\Query\Players'                   => $config->application->controllersDir.'APIs/CSS/Query/Players/',
+         // CS 1.6 APIs //
+        'GameAPIs\Controllers\APIs\CS\Query'                            => $config->application->controllersDir.'APIs/CS/Query/',
+        'GameAPIs\Controllers\APIs\CS\Query\Info'                       => $config->application->controllersDir.'APIs/CS/Query/Info/',
+        'GameAPIs\Controllers\APIs\CS\Query\Status'                     => $config->application->controllersDir.'APIs/CS/Query/Status/',
+        'GameAPIs\Controllers\APIs\CS\Query\Players'                    => $config->application->controllersDir.'APIs/CS/Query/Players/',
          // Libraries //
         'GameAPIs\Libraries\Minecraft\Query'                            => $config->application->libraryDir.'Minecraft/Query/'
     ]
