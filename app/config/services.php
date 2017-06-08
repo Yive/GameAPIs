@@ -49,11 +49,11 @@ $di->setShared('view', function () {
  */
 $di->set('router', function () {
         $router = new Router(false);
-
         require __DIR__.'/Routes/Overview/routes.php';
-        require __DIR__.'/Routes/Documentation/Minecraft/routes.php';
-        require __DIR__.'/Routes/APIs/CSGO/routes.php';
-        require __DIR__.'/Routes/APIs/Minecraft/routes.php';
+        $routes = glob(__DIR__.'/Routes/*/*/*.php');
+        foreach ($routes as $routesKey => $routesValue) {
+            require $routesValue;
+        }
 
         $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
         return $router;
