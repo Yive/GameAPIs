@@ -9,12 +9,15 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-        $this->tag->prependTitle("Test - ");
-        echo "string";
+        $this->tag->prependTitle("Documentation - ");
     }
 
-    public function minecraftAction() {
-        $this->tag->prependTitle("Minecraft APIs - ");
+    public function voiceAction() {
+        $this->tag->prependTitle("Documentation - ");
+    }
+
+    public function otherAction() {
+        $this->tag->prependTitle("Documentation - ");
     }
 
 }

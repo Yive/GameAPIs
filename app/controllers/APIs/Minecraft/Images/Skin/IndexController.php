@@ -29,8 +29,8 @@ class IndexController extends ControllerBase {
         }
         $redis = new Redis();
         $redis->pconnect('/var/run/redis/redis.sock');
-        if($redis->exists('skin:2d:'.$name.':'.$size.':'.$helm)) {
-            $skin = base64_decode($redis->get('skin:2d:'.$name.':'.$size.':'.$helm));
+        if($redis->exists('skin:minecraft:2d:'.$name.':'.$size.':'.$helm)) {
+            $skin = base64_decode($redis->get('skin:minecraft:2d:'.$name.':'.$size.':'.$helm));
             echo $skin;
         } else {
             define('MC_SKINS_BASE_URL', 'http://skins.minecraft.net/MinecraftSkins/');
@@ -161,7 +161,7 @@ class IndexController extends ControllerBase {
             imagepng($fullsize);
             $imagedata = ob_get_contents();
             ob_end_clean();
-            $redis->set('skin:2d:'.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
+            $redis->set('skin:minecraft:2d:'.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
 
             echo $imagedata;
         }
@@ -172,8 +172,8 @@ class IndexController extends ControllerBase {
         $name = $params['name'];
         $redis = new Redis();
         $redis->pconnect('/var/run/redis/redis.sock');
-        if($redis->exists('skin:rawfile:'.$name)) {
-            $skin = base64_decode($redis->get('skin:rawskin:'.$name));
+        if($redis->exists('skin:minecraft:rawfile:'.$name)) {
+            $skin = base64_decode($redis->get('skin:minecraft:rawfile:'.$name));
             echo $skin;
         } else {
             function file_get_contents_curl($url) {
@@ -194,7 +194,7 @@ class IndexController extends ControllerBase {
             if(!$skin) {
                 $skin = file_get_contents_curl('http://assets.mojang.com/SkinTemplates/steve.png');
             }
-            $redis->set('skin:rawfile:'.$name, base64_encode($skin), 120);
+            $redis->set('skin:minecraft:rawfile:'.$name, base64_encode($skin), 120);
             echo $skin;
         }
     }

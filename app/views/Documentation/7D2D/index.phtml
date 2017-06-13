@@ -1,0 +1,56 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="/docs/">
+                Home
+            </a>
+            <a class="nav-item is-tab" href="/docs/">
+                Info
+            </a>
+            <a class="nav-item is-tab" href="/docs/">
+                Status
+            </a>
+            <a class="nav-item is-tab" href="/docs/">
+                Players
+            </a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ts3.jpg" alt="Teamspeak 3">
+                        </figure>
+                    </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item button is-info" href="/docs/ts3" style="border-radius:0;border:0px;">Documentation</a>
+                        <a class="card-footer-item button is-info" href="/docs/ts3" style="border-radius:0;border:0px;">Examples</a>
+                    </footer>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/mumble.jpg" alt="Mumble">
+                        </figure>
+                    </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item button is-info" href="/docs/mumble" style="border-radius:0;border:0px;">Documentation</a>
+                        <a class="card-footer-item button is-info" href="/docs/mumble" style="border-radius:0;border:0px;">Examples</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

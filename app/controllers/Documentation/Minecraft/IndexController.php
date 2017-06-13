@@ -9,8 +9,7 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-        $this->tag->prependTitle('Minecraft APIs - ');
-        return $this->response->redirect('docs/minecraft');
+        $this->tag->prependTitle('Minecraft Documentation - ');
     }
 
     public function extraAction() {

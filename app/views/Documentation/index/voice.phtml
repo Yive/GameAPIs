@@ -1,0 +1,47 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="/docs/">
+                Game Servers
+            </a>
+            <a class="nav-item is-tab is-active" href="#">
+                Voice Servers
+            </a>
+            <a class="nav-item is-tab" href="#">
+                Other
+            </a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ts3.jpg" alt="Teamspeak 3">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ts3" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/mumble.jpg" alt="Mumble">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/mumble" disabled>View Documentation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

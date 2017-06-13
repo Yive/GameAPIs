@@ -17,6 +17,8 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers'                                          => $config->application->controllersDir,
         'GameAPIs\Controllers\Overview'                                 => $config->application->controllersDir.'Overview/',
         'GameAPIs\Controllers\Documentation'                            => $config->application->controllersDir.'Documentation/',
+         // 7 Days to Die Documentation //
+        'GameAPIs\Controllers\Documentation\SD2D'                       => $config->application->controllersDir.'Documentation/7D2D/',
          // Minecraft Documentation //
         'GameAPIs\Controllers\Documentation\Minecraft'                  => $config->application->controllersDir.'Documentation/Minecraft/',
         'GameAPIs\Controllers\Documentation\Minecraft\Extra'            => $config->application->controllersDir.'Documentation/Minecraft/Extra/',

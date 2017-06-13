@@ -23,8 +23,8 @@ class IndexController extends ControllerBase {
             } elseif($params['action'] == "payments") {
                 $params['action'] = 'recentdonor';
             }
-            if($redis->exists('minecraftmarket:'.$params['action'].':'.$hash)) {
-                $response = $redis->get('minecraftmarket:'.$params['action'].':'.$hash);
+            if($redis->exists('minecraftmarket:minecraft:'.$params['action'].':'.$hash)) {
+                $response = $redis->get('minecraftmarket:minecraft:'.$params['action'].':'.$hash);
                 echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
                 function file_get_contents_curl($url) {
@@ -51,7 +51,7 @@ class IndexController extends ControllerBase {
                     return $data;
            		}
                 $response = json_decode(file_get_contents_curl('http://www.minecraftmarket.com/api/1.5/'.$params['secret'].'/'.$params['action']), true);
-                $redis->set('minecraftmarket:'.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
+                $redis->set('minecraftmarket:minecraft:'.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
            		echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         }

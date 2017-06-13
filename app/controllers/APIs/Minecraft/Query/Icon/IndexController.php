@@ -44,8 +44,8 @@ class IndexController extends ControllerBase {
         }
         $redis = new Redis();
         $redis->pconnect('/var/run/redis/redis.sock');
-        if($redis->exists('ping:'.$params['ip'].':'.$params['port'])) {
-            $response = json_decode(base64_decode($redis->get('ping:'.$params['ip'].':'.$params['port'])),true);
+        if($redis->exists('ping:minecraft:'.$params['ip'].':'.$params['port'])) {
+            $response = json_decode(base64_decode($redis->get('ping:minecraft:'.$params['ip'].':'.$params['port'])),true);
             $favicon = @imagecreatefromstring(base64_decode(str_replace('data:image/png;base64,', '', $response['favicon'])));
             if ($favicon !== false) {
                 imagesavealpha($favicon, true);
@@ -78,7 +78,7 @@ class IndexController extends ControllerBase {
                 imagepng($favicon);
                 imagedestroy($favicon);
             }
-            $redis->set('ping:'.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set('ping:minecraft:'.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
     }
 }

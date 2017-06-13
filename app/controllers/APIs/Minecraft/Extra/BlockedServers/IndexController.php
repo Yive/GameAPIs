@@ -13,22 +13,22 @@ class IndexController extends ControllerBase {
     public function indexAction() {
         $redis = new Redis();
         $redis->pconnect('/var/run/redis/redis.sock');
-        if (!$redis->exists('blockedservers:list')) {
+        if (!$redis->exists('blockedservers:minecraft:list')) {
             $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
-            $redis->set('blockedservers:list', json_encode($json['blocked']), 10);
+            $redis->set('blockedservers:minecraft:list', json_encode($json['blocked']), 10);
         } else {
-            $json['blocked'] = json_decode($redis->get('blockedservers:list'),true);
+            $json['blocked'] = json_decode($redis->get('blockedservers:minecraft:list'),true);
         }
         foreach ($json['blocked'] as $value) {
             if(empty($value)) {
                 continue;
             }
-            if(!$redis->exists('blockedservers:check:'.$value)) {
+            if(!$redis->exists('blockedservers:minecraft:check:'.$value)) {
                 $json['unknown'][$value]['sha1'] = $value;
             } else {
-                $check = json_decode($redis->get('blockedservers:check:'.$value),true);
+                $check = json_decode($redis->get('blockedservers:minecraft:check:'.$value),true);
                 if($check['domain'] == NULL) {
-                    $redis->del('blockedservers:check:'.$value);
+                    $redis->del('blockedservers:minecraft:check:'.$value);
                     continue;
                 }
                 $json['found'][$value]['sha1']  = $value;
@@ -76,11 +76,11 @@ class IndexController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         $ips = explode(',', $params['ips']);
         $noipDomains = array("ddns.net","ddnsking.com","3utilities.com","bounceme.net","freedynamicdns.net","freedynamicdns.org","gotdns.ch","hopto.org","myftp.biz","myftp.org","myvnc.com","onthewifi.com","redirectme.net","servebeer.com","serveblog.net","servecounterstrike.com","serveftp.com","servegame.com","servehalflife.com","servehttp.com","serveirc.com","serveminecraft.net","servemp3.com","servepics.com","servequake.com","sytes.net","viewdns.net","webhop.me","zapto.org","access.ly","blogsyte.com","brasilia.me","cable-modem.org","ciscofreak.com","collegefan.org","couchpotatofries.org","damnserver.com","ddns.me","ditchyourip.com","dnsfor.me","dnsiskinky.com","dvrcam.info","dynns.com","eating-organic.net","fantasyleague.cc","geekgalaxy.com","golffan.us","health-carereform.com","homesecuritymac.com","homesecuritypc.com","hosthampster.com","hopto.me","ilovecollege.info","loginto.me","mlbfan.org","mmafan.biz","myactivedirectory.com","mydissent.net","myeffect.net","mymediapc.net","mypsx.net","mysecuritycamera.com","mysecuritycamera.net","mysecuritycamera.org","net-freaks.com","nflfan.org","nhlfan.net","pgafan.net","point2this.com","pointto.us","privatizehealthinsurance.net","quicksytes.com","read-books.org","securitytactics.com","serveexchange.com","servehumour.com","servep2p.com","servesarcasm.com","stufftoread.com","ufcfan.org","unusualperson.com","workisboring.com");
-        if (!$redis->exists('blockedservers:list')) {
+        if (!$redis->exists('blockedservers:minecraft:list')) {
             $blockedservers = array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')));
-            $redis->set('blockedservers:list', json_encode($blockedservers), 10);
+            $redis->set('blockedservers:minecraft:list', json_encode($blockedservers), 10);
         } else {
-            $blockedservers = json_decode($redis->get('blockedservers:list'),true);
+            $blockedservers = json_decode($redis->get('blockedservers:minecraft:list'),true);
         }
         foreach ($ips as $ip) {
             $i=0;
@@ -91,8 +91,8 @@ class IndexController extends ControllerBase {
                 $output[$ip][$i]['sha1'] = $sha1;
                 $redisSet['sha1'] = $sha1;
                 $redisSet['domain'] = $domain;
-                if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                    $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                    $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                 }
                 if(in_array($sha1, $blockedservers)) {
                     $output[$ip][$i]['blocked'] = true;
@@ -107,8 +107,8 @@ class IndexController extends ControllerBase {
                     $output[$ip][$i]['sha1'] = $sha1;
                     $redisSet['sha1'] = $sha1;
                     $redisSet['domain'] = $domain;
-                    if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                        $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                    if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                        $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                     }
                     if(in_array($sha1, $blockedservers)) {
                         $output[$ip][$i]['blocked'] = true;
@@ -128,8 +128,8 @@ class IndexController extends ControllerBase {
                     $output[$ip][$i]['sha1'] = $sha1;
                     $redisSet['sha1'] = $sha1;
                     $redisSet['domain'] = $domain;
-                    if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                        $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                    if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                        $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                     }
                     if(in_array($sha1, $blockedservers)) {
                         $output[$ip][$i]['blocked'] = true;
@@ -144,8 +144,8 @@ class IndexController extends ControllerBase {
                         $output[$ip][$i]['sha1'] = $sha1;
                         $redisSet['sha1'] = $sha1;
                         $redisSet['domain'] = $domain;
-                        if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                            $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                        if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                            $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                         }
                         if(in_array($sha1, $blockedservers)) {
                             $output[$ip][$i]['blocked'] = true;
@@ -167,8 +167,8 @@ class IndexController extends ControllerBase {
                             $output[$ip][$i]['sha1'] = $sha1;
                             $redisSet['sha1'] = $sha1;
                             $redisSet['domain'] = $domain;
-                            if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                             }
                             if(in_array($sha1, $blockedservers)) {
                                 $output[$ip][$i]['blocked'] = true;
@@ -183,8 +183,8 @@ class IndexController extends ControllerBase {
                                 $output[$ip][$i]['sha1'] = $sha1;
                                 $redisSet['sha1'] = $sha1;
                                 $redisSet['domain'] = $domain;
-                                if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                    $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                                if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                    $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                                 }
                                 if(in_array($sha1, $blockedservers)) {
                                     $output[$ip][$i]['blocked'] = true;
@@ -203,8 +203,8 @@ class IndexController extends ControllerBase {
                             $output[$ip][$i]['sha1'] = $sha1;
                             $redisSet['sha1'] = $sha1;
                             $redisSet['domain'] = $domain;
-                            if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                             }
                             if(in_array($sha1, $blockedservers)) {
                                 $output[$ip][$i]['blocked'] = true;
@@ -219,8 +219,8 @@ class IndexController extends ControllerBase {
                                 $output[$ip][$i]['sha1'] = $sha1;
                                 $redisSet['sha1'] = $sha1;
                                 $redisSet['domain'] = $domain;
-                                if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                    $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                                if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                    $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                                 }
                                 if(in_array($sha1, $blockedservers)) {
                                     $output[$ip][$i]['blocked'] = true;
@@ -242,8 +242,8 @@ class IndexController extends ControllerBase {
                         $output[$ip][$i]['sha1'] = $sha1;
                         $redisSet['sha1'] = $sha1;
                         $redisSet['domain'] = $domain;
-                        if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                            $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                        if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                            $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                         }
                         if(in_array($sha1, $blockedservers)) {
                             $output[$ip][$i]['blocked'] = true;
@@ -258,8 +258,8 @@ class IndexController extends ControllerBase {
                             $output[$ip][$i]['sha1'] = $sha1;
                             $redisSet['sha1'] = $sha1;
                             $redisSet['domain'] = $domain;
-                            if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                             }
                             if(in_array($sha1, $blockedservers)) {
                                 $output[$ip][$i]['blocked'] = true;
@@ -278,8 +278,8 @@ class IndexController extends ControllerBase {
                         $output[$ip][$i]['sha1'] = $sha1;
                         $redisSet['sha1'] = $sha1;
                         $redisSet['domain'] = $domain;
-                        if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                            $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                        if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                            $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                         }
                         if(in_array($sha1, $blockedservers)) {
                             $output[$ip][$i]['blocked'] = true;
@@ -294,8 +294,8 @@ class IndexController extends ControllerBase {
                             $output[$ip][$i]['sha1'] = $sha1;
                             $redisSet['sha1'] = $sha1;
                             $redisSet['domain'] = $domain;
-                            if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                                $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                                $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                             }
                             if(in_array($sha1, $blockedservers)) {
                                 $output[$ip][$i]['blocked'] = true;
@@ -313,8 +313,8 @@ class IndexController extends ControllerBase {
                     $output[$ip][$i]['sha1'] = $sha1;
                     $redisSet['sha1'] = $sha1;
                     $redisSet['domain'] = $domain;
-                    if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                        $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                    if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                        $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                     }
                     if(in_array($sha1, $blockedservers)) {
                         $output[$ip][$i]['blocked'] = true;
@@ -330,8 +330,8 @@ class IndexController extends ControllerBase {
                     $output[$ip][$i]['sha1'] = $sha1;
                     $redisSet['sha1'] = $sha1;
                     $redisSet['domain'] = $domain;
-                    if (!$redis->exists('blockedservers:check:'.$sha1)) {
-                        $redis->set('blockedservers:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                    if (!$redis->exists('blockedservers:minecraft:check:'.$sha1)) {
+                        $redis->set('blockedservers:minecraft:check:'.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
                     }
                     if(in_array($sha1, $blockedservers)) {
                         $output[$ip][$i]['blocked'] = true;

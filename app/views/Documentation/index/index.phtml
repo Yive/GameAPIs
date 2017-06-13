@@ -1,73 +1,477 @@
 <?php
     $this->partial("head");
 ?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab is-active" href="#">
+                Game Servers
+            </a>
+            <a class="nav-item is-tab" href="/docs/voice">
+                Voice Servers
+            </a>
+            <a class="nav-item is-tab" href="#">
+                Other
+            </a>
+        </div>
+    </div>
+</nav>
 <section class="section">
     <div class="container">
-        <div class="columns">
-            <div class="column">
-                <h3 class="title is-2 is-spaced">Features</h3>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column is-one-third">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">Parameters</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
-                            <p>Placeholder</p>
-                        </div>
+        <div class="columns is-multiline">
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/7d2d.jpg" alt="7 Days To Die">
+                        </figure>
                     </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/7d2d" disabled>View Documentation</a>
                 </div>
             </div>
-            <div class="column">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">Usage</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
-                            <p>Placeholder</p>
-                        </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/alienswarm.jpg" alt="Alien Swarm">
+                        </figure>
                     </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/alienswarm" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ark.jpg" alt="ARK: Survival Evolved">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ark" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/arma2.jpg" alt="ARMA 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/arma2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/arma3.jpg" alt="ARMA 3">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/arma3" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bf2.jpg" alt="Battlefield 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bf2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bf3.jpg" alt="Battlefield 3">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bf3" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bf4.jpg" alt="Battlefield 4">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bf4" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bf1942.jpg" alt="Battlefield 1942">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bf1942" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bfbc2.jpg" alt="Battlefield: Bad Company 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bfbc2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/bfhl.jpg" alt="Battlefield Hardline">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/bfhl" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ce.jpg" alt="Conan Exiles">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ce" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/cmw.jpg" alt="Chivalry: Medieval Warfare">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/cmw" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/cod2.jpg" alt="Call of Duty 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/cod2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/cod4.jpg" alt="Call of Duty 4: Modern Warfare">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/cod4" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/codmw3.jpg" alt="Call of Duty: Modern Warfare 3">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/codmw3" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/codwaw.jpg" alt="Call of Duty: World at War">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/codwaw" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/cs.jpg" alt="Counter Strike">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="/docs/cs">View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/csgo.jpg" alt="Counter Strike: Global Offensive">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="/docs/csgo">View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/css.jpg" alt="Counter Strike Source">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="/docs/css">View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/dayz.jpg" alt="DayZ Standalone">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/dayz" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/dods.jpg" alt="Day of Defeat: Source">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/dods" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/gmod.jpg" alt="Garry's Mod">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="/docs/gmod">View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/gta5.jpg" alt="Grand Theft Auto 5 (Multiplayer Mods)">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/gta5" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/gtasa.jpg" alt="Grand Theft Auto San Andreas Multiplayer">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/gtasa" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/hl2dm.jpg" alt="Half Life 2: Deathmatch">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/hl2dm" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/hw.jpg" alt="Hurtworld">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/hw" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/insurgency.jpg" alt="Insurgency">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/insurgency" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/kf.jpg" alt="Killing Floor">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/kf" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/kf2.jpg" alt="Killing Floor 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/kf2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/l4d.jpg" alt="Left 4 Dead">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/l4d" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/l4d2.jpg" alt="Left 4 Dead 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/l4d2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/mc.jpg" alt="Minecraft">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="/docs/mc">View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/mohaa.jpg" alt="Medal of Honor: Allied Assault">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/mohaa" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ns2.jpg" alt="Natural Selection 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ns2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ql.jpg" alt="Quake Live">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ql" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/ro2.jpg" alt="Red Orchestra 2: Heroes of Stalingrad with Rising Storm">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/ro2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/rust.jpg" alt="Rust">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/rust" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/se.jpg" alt="Space Engineers">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/se" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/squad.jpg" alt="SQUAD">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/squad" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/starbound.jpg" alt="Starbound">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/starbound" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/terraria.jpg" alt="Terraria">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/terraria" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/tf2.jpg" alt="Team Fortress 2">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/tf2" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/unturned.jpg" alt="Unturned">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/unturned" disabled>View Documentation</a>
+                </div>
+            </div>
+            <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+                <div class="card shadow-hover">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="/img/games/wu.jpg" alt="Wurm Unlimited">
+                        </figure>
+                    </div>
+                    <a class="card-content button is-dark is-fullwidth" style="border-radius:0;border:0px;" href="/docs/wu" disabled>View Documentation</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<div class="container">
-    <div class="col-xs-12 col-sm-6 col-lg-4">
-        <div class="thumbnail">
-            <div class="caption">
-                <center>
-                    <h3>Minecraft PC</h3>
-                    <p><a href="#" class="btn btn-primary" role="button">Discover APIs</a></p>
-                </center>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-lg-4">
-        <div class="thumbnail">
-            <div class="caption">
-                <center>
-                    <h3>Minecraft PE</h3>
-                    <p><a href="#" class="btn btn-primary" role="button">Discover APIs</a></p>
-                </center>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-lg-4">
-        <div class="thumbnail">
-            <div class="caption">
-                <center>
-                    <h3>Factorio</h3>
-                    <p><a href="#" class="btn btn-primary" role="button">Discover APIs</a></p>
-                </center>
-            </div>
-        </div>
-    </div>
-</div>
 <?php
     $this->partial("footer");
 ?>
