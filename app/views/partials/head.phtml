@@ -3,28 +3,144 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta property="og:title" content="GameServerAPIs"/>
+        <meta property="og:title" content="GameAPIs"/>
         <meta property="og:type" content="website"/>
         <meta property="og:description" content="API service for game servers."/>
         <?php echo $this->tag->getTitle(); ?>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.min.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet"/>
         <link href="/css/main.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <style>.hljs {background-color: transparent;} .shadow-hover:hover{-webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);-moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);} .card-footer{border-top:none;}</style>
+        <style>
+            .hljs {background-color: transparent;}
+            .shadow-hover:hover{
+                -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+                box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+            }
+            .card-footer{
+                border-top:none;
+            }
+            .goto-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(141deg,#1577c6 0,#3273dc 71%,#4366e5 100%);
+                width: 50px;
+                height: 50px;
+                display: block;
+                text-decoration: none;
+                -webkit-border-radius: 35px;
+                -moz-border-radius: 35px;
+                border-radius: 35px;
+                display: none;
+                -webkit-transition: all 0.3s linear;
+                -moz-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+            }
+            .goto-top i {
+                color: #fff;
+                margin: 0;
+                position: relative;
+                left: 16px;
+                top: 13px;
+                font-size: 19px;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+            }
+        </style>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
     </head>
     <body>
+        <a href="javascript:" class="goto-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+        <?php
+            switch (true) {
+                case strpos($this->tag->getTitle(), "Index") !== false: {
+                    $subtitle = "API Web Service For Game Servers";
+                    break;
+                }
+                case strpos($this->tag->getTitle(), "Documentation") !== false: {
+                    switch (true) {
+                        case strpos($this->tag->getTitle(), "7 Days to Die") !== false: {
+                            $subtitle = "7 Days to Die Documentation";
+                            $button = "7 Days to Die";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Alien Swarm") !== false: {
+                            $subtitle = "Alien Swarm Documentation";
+                            $button = "Alien Swarm";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Counter-Strike 1.6") !== false: {
+                            $subtitle = "Counter-Strike 1.6 Documentation";
+                            $button = "Counter-Strike 1.6";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Counter-Strike: Global Offensive") !== false: {
+                            $subtitle = "Counter-Strike: Global Offensive Documentation";
+                            $button = "Counter-Strike: Global Offensive";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Counter-Strike: Source") !== false: {
+                            $subtitle = "Counter-Strike: Source Documentation";
+                            $button = "Counter-Strike: Source";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Garry") !== false: {
+                            $subtitle = "Garry's Mod Documentation";
+                            $button = "Garry's Mod";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Minecraft: Pocket Edition") !== false: {
+                            $subtitle = "Minecraft: Pocket Edition Documentation";
+                            $button = "Minecraft: Pocket Edition";
+                            break;
+                        }
+                        case strpos($this->tag->getTitle(), "Minecraft") !== false: {
+                            $subtitle = "Minecraft Documentation";
+                            $button = "Minecraft";
+                            break;
+                        }
+                        default: {
+                            $subtitle = "Documentation";
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case strpos($this->tag->getTitle(), "404") !== false: {
+                    $subtitle = 404;
+                    break;
+                }
+                case strpos($this->tag->getTitle(), "Index") !== false: {
+                    $subtitle = "API Web Service For Game Servers";
+                    break;
+                }
+                default: {
+                    $subtitle = "API Web Service For Game Servers";
+                    break;
+                }
+            }
+         ?>
         <section class="hero is-info is-bold">
             <div class="hero-head">
                 <header class="nav">
                     <div class="container">
                         <div class="nav-left">
-                            <a class="nav-item">GameAPIs</a>
+                            <a class="nav-item" href="/">Home</a>
                         </div>
                         <div class="nav-right nav-menu">
-                            <a class="nav-item">Twitter</a>
+                            <a class="nav-item" href="https://twitter.com/ItsYive">Twitter</a>
+                            <a class="nav-item" href="#">Github</a>
                         </div>
                     </div>
                 </header>
@@ -32,7 +148,7 @@
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <h1 class="title">GameAPIs</h1>
-                    <h2 class="subtitle">API Web Service For Game Servers.</h2>
+                    <h2 class="subtitle"><?php echo $subtitle; ?></h2>
                 </div>
             </div>
 
@@ -40,9 +156,8 @@
                 <nav class="tabs is-boxed">
                     <div class="container">
                         <ul>
-                            <li<?php if(strpos($this->tag->getTitle(), "Index")) { echo " class=\"is-active\""; } ?>><a href="/">Overview</a></li>
-                            <li<?php if(strpos($this->view->getViewsDir(), "Documentation")) { echo " class=\"is-active\""; } ?>><a href="/docs/">Documentation</a></li>
-                            <li><a href="/examples/">Examples</a></li>
+                            <li<?php if($subtitle == "Documentation") { echo " class=\"is-active\""; } ?>><a href="https://docs.gameapis.net">Documentation</a></li>
+                            <?php if(!empty($button)) { echo '<li class="is-active"><a href="#">'.$button.'</a></li>'; } ?>
                         </ul>
                     </div>
                 </nav>

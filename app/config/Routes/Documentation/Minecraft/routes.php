@@ -1,39 +1,36 @@
 <?php
 
-$router->add('/docs/mc', [
+$Documentation->add('/docs/mc', [
     'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
     'controller'    => 'index',
     'action'        => 'index'
 ]);
 
-$router->add('/docs/mc/:action', [
+$Documentation->add('/docs/mc/query', [
     'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
     'controller'    => 'index',
-    'action'        => 1
+    'action'        => 'query'
+]);
+$Documentation->add('/docs/mc/images', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
+    'controller'    => 'index',
+    'action'        => 'images'
+]);
+$Documentation->add('/docs/mc/ecommerce', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
+    'controller'    => 'index',
+    'action'        => 'ecommerce'
+]);
+$Documentation->add('/docs/mc/extra', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
+    'controller'    => 'index',
+    'action'        => 'extra'
 ]);
 
-$router->add('/docs/mc/query/:controller', [
-    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Query',
-    'controller'    => 1,
-    'action'        => 'index'
-]);
-
-$router->add('/docs/mc/images/:controller', [
-    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Images',
-    'controller'    => 1,
-    'action'        => 'index'
-]);
-
-$router->add('/docs/mc/ecommerce/:controller', [
-    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Ecommerce',
-    'controller'    => 1,
-    'action'        => 'index'
-]);
-
-$router->add('/docs/mc/extra/:controller', [
-    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft\Extra',
-    'controller'    => 1,
-    'action'        => 'index'
+$Documentation->add('/docs/mcpe', [
+    'namespace'     => 'GameAPIs\Controllers\Documentation\Minecraft',
+    'controller'    => 'index',
+    'action'        => 'mcpe'
 ]);
 
  ?>

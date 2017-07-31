@@ -6,6 +6,7 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\Dispatcher as Dispatcher;
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router\Group as RouterGroup;
 
 /**
  * Shared configuration service
@@ -49,12 +50,24 @@ $di->setShared('view', function () {
  */
 $di->set('router', function () {
         $router = new Router(false);
+
+        $APIs = new RouterGroup();
+        $APIs->setHostName('use.gameapis.net');
+
+        $Documentation = new RouterGroup();
+        $Documentation->setHostName('docs.gameapis.net');
+
+        $Overview = new RouterGroup();
+        $Overview->setHostName('www.gameapis.net');
+
         require __DIR__.'/Routes/Overview/routes.php';
         $routes = glob(__DIR__.'/Routes/*/*/*.php');
         foreach ($routes as $routesKey => $routesValue) {
             require $routesValue;
         }
-
+        $router->mount($APIs);
+        $router->mount($Documentation);
+        $router->mount($Overview);
         $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
         return $router;
     }

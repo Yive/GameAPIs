@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\CSGO\Query\Players;
+namespace GameAPIs\Controllers\APIs\SD2D\Query\Players;
 
 use Phalcon\Mvc\Controller;
 

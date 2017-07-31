@@ -16,10 +16,10 @@ class IndexController extends ControllerBase {
             echo json_encode(array('error' => 'Key is missing.'), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         } else {
             $redis = new Redis();
-            $redis->pconnect('/var/run/redis/redis.sock');
+            $redis->pconnect($this->config->application->redis->host);
             $hash = hash('sha512', $params['secret']);
-            if($redis->exists('buycraft:minecraft:'.$params['action'].':'.$hash)) {
-                $response = $redis->get('buycraft:minecraft:'.$params['action'].':'.$hash);
+            if($redis->exists($this->config->application->redis->keyStructure->mcpc->buycraft.$params['action'].':'.$hash)) {
+                $response = $redis->get($this->config->application->redis->keyStructure->mcpc->buycraft.$params['action'].':'.$hash);
                 echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
                 function file_get_contents_curl($url) {
@@ -46,7 +46,7 @@ class IndexController extends ControllerBase {
                     return $data;
            		}
                 $response = json_decode(file_get_contents_curl('http://api.buycraft.net/v4?action='.$params['action'].'&secret='.$params['secret']), true);
-                $redis->set('buycraft:minecraft:'.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->buycraft.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
            		echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         }

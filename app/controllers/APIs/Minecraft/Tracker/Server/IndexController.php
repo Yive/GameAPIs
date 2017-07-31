@@ -47,12 +47,12 @@ class IndexController extends ControllerBase {
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip'] = $explodeParams[0];
-            $params['port'] = $explodeParams[1];
+            $params['port'] = (int) $explodeParams[1];
         } else {
             $params['port'] = 25565;
         }
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         if($redis->exists('ping:'.$params['ip'].':'.$params['port'])) {
             $response = json_decode(base64_decode($redis->get('ping:'.$params['ip'].':'.$params['port'])),true);
             if(!$response['online']) {
@@ -102,12 +102,12 @@ class IndexController extends ControllerBase {
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
                 $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = $explodeParams[1];
+                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
                 $params['addresses'][$i]['port'] = 25565;

@@ -47,14 +47,14 @@ class IndexController extends ControllerBase {
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip'] = $explodeParams[0];
-            $params['port'] = $explodeParams[1];
+            $params['port'] = (int) $explodeParams[1];
         } else {
             $params['port'] = 25565;
         }
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
-        if($redis->exists('query:minecraft:'.$params['ip'].':'.$params['port'])) {
-            $response = json_decode(base64_decode($redis->get('query:minecraft:'.$params['ip'].':'.$params['port'])),true);
+        $redis->pconnect($this->config->application->redis->host);
+        if($redis->exists($this->config->application->redis->keyStructure->mcpc->query.$params['ip'].':'.$params['port'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->query.$params['ip'].':'.$params['port'])),true);
             if(!$response['online']) {
                 $output['status']            = $response['online'];
                 $output['hostname']          = $response['hostname'];
@@ -68,8 +68,6 @@ class IndexController extends ControllerBase {
                 $output['software']          = $response['software'];
                 $output['game_type']         = $response['game_type'];
                 $output['game_name']         = $response['game_name'];
-                $output['motd']              = $response['motd'];
-                $output['htmlmotd']          = $response['htmlmotd'];
                 $output['motds']['ingame']   = $response['motd'];
                 $output['motds']['html']     = $response['htmlmotd'];
                 $output['motds']['clean']    = $response['cleanmotd'];
@@ -100,8 +98,6 @@ class IndexController extends ControllerBase {
                 $output['software']             = $response['software'];
                 $output['game_type']            = $response['game_type'];
                 $output['game_name']            = $response['game_name'];
-                $output['motd']                 = $response['motd'];
-                $output['htmlmotd']             = $response['htmlmotd'];
                 $output['motds']['ingame']      = $response['motd'];
                 $output['motds']['html']        = $response['htmlmotd'];
                 $output['motds']['clean']       = $response['cleanmotd'];
@@ -112,7 +108,7 @@ class IndexController extends ControllerBase {
                 $output['plugins']              = $response['plugins'];
             }
             $output['cached'] = false;
-            $redis->set('query:minecraft:'.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->mcpc->query.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -123,12 +119,12 @@ class IndexController extends ControllerBase {
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
                 $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = $explodeParams[1];
+                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
                 $params['addresses'][$i]['port'] = 25565;
@@ -137,8 +133,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists('query:minecraft:'.$combined)) {
-                $response = json_decode(base64_decode($redis->get('query:minecraft:'.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->mcpc->query.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->query.$combined)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']               = $response['online'];
                     $output[$combined]['hostname']             = $response['hostname'];
@@ -152,8 +148,6 @@ class IndexController extends ControllerBase {
                     $output[$combined]['software']             = $response['software'];
                     $output[$combined]['game_type']            = $response['game_type'];
                     $output[$combined]['game_name']            = $response['game_name'];
-                    $output[$combined]['motd']                 = $response['motd'];
-                    $output[$combined]['htmlmotd']             = $response['htmlmotd'];
                     $output[$combined]['motds']['ingame']      = $response['motd'];
                     $output[$combined]['motds']['html']        = $response['htmlmotd'];
                     $output[$combined]['motds']['clean']       = $response['cleanmotd'];
@@ -184,8 +178,6 @@ class IndexController extends ControllerBase {
                     $output[$combined]['software']             = $response['software'];
                     $output[$combined]['game_type']            = $response['game_type'];
                     $output[$combined]['game_name']            = $response['game_name'];
-                    $output[$combined]['motd']                 = $response['motd'];
-                    $output[$combined]['htmlmotd']             = $response['htmlmotd'];
                     $output[$combined]['motds']['ingame']      = $response['motd'];
                     $output[$combined]['motds']['html']        = $response['htmlmotd'];
                     $output[$combined]['motds']['clean']       = $response['cleanmotd'];
@@ -196,7 +188,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['plugins']              = $response['plugins'];
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set('query:minecraft:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->query.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

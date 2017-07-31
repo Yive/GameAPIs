@@ -1,0 +1,115 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="/docs/mc/query">Query</a>
+            <a class="nav-item is-tab" href="/docs/mc/ecommerce">Ecommerce</a>
+            <a class="nav-item is-tab is-active" href="#">Images</a>
+            <a class="nav-item is-tab" href="/docs/mc/extra">Extra</a>
+        </div>
+    </div>
+</nav>
+<section class="section" style="padding-top:1.5rem;">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Parameters</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Required</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>True</th>
+                                        <th>Username</th>
+                                        <td>String</td>
+                                        <td>Username of a premium account.</td>
+                                        <td>None</td>
+                                    </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Size</th>
+                                        <td>Integer</td>
+                                        <td>Size in pixels for the image. Max size of 500.</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Helm</th>
+                                        <td>Boolean</td>
+                                        <td>True or false for if the player's helm layer is rendered.</td>
+                                        <td>True</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="avatar">Avatar</h1>
+            </div>
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Avatar</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/images/avatar/{Username}/{Size}/{Helm}</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/images/avatar/Yive"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="skin">Skin</h1>
+            </div>
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Skin</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/images/skin/{Username}/{Size}/{Helm}</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/images/skin/Yive"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="rawskin">Skin File</h1>
+            </div>
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Skin File</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/images/rawskin/{Username}</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/images/rawskin/Yive"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

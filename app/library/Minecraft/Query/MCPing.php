@@ -74,7 +74,15 @@ class MCPing
 
 		//validate port
 		if (!is_int($this->port) || $this->port < 1024 || $this->port > 65535) {
-			$this->error = "Invalid port";
+			if(!is_int($this->port)) {
+				$this->error = "Invalid port | ni";
+			} elseif($this->port < 1024) {
+				$this->error = "Invalid port | lt";
+			} elseif($this->port > 65535) {
+				$this->error = "Invalid port | gt";
+			} else {
+				$this->error = "Invalid port";
+			}
 			return $this;
 		}
 

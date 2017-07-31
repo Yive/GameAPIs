@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\7D2D\Query\Status;
+namespace GameAPIs\Controllers\APIs\SD2D\Query\Status;
 
 use Phalcon\Mvc\Controller;
 

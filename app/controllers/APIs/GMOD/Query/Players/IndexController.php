@@ -45,12 +45,12 @@ class IndexController extends ControllerBase {
         require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
             $params['ip'] = $params['ip'].':27015';
         }
-        if($redis->exists('ping:gmod:'.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get('ping:gmod:'.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->gmod->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->gmod->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']   = $response['gq_online'];
                 $output['hostname'] = $response['gq_address'];
@@ -62,13 +62,6 @@ class IndexController extends ControllerBase {
                 $output['port']                 = $response['gq_port_client'];
                 $output['players']['online']    = $response['gq_numplayers'];
                 $output['players']['max']       = $response['gq_maxplayers'];
-                $output['players']['list']      = $response['players'];
-                foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
-                }
             }
             $output['cached'] = true;
         } else {
@@ -90,16 +83,9 @@ class IndexController extends ControllerBase {
                 $output['port']                 = $response['gq_port_client'];
                 $output['players']['online']    = $response['gq_numplayers'];
                 $output['players']['max']       = $response['gq_maxplayers'];
-                $output['players']['list']      = $response['players'];
-                foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
-                }
             }
             $output['cached'] = false;
-            $redis->set('ping:gmod:'.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->gmod->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -111,12 +97,12 @@ class IndexController extends ControllerBase {
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
                 $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = $explodeParams[1];
+                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
                 $params['addresses'][$i]['port'] = 27015;
@@ -125,8 +111,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists('ping:gmod:'.$combined)) {
-                $response = json_decode(base64_decode($redis->get('ping:gmod:'.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->gmod->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->gmod->ping.$combined)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
@@ -138,13 +124,6 @@ class IndexController extends ControllerBase {
                 	$output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['players']['online']    = $response['gq_numplayers'];
                     $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                    $output[$combined]['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
-                    }
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -166,16 +145,9 @@ class IndexController extends ControllerBase {
                 	$output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['players']['online']    = $response['gq_numplayers'];
                     $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                    $output[$combined]['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
-                    }
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set('ping:gmod:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->gmod->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

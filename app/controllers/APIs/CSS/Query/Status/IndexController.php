@@ -45,12 +45,12 @@ class IndexController extends ControllerBase {
         require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
             $params['ip'] = $params['ip'].':27015';
         }
-        if($redis->exists('ping:css:'.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get('ping:css:'.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->css->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->css->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']   = $response['gq_online'];
                 $output['hostname'] = $response['gq_address'];
@@ -81,7 +81,7 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
             }
             $output['cached'] = false;
-            $redis->set('ping:css:'.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->css->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -93,12 +93,12 @@ class IndexController extends ControllerBase {
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
                 $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = $explodeParams[1];
+                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
                 $params['addresses'][$i]['port'] = 27015;
@@ -107,8 +107,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists('ping:css:'.$combined)) {
-                $response = json_decode(base64_decode($redis->get('ping:css:'.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->css->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->css->ping.$combined)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
@@ -140,7 +140,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['ping']     = $response['ping'];
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set('ping:css:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->css->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

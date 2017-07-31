@@ -1,13 +1,14 @@
-<?php
-/*
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <p>
-        <strong>GameAPIs</strong> by <a href="https://twitter.com/ItsYive">Yive</a>.
-      </p>
-    </div>
-  </div>
-</footer>
-*/
-?>
+<script>
+    $(window).scroll(function() {
+        if ($(this).scrollTop() >= 300) {
+            $('.goto-top').fadeIn(200);
+        } else {
+            $('.goto-top').fadeOut(200);
+        }
+    });
+    $('.goto-top').click(function() {
+        $('body,html').animate({
+            scrollTop : 0
+        }, 500);
+    });
+</script>

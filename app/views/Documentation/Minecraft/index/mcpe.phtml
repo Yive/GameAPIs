@@ -1,0 +1,405 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab is-active" href="#">Query</a>
+        </div>
+    </div>
+</nav>
+<section class="section" style="padding-top:1.5rem;">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Parameters</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Required</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>True</th>
+                                        <th>IP</th>
+                                        <td>String</td>
+                                        <td>Server's IP address or domain</td>
+                                        <td>None</td>
+                                    </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Port</th>
+                                        <td>Integer</td>
+                                        <td>The port of which the Minecraft server is running on.</td>
+                                        <td>25565</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="status">Status Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/status/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/status/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="players">Players Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/players/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "players": {
+        "online": 253,
+        "max": 500
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/players/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "players": {
+            "online": 126,
+            "max": 250
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "players": {
+            "online": 382,
+            "max": 500
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="info">Info Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/info/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "version": "1.1.3.1",
+    "motds": {
+        "ingame": "§bMinecraft PE Server",
+        "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+        "clean": "Minecraft PE Server"
+    },
+    "players": {
+        "online": 257,
+        "max": 500
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/info/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "version": "1.1.3.1",
+        "motds": {
+            "ingame": "§bMinecraft PE Server",
+            "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+            "clean": "Minecraft PE Server"
+        },
+        "players": {
+            "online": 257,
+            "max": 500
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "version": "1.1.0.55",
+        "motds": {
+            "ingame": "§bMinecraft PE Server",
+            "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+            "clean": "Minecraft PE Server"
+        },
+        "players": {
+            "online": 380,
+            "max": 600
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="motd">MOTD Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/motd/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "motds": {
+        "ingame": "§bMinecraft PE Server",
+        "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+        "clean": "Minecraft PE Server"
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/motd/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "motds": {
+            "ingame": "§bMinecraft PE Server",
+            "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+            "clean": "Minecraft PE Server"
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "motds": {
+            "ingame": "§bMinecraft PE Server",
+            "html": "&lt;span style=\"color:#55ffff\">Minecraft PE Server&lt;/span>",
+            "clean": "Minecraft PE Server"
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="extensive">Extensive Query <span class="tag is-danger is-medium">Depending on the software, query needs to be enabled in the software's config.</span></h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/extensive/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "version": "0.15.0",
+    "software": "MiNET v1.0.0",
+    "game_type": "SMP",
+    "game_name": "MINECRAFTPE",
+    "motd": Minecraft PE Server",
+    "map": "world",
+    "players": {
+        "online": 1,
+        "max": 20
+    },
+    "list": [
+        "ItsYive"
+    ],
+    "plugins": [
+        "BuyCraft 1.2.1"
+    ],
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mcpe/query/extensive/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "version": "0.15.0",
+        "software": "MiNET v1.0.0",
+        "game_type": "SMP",
+        "game_name": "MINECRAFTPE",
+        "motd": "Minecraft PE Server",
+        "map": "world",
+        "players": {
+            "online": 1,
+            "max": 20
+        },
+        "list": [
+            "ItsYive"
+        ],
+        "plugins": [
+            "BuyCraft 1.2.1"
+        ],
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "version": "v1.1.0.55",
+        "software": "PocketMine-MP 1.6.2dev",
+        "game_type": "SMP",
+        "game_name": "MINECRAFTPE",
+        "motd": "Minecraft PE Server",
+        "map": "world",
+        "players": {
+            "online": 0,
+            "max": 20
+        },
+        "list": null,
+        "plugins": null,
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

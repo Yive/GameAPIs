@@ -215,5 +215,11 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-#Atom
+# Atom
 .remote-sync.json
+
+# VSCode
+.vscode/
+
+# GameAPIs
+app/config/config.php

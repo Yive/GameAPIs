@@ -9,23 +9,27 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
-        $this->tag->prependTitle('Minecraft Documentation - ');
+        return $this->response->redirect("docs/mc/query");
     }
 
     public function extraAction() {
-        return $this->response->redirect("docs/minecraft/extra/index");
+        $this->tag->prependTitle("Minecraft Extra Documentation - ");
     }
 
     public function queryAction() {
-        return $this->response->redirect("docs/minecraft/query/index");
+        $this->tag->prependTitle("Minecraft Query Documentation - ");
     }
 
     public function imagesAction() {
-        return $this->response->redirect("docs/minecraft/images/index");
+        $this->tag->prependTitle("Minecraft Images Documentation - ");
     }
 
     public function ecommerceAction() {
-        return $this->response->redirect("docs/minecraft/ecommerce/index");
+        $this->tag->prependTitle("Minecraft Ecommerce Documentation - ");
+    }
+
+    public function mcpeAction() {
+        $this->tag->prependTitle("Minecraft: Pocket Edition Documentation - ");
     }
 
 }

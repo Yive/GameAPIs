@@ -6,7 +6,7 @@ $router->notFound([
     'action'        => 'notfound',
 ]);
 
-$router->add('/', [
+$Overview->add('/', [
     'namespace'     => 'GameAPIs\Controllers\Overview',
     'controller'    => 'index',
     'action'        => 'index',

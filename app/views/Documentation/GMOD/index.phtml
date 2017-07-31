@@ -1,0 +1,255 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="#status">
+                Status Query
+            </a>
+            <a class="nav-item is-tab" href="#players">
+                Players Query
+            </a>
+            <a class="nav-item is-tab" href="#info">
+                Info Query
+            </a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Parameters</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Required</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>True</th>
+                                        <th>IP</th>
+                                        <td>String</td>
+                                        <td>Server's IP address or domain</td>
+                                        <td>None</td>
+                                    </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Port</th>
+                                        <td>Integer</td>
+                                        <td>The port of which the game server is running on.</td>
+                                        <td>27015</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="status">Status Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/status/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/status/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title" id="players">Players Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/players/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "players": {
+        "online": 110,
+        "max": 128
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/players/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "players": {
+            "online": 110,
+            "max": 128
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "players": {
+            "online": 53,
+            "max": 128
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title" id="info">Info Query</h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/info/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "name": "gmod server",
+    "map": "gm_site19",
+    "vac_secured": true,
+    "password_protected": false,
+    "join": "steam://connect/{IP}:{PORT}/",
+    "version": "16.12.01",
+    "protocol": 17,
+    "players": {
+        "online": 53,
+        "max": 128
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gmod/query/info/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "name": "gmod server",
+        "map": "rp_bangclaw",
+        "vac_secured": true,
+        "password_protected": false,
+        "join": "steam://connect/{IP}:{PORT}/",
+        "version": "16.12.01",
+        "protocol": 17,
+        "players": {
+            "online": 110,
+            "max": 128
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "name": "gmod server",
+        "map": "gm_site19",
+        "vac_secured": true,
+        "password_protected": false,
+        "join": "steam://connect/{IP}:{PORT}/",
+        "version": "16.12.01",
+        "protocol": 17,
+        "players": {
+            "online": 53,
+            "max": 128
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

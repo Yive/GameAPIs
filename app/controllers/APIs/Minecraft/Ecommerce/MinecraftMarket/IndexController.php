@@ -16,15 +16,15 @@ class IndexController extends ControllerBase {
             echo json_encode(array('error' => 'Key is missing.'), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         } else {
             $redis = new Redis();
-            $redis->pconnect('/var/run/redis/redis.sock');
+            $redis->pconnect($this->config->application->redis->host);
             $hash = hash('sha512', $params['secret']);
             if($params['action'] == "ingame") {
                 $params['action'] = 'gui';
             } elseif($params['action'] == "payments") {
                 $params['action'] = 'recentdonor';
             }
-            if($redis->exists('minecraftmarket:minecraft:'.$params['action'].':'.$hash)) {
-                $response = $redis->get('minecraftmarket:minecraft:'.$params['action'].':'.$hash);
+            if($redis->exists($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash)) {
+                $response = $redis->get($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash);
                 echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
                 function file_get_contents_curl($url) {
@@ -51,7 +51,7 @@ class IndexController extends ControllerBase {
                     return $data;
            		}
                 $response = json_decode(file_get_contents_curl('http://www.minecraftmarket.com/api/1.5/'.$params['secret'].'/'.$params['action']), true);
-                $redis->set('minecraftmarket:minecraft:'.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
            		echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         }

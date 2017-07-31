@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\7D2D\Query\Status;
+namespace GameAPIs\Controllers\APIs\SD2D\Query\Status;
 
 use Redis;
 
@@ -23,7 +23,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $this->dispatcher->forward(
                         [
-                            "namespace"     => "GameAPIs\Controllers\APIs\7D2D\Query\Status",
+                            "namespace"     => "GameAPIs\Controllers\APIs\SD2D\Query\Status",
                             "controller"    => "index",
                             "action"        => "multi"
                         ]
@@ -32,7 +32,7 @@ class IndexController extends ControllerBase {
             } else {
                 $this->dispatcher->forward(
                     [
-                        "namespace"     => "GameAPIs\Controllers\APIs\7D2D\Query\Status",
+                        "namespace"     => "GameAPIs\Controllers\APIs\SD2D\Query\Status",
                         "controller"    => "index",
                         "action"        => "single"
                     ]
@@ -42,15 +42,15 @@ class IndexController extends ControllerBase {
     }
 
     public function singleAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/V2/vendor/autoload.php');
+        require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
             $params['ip'] = $params['ip'].':26900';
         }
-        if($redis->exists('ping:7d2d:'.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get('ping:7d2d:'.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']   = $response['gq_online'];
                 $output['hostname'] = $response['gq_address'];
@@ -64,7 +64,7 @@ class IndexController extends ControllerBase {
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => '7d2d','host'=> $params['ip']]);
+            $GameQ->addServer(['type' => 'sd2d','host'=> $params['ip']]);
             $GameQ->setOption('timeout', 2); // seconds
 
             $response = $GameQ->process();
@@ -81,24 +81,24 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
             }
             $output['cached'] = false;
-            $redis->set('ping:7d2d:'.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
     public function multiAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/V2/vendor/autoload.php');
+        require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $explodeComma = explode(',', $params['ip']);
         unset($params['ip']);
         $i=0;
         $redis = new Redis();
-        $redis->pconnect('/var/run/redis/redis.sock');
+        $redis->pconnect($this->config->application->redis->host);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
                 $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = $explodeParams[1];
+                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
                 $params['addresses'][$i]['port'] = 26900;
@@ -107,8 +107,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists('ping:7d2d:'.$combined)) {
-                $response = json_decode(base64_decode($redis->get('ping:7d2d:'.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->sd2d->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->sd2d->ping.$combined)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
@@ -122,7 +122,7 @@ class IndexController extends ControllerBase {
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => '7d2d','host'=> $combined]);
+                $GameQ->addServer(['type' => 'sd2d','host'=> $combined]);
                 $GameQ->setOption('timeout', 2); // seconds
 
                 $response = $GameQ->process();
@@ -137,10 +137,9 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
                     $output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['ping']     = $response['ping'];
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set('ping:7d2d:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
