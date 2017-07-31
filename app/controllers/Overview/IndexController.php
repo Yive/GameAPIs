@@ -10,7 +10,7 @@ class IndexController extends ControllerBase {
 
     public function indexAction() {
         $this->tag->prependTitle("Index - ");
-        $this->response->redirect("/docs/");
+        return $this->response->redirect('https://docs.gameapis.net/', true);
     }
 
     public function notfoundAction() {

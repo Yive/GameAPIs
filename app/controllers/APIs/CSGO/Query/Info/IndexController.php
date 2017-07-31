@@ -72,7 +72,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $response['gq_password'] = false;
                 }
-                $output['vac_secured']          = $response['secure'];
+                $output['secured']              = $response['secure'];
                 $output['password_protected']   = $response['gq_password'];
                 $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['version'];
@@ -117,7 +117,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $response['gq_password'] = false;
                 }
-                $output['vac_secured']          = $response['secure'];
+                $output['secured']              = $response['secure'];
                 $output['password_protected']   = $response['gq_password'];
                 $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['version'];
@@ -182,7 +182,7 @@ class IndexController extends ControllerBase {
                     } else {
                         $response['gq_password'] = false;
                     }
-                    $output[$combined]['vac_secured']          = $response['secure'];
+                    $output[$combined]['secured']              = $response['secure'];
                     $output[$combined]['password_protected']   = $response['gq_password'];
                     $output[$combined]['join']                 = $response['gq_joinlink'];
                     $output[$combined]['version']              = $response['version'];
@@ -227,7 +227,7 @@ class IndexController extends ControllerBase {
                     } else {
                         $response['gq_password'] = false;
                     }
-                    $output[$combined]['vac_secured']          = $response['secure'];
+                    $output[$combined]['secured']              = $response['secure'];
                     $output[$combined]['password_protected']   = $response['gq_password'];
                     $output[$combined]['join']                 = $response['gq_joinlink'];
                     $output[$combined]['version']              = $response['version'];

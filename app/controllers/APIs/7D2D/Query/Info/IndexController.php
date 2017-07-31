@@ -77,7 +77,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $response['EACEnabled'] = false;
                 }
-                $output['eac_secured']          = $response['EACEnabled'];
+                $output['secured']              = $response['EACEnabled'];
                 $output['password_protected']   = $response['gq_password'];
                 $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['Version'];
@@ -120,7 +120,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $response['EACEnabled'] = false;
                 }
-                $output['eac_secured']          = $response['EACEnabled'];
+                $output['secured']              = $response['EACEnabled'];
                 $output['password_protected']   = $response['gq_password'];
                 $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['Version'];
@@ -183,7 +183,7 @@ class IndexController extends ControllerBase {
                     } else {
                         $response['EACEnabled'] = false;
                     }
-                    $output[$combined]['eac_secured']          = $response['EACEnabled'];
+                    $output[$combined]['secured']              = $response['EACEnabled'];
                     $output[$combined]['password_protected']   = $response['gq_password'];
                     $output[$combined]['join']                 = $response['gq_joinlink'];
                     $output[$combined]['version']              = $response['Version'];
@@ -226,7 +226,7 @@ class IndexController extends ControllerBase {
                     } else {
                         $response['EACEnabled'] = false;
                     }
-                    $output[$combined]['eac_secured']          = $response['EACEnabled'];
+                    $output[$combined]['secured']              = $response['EACEnabled'];
                     $output[$combined]['password_protected']   = $response['gq_password'];
                     $output[$combined]['join']                 = $response['gq_joinlink'];
                     $output[$combined]['version']              = $response['Version'];

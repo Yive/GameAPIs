@@ -51,6 +51,12 @@ $di->setShared('view', function () {
 $di->set('router', function () {
         $router = new Router(false);
 
+        $router->add('/', [
+            'namespace'     => 'GameAPIs\Controllers\Overview',
+            'controller'    => 'index',
+            'action'        => 'index',
+        ]);
+
         $APIs = new RouterGroup();
         $APIs->setHostName('use.gameapis.net');
 
