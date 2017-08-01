@@ -57,17 +57,24 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
-                $output['players']['list']      = $response['players'];
-                foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                if(in_array($response['game_dir'], array('csgo'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
+                    $output['players']['list']      = $response['players'];
+                    foreach ($response['players'] as $key => $value) {
+                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
+                        $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                        $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                        $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    }
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running Counter-Strike: Global Offensive. It's running ".$response['game_descr'];
                 }
             }
             $output['cached'] = true;
@@ -85,17 +92,24 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
-                $output['players']['list']      = $response['players'];
-                foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                if(in_array($response['game_dir'], array('csgo'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
+                    $output['players']['list']      = $response['players'];
+                    foreach ($response['players'] as $key => $value) {
+                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
+                        $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                        $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                        $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    }
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running Counter-Strike: Global Offensive. It's running ".$response['game_descr'];
                 }
             }
             $output['cached'] = false;
@@ -133,17 +147,24 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                    $output[$combined]['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                	if(in_array($response['game_dir'], array('csgo'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                        $output[$combined]['players']['list']      = $response['players'];
+                        foreach ($response['players'] as $key => $value) {
+                            unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
+                            $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                            $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                            $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        }
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running Counter-Strike: Global Offensive. It's running ".$response['game_descr'];
                     }
                 }
                 $output[$combined]['cached'] = true;
@@ -161,17 +182,24 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $params['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                    $output[$combined]['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    if(in_array($response['game_dir'], array('csgo'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                        $output[$combined]['players']['list']      = $response['players'];
+                        foreach ($response['players'] as $key => $value) {
+                            unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
+                            $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                            $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                            $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        }
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running Counter-Strike: Global Offensive. It's running ".$response['game_descr'];
                     }
                 }
                 $output[$combined]['cached'] = false;

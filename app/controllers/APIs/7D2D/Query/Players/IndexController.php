@@ -57,11 +57,18 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
+                if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
+                }
             }
             $output['cached'] = true;
         } else {
@@ -78,11 +85,18 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
+                if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
+                }
             }
             $output['cached'] = false;
             $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
@@ -119,11 +133,18 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                    if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
+                    }
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -140,11 +161,18 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $params['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                	if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
+                    }
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);

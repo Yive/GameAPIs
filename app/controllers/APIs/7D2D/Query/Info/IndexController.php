@@ -57,33 +57,40 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['name']                 = $response['gq_hostname'];
-                $output['map']                  = $response['gq_mapname'];
-                if($response['secure'] == 1) {
-                    $response['secure'] = true;
+                if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['name']                 = $response['gq_hostname'];
+                    $output['map']                  = $response['gq_mapname'];
+                    if($response['secure'] == 1) {
+                        $response['secure'] = true;
+                    } else {
+                        $response['secure'] = false;
+                    }
+                    if($response['gq_password'] == 1) {
+                        $response['gq_password'] = true;
+                    } else {
+                        $response['gq_password'] = false;
+                    }
+                    if($response['EACEnabled'] == "True") {
+                        $response['EACEnabled'] = true;
+                    } else {
+                        $response['EACEnabled'] = false;
+                    }
+                    $output['secured']              = $response['EACEnabled'];
+                    $output['password_protected']   = $response['gq_password'];
+                    $output['join']                 = $response['gq_joinlink'];
+                    $output['version']              = $response['Version'];
+                    $output['protocol']             = $response['protocol'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
                 } else {
-                    $response['secure'] = false;
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
                 }
-                if($response['gq_password'] == 1) {
-                    $response['gq_password'] = true;
-                } else {
-                    $response['gq_password'] = false;
-                }
-                if($response['EACEnabled'] == "True") {
-                    $response['EACEnabled'] = true;
-                } else {
-                    $response['EACEnabled'] = false;
-                }
-                $output['secured']              = $response['EACEnabled'];
-                $output['password_protected']   = $response['gq_password'];
-                $output['join']                 = $response['gq_joinlink'];
-                $output['version']              = $response['Version'];
-                $output['protocol']             = $response['protocol'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
             }
             $output['cached'] = true;
         } else {
@@ -100,33 +107,40 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['name']                 = $response['gq_hostname'];
-                $output['map']                  = $response['gq_mapname'];
-                if($response['secure'] == 1) {
-                    $response['secure'] = true;
+                if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                    $output['status']               = $response['gq_online'];
+                    $output['hostname']             = $response['gq_address'];
+                    $output['port']                 = $response['gq_port_client'];
+                    $output['name']                 = $response['gq_hostname'];
+                    $output['map']                  = $response['gq_mapname'];
+                    if($response['secure'] == 1) {
+                        $response['secure'] = true;
+                    } else {
+                        $response['secure'] = false;
+                    }
+                    if($response['gq_password'] == 1) {
+                        $response['gq_password'] = true;
+                    } else {
+                        $response['gq_password'] = false;
+                    }
+                    if($response['EACEnabled'] == "True") {
+                        $response['EACEnabled'] = true;
+                    } else {
+                        $response['EACEnabled'] = false;
+                    }
+                    $output['secured']              = $response['EACEnabled'];
+                    $output['password_protected']   = $response['gq_password'];
+                    $output['join']                 = $response['gq_joinlink'];
+                    $output['version']              = $response['Version'];
+                    $output['protocol']             = $response['protocol'];
+                    $output['players']['online']    = $response['gq_numplayers'];
+                    $output['players']['max']       = $response['gq_maxplayers'];
                 } else {
-                    $response['secure'] = false;
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
                 }
-                if($response['gq_password'] == 1) {
-                    $response['gq_password'] = true;
-                } else {
-                    $response['gq_password'] = false;
-                }
-                if($response['EACEnabled'] == "True") {
-                    $response['EACEnabled'] = true;
-                } else {
-                    $response['EACEnabled'] = false;
-                }
-                $output['secured']              = $response['EACEnabled'];
-                $output['password_protected']   = $response['gq_password'];
-                $output['join']                 = $response['gq_joinlink'];
-                $output['version']              = $response['Version'];
-                $output['protocol']             = $response['protocol'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
             }
             $output['cached'] = false;
             $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
@@ -163,33 +177,40 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['name']     = $response['gq_hostname'];
-                    $output[$combined]['map']      = $response['gq_mapname'];
-                    if($response['secure'] == 1) {
-                        $response['secure'] = true;
+                    if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['name']     = $response['gq_hostname'];
+                        $output[$combined]['map']      = $response['gq_mapname'];
+                        if($response['secure'] == 1) {
+                            $response['secure'] = true;
+                        } else {
+                            $response['secure'] = false;
+                        }
+                        if($response['gq_password'] == 1) {
+                            $response['gq_password'] = true;
+                        } else {
+                            $response['gq_password'] = false;
+                        }
+                        if($response['EACEnabled'] == "True") {
+                            $response['EACEnabled'] = true;
+                        } else {
+                            $response['EACEnabled'] = false;
+                        }
+                        $output[$combined]['secured']              = $response['EACEnabled'];
+                        $output[$combined]['password_protected']   = $response['gq_password'];
+                        $output[$combined]['join']                 = $response['gq_joinlink'];
+                        $output[$combined]['version']              = $response['Version'];
+                        $output[$combined]['protocol']             = $response['protocol'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
                     } else {
-                        $response['secure'] = false;
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
                     }
-                    if($response['gq_password'] == 1) {
-                        $response['gq_password'] = true;
-                    } else {
-                        $response['gq_password'] = false;
-                    }
-                    if($response['EACEnabled'] == "True") {
-                        $response['EACEnabled'] = true;
-                    } else {
-                        $response['EACEnabled'] = false;
-                    }
-                    $output[$combined]['secured']              = $response['EACEnabled'];
-                    $output[$combined]['password_protected']   = $response['gq_password'];
-                    $output[$combined]['join']                 = $response['gq_joinlink'];
-                    $output[$combined]['version']              = $response['Version'];
-                    $output[$combined]['protocol']             = $response['protocol'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -206,33 +227,40 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['name']     = $response['gq_hostname'];
-                    $output[$combined]['map']      = $response['gq_mapname'];
-                    if($response['secure'] == 1) {
-                        $response['secure'] = true;
+                	if(in_array($response['game_dir'], array('7DTD','7D2D'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['name']     = $response['gq_hostname'];
+                        $output[$combined]['map']      = $response['gq_mapname'];
+                        if($response['secure'] == 1) {
+                            $response['secure'] = true;
+                        } else {
+                            $response['secure'] = false;
+                        }
+                        if($response['gq_password'] == 1) {
+                            $response['gq_password'] = true;
+                        } else {
+                            $response['gq_password'] = false;
+                        }
+                        if($response['EACEnabled'] == "True") {
+                            $response['EACEnabled'] = true;
+                        } else {
+                            $response['EACEnabled'] = false;
+                        }
+                        $output[$combined]['secured']              = $response['EACEnabled'];
+                        $output[$combined]['password_protected']   = $response['gq_password'];
+                        $output[$combined]['join']                 = $response['gq_joinlink'];
+                        $output[$combined]['version']              = $response['Version'];
+                        $output[$combined]['protocol']             = $response['protocol'];
+                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
                     } else {
-                        $response['secure'] = false;
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running 7 Days To Die. It's running ".$response['game_descr'];
                     }
-                    if($response['gq_password'] == 1) {
-                        $response['gq_password'] = true;
-                    } else {
-                        $response['gq_password'] = false;
-                    }
-                    if($response['EACEnabled'] == "True") {
-                        $response['EACEnabled'] = true;
-                    } else {
-                        $response['EACEnabled'] = false;
-                    }
-                    $output[$combined]['secured']              = $response['EACEnabled'];
-                    $output[$combined]['password_protected']   = $response['gq_password'];
-                    $output[$combined]['join']                 = $response['gq_joinlink'];
-                    $output[$combined]['version']              = $response['Version'];
-                    $output[$combined]['protocol']             = $response['protocol'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
