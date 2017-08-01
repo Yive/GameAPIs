@@ -91,7 +91,7 @@ class IndexController extends ControllerBase {
                     $output['status']   = $response['gq_online'];
                     $output['hostname'] = $response['gq_address'];
                     $output['port']     = $response['gq_port_client'];
-                    $output['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr'];
+                    $output['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr']." (".$response['game_id'].")";
                 }
             }
             $output['cached'] = true;
@@ -143,7 +143,7 @@ class IndexController extends ControllerBase {
                     $output['status']   = $response['gq_online'];
                     $output['hostname'] = $response['gq_address'];
                     $output['port']     = $response['gq_port_client'];
-                    $output['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr'];
+                    $output['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr']." (".$response['game_id'].")";
                 }
             }
             $output['cached'] = false;
@@ -215,7 +215,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['status']   = $response['gq_online'];
                         $output[$combined]['hostname'] = $response['gq_address'];
                         $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr'];
+                        $output[$combined]['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr']." (".$response['game_id'].")";
                     }
                 }
                 $output[$combined]['cached'] = true;
@@ -267,7 +267,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['status']   = $response['gq_online'];
                         $output[$combined]['hostname'] = $response['gq_address'];
                         $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr'];
+                        $output[$combined]['error']    = "Server is not running Counter-Strike: Source. It's running ".$response['game_descr']." (".$response['game_id'].")";
                     }
                 }
                 $output[$combined]['cached'] = false;
