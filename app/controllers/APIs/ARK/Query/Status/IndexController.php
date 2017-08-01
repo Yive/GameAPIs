@@ -57,9 +57,16 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']   = $response['gq_online'];
-                $output['hostname'] = $response['gq_address'];
-                $output['port']     = $response['gq_port_client'];
+                if(in_array($response['game_dir'], array('ark_survival_evolved'))) {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running ARK: Survival Evolved. It's running ".$response['game_descr'];
+                }
             }
             $output['cached'] = true;
         } else {
@@ -76,9 +83,16 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']   = $response['gq_online'];
-                $output['hostname'] = $response['gq_address'];
-                $output['port']     = $response['gq_port_client'];
+                if(in_array($response['game_dir'], array('ark_survival_evolved'))) {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                } else {
+                    $output['status']   = $response['gq_online'];
+                    $output['hostname'] = $response['gq_address'];
+                    $output['port']     = $response['gq_port_client'];
+                    $output['error']    = "Server is not running ARK: Survival Evolved. It's running ".$response['game_descr'];
+                }
             }
             $output['cached'] = false;
             $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
@@ -115,9 +129,16 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = "Couldn't connect to address.";
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
+                	if(in_array($response['game_dir'], array('ark_survival_evolved'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running ARK: Survival Evolved. It's running ".$response['game_descr'];
+                    }
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -131,12 +152,19 @@ class IndexController extends ControllerBase {
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
-                    $output[$combined]['port']     = $params['gq_port_client'];
+                    $output[$combined]['port']     = $response['gq_port_client'];
                     $output[$combined]['error']    = $response['error'];
                 } else {
-                    $output[$combined]['status']   = $response['gq_online'];
-                    $output[$combined]['hostname'] = $response['gq_address'];
-                    $output[$combined]['port']     = $response['gq_port_client'];
+                    if(in_array($response['game_dir'], array('ark_survival_evolved'))) {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                    } else {
+                        $output[$combined]['status']   = $response['gq_online'];
+                        $output[$combined]['hostname'] = $response['gq_address'];
+                        $output[$combined]['port']     = $response['gq_port_client'];
+                        $output[$combined]['error']    = "Server is not running ARK: Survival Evolved. It's running ".$response['game_descr'];
+                    }
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
