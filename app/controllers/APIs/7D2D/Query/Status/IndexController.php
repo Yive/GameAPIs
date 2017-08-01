@@ -64,7 +64,7 @@ class IndexController extends ControllerBase {
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => 'sd2d','host'=> $params['ip']]);
+            $GameQ->addServer(['type' => 'sevendaystodie','host'=> $params['ip']]);
             $GameQ->setOption('timeout', 2); // seconds
 
             $response = $GameQ->process();
@@ -122,7 +122,7 @@ class IndexController extends ControllerBase {
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => 'sd2d','host'=> $combined]);
+                $GameQ->addServer(['type' => 'sevendaystodie','host'=> $combined]);
                 $GameQ->setOption('timeout', 2); // seconds
 
                 $response = $GameQ->process();

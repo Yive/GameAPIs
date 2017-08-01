@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\SD2D\Query\Players;
+namespace GameAPIs\Controllers\APIs\ARK\Query\Status;
 
 use Redis;
 
@@ -23,7 +23,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $this->dispatcher->forward(
                         [
-                            "namespace"     => "GameAPIs\Controllers\APIs\SD2D\Query\Players",
+                            "namespace"     => "GameAPIs\Controllers\APIs\ARK\Query\Status",
                             "controller"    => "index",
                             "action"        => "multi"
                         ]
@@ -32,7 +32,7 @@ class IndexController extends ControllerBase {
             } else {
                 $this->dispatcher->forward(
                     [
-                        "namespace"     => "GameAPIs\Controllers\APIs\SD2D\Query\Players",
+                        "namespace"     => "GameAPIs\Controllers\APIs\ARK\Query\Status",
                         "controller"    => "index",
                         "action"        => "single"
                     ]
@@ -47,7 +47,7 @@ class IndexController extends ControllerBase {
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
-            $params['ip'] = $params['ip'].':26900';
+            $params['ip'] = $params['ip'].':7777';
         }
         if($redis->exists($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])) {
             $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])),true);
@@ -57,16 +57,14 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
+                $output['status']   = $response['gq_online'];
+                $output['hostname'] = $response['gq_address'];
+                $output['port']     = $response['gq_port_client'];
             }
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => 'sevendaystodie','host'=> $params['ip']]);
+            $GameQ->addServer(['type' => 'arkse','host'=> $params['ip']]);
             $GameQ->setOption('timeout', 2); // seconds
 
             $response = $GameQ->process();
@@ -78,11 +76,9 @@ class IndexController extends ControllerBase {
                 $output['port']     = $response['gq_port_client'];
                 $output['error']    = "Couldn't connect to address.";
             } else {
-                $output['status']               = $response['gq_online'];
-                $output['hostname']             = $response['gq_address'];
-                $output['port']                 = $response['gq_port_client'];
-                $output['players']['online']    = $response['gq_numplayers'];
-                $output['players']['max']       = $response['gq_maxplayers'];
+                $output['status']   = $response['gq_online'];
+                $output['hostname'] = $response['gq_address'];
+                $output['port']     = $response['gq_port_client'];
             }
             $output['cached'] = false;
             $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
@@ -105,7 +101,7 @@ class IndexController extends ControllerBase {
                 $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 26900;
+                $params['addresses'][$i]['port'] = 7777;
             }
             $i++;
         }
@@ -122,13 +118,11 @@ class IndexController extends ControllerBase {
                 	$output[$combined]['status']   = $response['gq_online'];
                 	$output[$combined]['hostname'] = $response['gq_address'];
                 	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
                 }
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => 'sevendaystodie','host'=> $combined]);
+                $GameQ->addServer(['type' => 'arkse','host'=> $combined]);
                 $GameQ->setOption('timeout', 2); // seconds
 
                 $response = $GameQ->process();
@@ -138,13 +132,11 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
                     $output[$combined]['port']     = $params['gq_port_client'];
-                    $output[$combined]['error']    = "Couldn't connect to address.";
+                    $output[$combined]['error']    = $response['error'];
                 } else {
-                	$output[$combined]['status']   = $response['gq_online'];
-                	$output[$combined]['hostname'] = $response['gq_address'];
-                	$output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                    $output[$combined]['players']['max']       = $response['gq_maxplayers'];
+                    $output[$combined]['status']   = $response['gq_online'];
+                    $output[$combined]['hostname'] = $response['gq_address'];
+                    $output[$combined]['port']     = $response['gq_port_client'];
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);

@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\CSGO\Query\Extensive;
+namespace GameAPIs\Controllers\APIs\ARK\Query\Info;
 
 use Phalcon\Mvc\Controller;
 
