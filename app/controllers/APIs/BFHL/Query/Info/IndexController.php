@@ -61,7 +61,7 @@ class IndexController extends ControllerBase {
                 $output['hostname']          = $response['gq_address'];
                 $output['port']              = $response['gq_port_client'];
                 $output['name']              = $response['hostname'];
-                $output['map']               = $response['mapname'];
+                $output['map']               = $response['map'];
                 $output['version']           = $response['version'];
                 $output['players']['online'] = $response['num_players'];
                 $output['players']['max']    = $response['max_players'];
@@ -99,7 +99,7 @@ class IndexController extends ControllerBase {
                 $output['hostname']          = $response['gq_address'];
                 $output['port']              = $response['gq_port_client'];
                 $output['name']              = $response['hostname'];
-                $output['map']               = $response['mapname'];
+                $output['map']               = $response['map'];
                 $output['version']           = $response['version'];
                 $output['players']['online'] = $response['num_players'];
                 $output['players']['max']    = $response['max_players'];
@@ -157,7 +157,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['hostname']          = $response['gq_address'];
                     $output[$combined]['port']              = $response['gq_port_client'];
                     $output[$combined]['name']              = $response['hostname'];
-                    $output[$combined]['map']               = $response['mapname'];
+                    $output[$combined]['map']               = $response['map'];
                     $output[$combined]['version']           = $response['version'];
                     $output[$combined]['players']['online'] = $response['num_players'];
                     $output[$combined]['players']['max']    = $response['max_players'];
@@ -195,7 +195,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['hostname']          = $response['gq_address'];
                     $output[$combined]['port']              = $response['gq_port_client'];
                     $output[$combined]['name']              = $response['hostname'];
-                    $output[$combined]['map']               = $response['mapname'];
+                    $output[$combined]['map']               = $response['map'];
                     $output[$combined]['version']           = $response['version'];
                     $output[$combined]['players']['online'] = $response['num_players'];
                     $output[$combined]['players']['max']    = $response['max_players'];
