@@ -68,7 +68,16 @@ class IndexController extends ControllerBase {
                 $output['players']['list']   = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
+                    unset(
+                        $output['players']['list'][$key]['id'],
+                        $output['players']['list'][$key]['gq_name'],
+                        $output['players']['list'][$key]['gq_score'],
+                        $output['players']['list'][$key]['gq_time'],
+                        $output['players']['list'][$key]['time'],
+                        $output['players']['list'][$key]['gq_kills'],
+                        $output['players']['list'][$key]['gq_deaths'],
+                        $output['players']['list'][$key]['gq_ping']
+                    );
                 }
             }
             $output['cached'] = true;
@@ -97,7 +106,16 @@ class IndexController extends ControllerBase {
                 $output['players']['list']   = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
+                    unset(
+                        $output['players']['list'][$key]['id'],
+                        $output['players']['list'][$key]['gq_name'],
+                        $output['players']['list'][$key]['gq_score'],
+                        $output['players']['list'][$key]['gq_time'],
+                        $output['players']['list'][$key]['time'],
+                        $output['players']['list'][$key]['gq_kills'],
+                        $output['players']['list'][$key]['gq_deaths'],
+                        $output['players']['list'][$key]['gq_ping']
+                    );
                 }
             }
             $output['cached'] = false;
@@ -146,7 +164,16 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
+                        unset(
+                            $output[$combined]['players']['list'][$key]['id'],
+                            $output[$combined]['players']['list'][$key]['gq_name'],
+                            $output[$combined]['players']['list'][$key]['gq_score'],
+                            $output[$combined]['players']['list'][$key]['gq_time'],
+                            $output[$combined]['players']['list'][$key]['time'],
+                            $output[$combined]['players']['list'][$key]['gq_kills'],
+                            $output[$combined]['players']['list'][$key]['gq_deaths'],
+                            $output[$combined]['players']['list'][$key]['gq_ping']
+                        );
                     }
                 }
                 $output[$combined]['cached'] = true;
@@ -175,7 +202,16 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
+                        unset(
+                            $output[$combined]['players']['list'][$key]['id'],
+                            $output[$combined]['players']['list'][$key]['gq_name'],
+                            $output[$combined]['players']['list'][$key]['gq_score'],
+                            $output[$combined]['players']['list'][$key]['gq_time'],
+                            $output[$combined]['players']['list'][$key]['time'],
+                            $output[$combined]['players']['list'][$key]['gq_kills'],
+                            $output[$combined]['players']['list'][$key]['gq_deaths'],
+                            $output[$combined]['players']['list'][$key]['gq_ping']
+                        );
                     }
                 }
                 $output[$combined]['cached'] = false;

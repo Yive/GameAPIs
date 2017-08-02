@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\BF1942\Query\Info;
+namespace GameAPIs\Controllers\APIs\BFBC2\Query\Info;
 
 use Phalcon\Mvc\Controller;
 
