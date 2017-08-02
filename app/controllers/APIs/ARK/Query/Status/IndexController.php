@@ -49,8 +49,8 @@ class IndexController extends ControllerBase {
         if(!strpos($params['ip'], ':')) {
             $params['ip'] = $params['ip'].':7777';
         }
-        if($redis->exists($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->ark->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->ark->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']   = $response['gq_online'];
                 $output['hostname'] = $response['gq_address'];
@@ -95,7 +95,7 @@ class IndexController extends ControllerBase {
                 }
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->ark->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -121,8 +121,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->sd2d->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->sd2d->ping.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->ark->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->ark->ping.$combined)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['gq_online'];
                     $output[$combined]['hostname'] = $response['gq_address'];
@@ -167,7 +167,7 @@ class IndexController extends ControllerBase {
                     }
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->sd2d->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->ark->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

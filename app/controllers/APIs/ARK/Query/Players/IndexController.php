@@ -47,7 +47,7 @@ class IndexController extends ControllerBase {
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
-            $params['ip'] = $params['ip'].':26900';
+            $params['ip'] = $params['ip'].':7777';
         }
         if($redis->exists($this->config->application->redis->keyStructure->ark->ping.$params['ip'])) {
             $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->ark->ping.$params['ip'])),true);
@@ -133,7 +133,7 @@ class IndexController extends ControllerBase {
                 $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 26900;
+                $params['addresses'][$i]['port'] = 7777;
             }
             $i++;
         }
