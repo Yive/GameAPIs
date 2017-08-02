@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\BF2\Query\Info;
+namespace GameAPIs\Controllers\APIs\BF3\Query\Info;
 
 use Redis;
 
@@ -23,7 +23,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $this->dispatcher->forward(
                         [
-                            "namespace"     => "GameAPIs\Controllers\APIs\BF2\Query\Info",
+                            "namespace"     => "GameAPIs\Controllers\APIs\BF3\Query\Info",
                             "controller"    => "index",
                             "action"        => "multi"
                         ]
@@ -32,7 +32,7 @@ class IndexController extends ControllerBase {
             } else {
                 $this->dispatcher->forward(
                     [
-                        "namespace"     => "GameAPIs\Controllers\APIs\BF2\Query\Info",
+                        "namespace"     => "GameAPIs\Controllers\APIs\BF3\Query\Info",
                         "controller"    => "index",
                         "action"        => "single"
                     ]
@@ -47,10 +47,10 @@ class IndexController extends ControllerBase {
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
         if(!strpos($params['ip'], ':')) {
-            $params['ip'] = $params['ip'].':16567';
+            $params['ip'] = $params['ip'].':25200';
         }
-        if($redis->exists($this->config->application->redis->keyStructure->bf2->ping.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf2->ping.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->bf3->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf3->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']            = $response['gq_online'];
                 $output['hostname']          = $response['gq_address'];
@@ -62,10 +62,9 @@ class IndexController extends ControllerBase {
                 $output['port']              = $response['gq_port_client'];
                 $output['name']              = $response['hostname'];
                 $output['map']               = $response['mapname'];
-                $output['join']              = $response['gq_joinlink'];
                 $output['version']           = $response['gamever'];
-                $output['players']['online'] = $response['numplayers'];
-                $output['players']['max']    = $response['maxplayers'];
+                $output['players']['online'] = $response['num_players'];
+                $output['players']['max']    = $response['max_players'];
                 $output['players']['list']   = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
@@ -75,7 +74,7 @@ class IndexController extends ControllerBase {
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => 'bf2','host'=> $params['ip']]);
+            $GameQ->addServer(['type' => 'bf3','host'=> $params['ip']]);
             $GameQ->setOption('timeout', 2); // seconds
 
             $response = $GameQ->process();
@@ -92,10 +91,9 @@ class IndexController extends ControllerBase {
                 $output['port']              = $response['gq_port_client'];
                 $output['name']              = $response['hostname'];
                 $output['map']               = $response['mapname'];
-                $output['join']              = $response['gq_joinlink'];
                 $output['version']           = $response['gamever'];
-                $output['players']['online'] = $response['numplayers'];
-                $output['players']['max']    = $response['maxplayers'];
+                $output['players']['online'] = $response['num_players'];
+                $output['players']['max']    = $response['max_players'];
                 $output['players']['list']   = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
@@ -103,7 +101,7 @@ class IndexController extends ControllerBase {
                 }
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->bf2->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->bf3->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -123,14 +121,14 @@ class IndexController extends ControllerBase {
                 $params['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 16567;
+                $params['addresses'][$i]['port'] = 25200;
             }
             $i++;
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->bf2->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf2->ping.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->bf3->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf3->ping.$combined)),true);
                 if(!$response['gq_online']) {
                     $output[$combined]['status']            = $response['gq_online'];
                     $output[$combined]['hostname']          = $response['gq_address'];
@@ -142,10 +140,9 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']              = $response['gq_port_client'];
                     $output[$combined]['name']              = $response['hostname'];
                     $output[$combined]['map']               = $response['mapname'];
-                    $output[$combined]['join']              = $response['gq_joinlink'];
                     $output[$combined]['version']           = $response['gamever'];
-                    $output[$combined]['players']['online'] = $response['numplayers'];
-                    $output[$combined]['players']['max']    = $response['maxplayers'];
+                    $output[$combined]['players']['online'] = $response['num_players'];
+                    $output[$combined]['players']['max']    = $response['max_players'];
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
@@ -155,7 +152,7 @@ class IndexController extends ControllerBase {
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => 'bf2','host'=> $combined]);
+                $GameQ->addServer(['type' => 'bf3','host'=> $combined]);
                 $GameQ->setOption('timeout', 2); // seconds
 
                 $response = $GameQ->process();
@@ -172,10 +169,9 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']              = $response['gq_port_client'];
                     $output[$combined]['name']              = $response['hostname'];
                     $output[$combined]['map']               = $response['mapname'];
-                    $output[$combined]['join']              = $response['gq_joinlink'];
                     $output[$combined]['version']           = $response['gamever'];
-                    $output[$combined]['players']['online'] = $response['numplayers'];
-                    $output[$combined]['players']['max']    = $response['maxplayers'];
+                    $output[$combined]['players']['online'] = $response['num_players'];
+                    $output[$combined]['players']['max']    = $response['max_players'];
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
@@ -183,7 +179,7 @@ class IndexController extends ControllerBase {
                     }
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->bf2->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->bf3->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
