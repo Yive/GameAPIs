@@ -1,6 +1,6 @@
 <?php
 
-namespace GameAPIs\Controllers\APIs\BF3\Query\Info;
+namespace GameAPIs\Controllers\APIs\BFHL\Query\Info;
 
 use Redis;
 
@@ -23,7 +23,7 @@ class IndexController extends ControllerBase {
                 } else {
                     $this->dispatcher->forward(
                         [
-                            "namespace"     => "GameAPIs\Controllers\APIs\BF3\Query\Info",
+                            "namespace"     => "GameAPIs\Controllers\APIs\BFHL\Query\Info",
                             "controller"    => "index",
                             "action"        => "multi"
                         ]
@@ -32,7 +32,7 @@ class IndexController extends ControllerBase {
             } else {
                 $this->dispatcher->forward(
                     [
-                        "namespace"     => "GameAPIs\Controllers\APIs\BF3\Query\Info",
+                        "namespace"     => "GameAPIs\Controllers\APIs\BFHL\Query\Info",
                         "controller"    => "index",
                         "action"        => "single"
                     ]
@@ -49,8 +49,8 @@ class IndexController extends ControllerBase {
         if(!strpos($params['ip'], ':')) {
             $params['ip'] = $params['ip'].':25200';
         }
-        if($redis->exists($this->config->application->redis->keyStructure->bf3->ping.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf3->ping.$params['ip'])),true);
+        if($redis->exists($this->config->application->redis->keyStructure->bfhl->ping.$params['ip'])) {
+            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bfhl->ping.$params['ip'])),true);
             if(!$response['gq_online']) {
                 $output['status']            = $response['gq_online'];
                 $output['hostname']          = $response['gq_address'];
@@ -74,7 +74,7 @@ class IndexController extends ControllerBase {
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => 'bf3','host'=> $params['ip']]);
+            $GameQ->addServer(['type' => 'bfh','host'=> $params['ip']]);
             $GameQ->setOption('timeout', 2); // seconds
 
             $response = $GameQ->process();
@@ -101,7 +101,7 @@ class IndexController extends ControllerBase {
                 }
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->bf3->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($this->config->application->redis->keyStructure->bfhl->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -127,8 +127,8 @@ class IndexController extends ControllerBase {
         }
         foreach ($params['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->bf3->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bf3->ping.$combined)),true);
+            if($redis->exists($this->config->application->redis->keyStructure->bfhl->ping.$combined)) {
+                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->bfhl->ping.$combined)),true);
                 if(!$response['gq_online']) {
                     $output[$combined]['status']            = $response['gq_online'];
                     $output[$combined]['hostname']          = $response['gq_address'];
@@ -152,7 +152,7 @@ class IndexController extends ControllerBase {
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => 'bf3','host'=> $combined]);
+                $GameQ->addServer(['type' => 'bfh','host'=> $combined]);
                 $GameQ->setOption('timeout', 2); // seconds
 
                 $response = $GameQ->process();
@@ -179,7 +179,7 @@ class IndexController extends ControllerBase {
                     }
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->bf3->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($this->config->application->redis->keyStructure->bfhl->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
