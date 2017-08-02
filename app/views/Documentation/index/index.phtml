@@ -27,10 +27,20 @@
             'link' => '/docs/arma3',
             'file' => '/img/games/arma3.jpg'
         ),
+        'bf1942' => array(
+            'name' => 'Battlefield 1942',
+            'link' => '/docs/bf1942',
+            'file' => '/img/games/bf1942.jpg'
+        ),
         'bf2' => array(
             'name' => 'Battlefield 2',
             'link' => '/docs/bf2',
             'file' => '/img/games/bf2.jpg'
+        ),
+        'bfbc2' => array(
+            'name' => 'Battlefield: Bad Company 2',
+            'link' => '/docs/bfbc2',
+            'file' => '/img/games/bfbc2.jpg'
         ),
         'bf3' => array(
             'name' => 'Battlefield 3',
@@ -41,16 +51,6 @@
             'name' => 'Battlefield 4',
             'link' => '/docs/bf4',
             'file' => '/img/games/bf4.jpg'
-        ),
-        'bf1942' => array(
-            'name' => 'Battlefield 1942',
-            'link' => '/docs/bf1942',
-            'file' => '/img/games/bf1942.jpg'
-        ),
-        'bfbc2' => array(
-            'name' => 'Battlefield: Bad Company 2',
-            'link' => '/docs/bfbc2',
-            'file' => '/img/games/bfbc2.jpg'
         ),
         'bfhl' => array(
             'name' => 'Battlefield: Hardline',
@@ -253,7 +253,7 @@
         <div class="notification is-danger">This API service is a work in progress. Currently this is the public alpha version of the project.</div>
         <div class="columns is-multiline">
             <?php
-                $liveAPIs = array('7d2d','alienswarm','ark','cs','csgo','css','gmod','mc','mcpe');
+                $liveAPIs = array('7d2d','alienswarm','bf1942','bf2','bfbc2','bf3','bf4','bfhl','ark','cs','csgo','css','gmod','mc','mcpe');
                 foreach ($games as $key => $value) {
                     if(in_array($key, $liveAPIs)) {
                         echo '<div class="column is-full-mobile is-one-third-tablet is-one-quarter-desktop">
