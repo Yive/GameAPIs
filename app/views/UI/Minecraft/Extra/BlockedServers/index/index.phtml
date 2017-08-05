@@ -1,0 +1,44 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="/">
+                Home
+            </a>
+            <a class="nav-item is-tab is-active" href="#">
+                BlockedServers Search
+            </a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns is-mobile is-centered is-multiline">
+            <div class="column is-half is-narrow">
+                <h2 class="title">BlockedServers Lookup</h1>
+                <form action="" method="post">
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" name="ips" placeholder="mc.hypixel.net,arkhamnetwork.org">
+                        </div>
+                        <div class="control">
+                            <input type="submit" value="Lookup" class="button is-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="column is-half is-narrow">
+                <h2 class="title"><a href="https://twitter.com/BlacklistNotify">BlacklistNotify</a> Twitter Feed</h1>
+                <a class="twitter-timeline" data-height="500" href="https://twitter.com/BlacklistNotify">Tweets by BlacklistNotify</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div class="column is-12">
+                <?php echo $this->getContent(); ?>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>

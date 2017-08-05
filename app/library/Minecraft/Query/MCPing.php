@@ -30,12 +30,12 @@ class MCPing
 		$this->Close();
 	}
 
-	public function GetStatus($Hostname = '127.0.0.1', $Port = 25565, $IsOld17 = false, $Timeout = 1) {
+	public function GetStatus($Hostname = '127.0.0.1', $Port = 25565, $IsOld17 = false, $Timeout = 2) {
 		$this->Clear();
 
 		$this->host = $Hostname;
 		$this->port = $Port;
-		$this->timeout = 1;
+		$this->timeout = 2;
 
 		//validate host
 		if (filter_var($this->host, FILTER_VALIDATE_IP)) {
@@ -278,7 +278,7 @@ class MCPing
 	}
 
 	private function Connect() {
-		$connectTimeout = 1;
+		$connectTimeout = 2;
 		$this->socket = @fsockopen($this->address, $this->port, $errno, $errstr, $connectTimeout);
 
 		if (!$this->socket) {

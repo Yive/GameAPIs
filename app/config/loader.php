@@ -270,7 +270,9 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\WU\Query\Status'                     => $config->application->controllersDir.'APIs/WU/Query/Status/',
         'GameAPIs\Controllers\APIs\WU\Query\Players'                    => $config->application->controllersDir.'APIs/WU/Query/Players/',
          // Libraries //
-        'GameAPIs\Libraries\Minecraft\Query'                            => $config->application->libraryDir.'Minecraft/Query/'
+        'GameAPIs\Libraries\Minecraft\Query'                            => $config->application->libraryDir.'Minecraft/Query/',
+         // Minecraft UIs //
+        'GameAPIs\Controllers\UI\Minecraft\Extra'                       => $config->application->controllersDir.'UI/Minecraft/Extra/'
     ]
 );
 
