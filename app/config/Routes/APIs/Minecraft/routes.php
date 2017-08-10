@@ -187,6 +187,12 @@ $router->add('/mc/extra/blockedservers', [
     'action'        => 'index'
 ]);
 
+$router->add('/mc/extra/blockedservers/text', [
+    'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Extra\BlockedServers',
+    'controller'    => 'index',
+    'action'        => 'text'
+]);
+
 $router->add('/mc/extra/blockedservers/check/{ips}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Extra\BlockedServers',
     'controller'    => 'index',

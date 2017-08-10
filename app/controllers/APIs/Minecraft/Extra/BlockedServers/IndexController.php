@@ -11,6 +11,7 @@ class IndexController extends ControllerBase {
     }
 
     public function indexAction() {
+        header("Content-Type: application/json; charset=UTF-8");
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
         if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
@@ -38,7 +39,38 @@ class IndexController extends ControllerBase {
         echo json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
+    public function textAction() {
+        header("Content-Type: text/plain; charset=UTF-8");
+        $redis = new Redis();
+        $redis->pconnect($this->config->application->redis->host);
+        if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
+            $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
+            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 10);
+        } else {
+            $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
+        }
+        foreach ($json['blocked'] as $value) {
+            if(empty($value)) {
+                continue;
+            }
+            if(!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value)) {
+                $json['unknown'][$value]['sha1'] = $value;
+                $check['domain'] = NULL;
+            } else {
+                $check = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value),true);
+                if($check['domain'] == NULL) {
+                    $redis->del($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value);
+                    continue;
+                }
+                $json['found'][$value]['sha1']  = $value;
+                $json['found'][$value]['ip']    = $check['domain'];
+            }
+            echo $value.":".$check['domain']."\n";
+        }
+    }
+
     public function checkAction() {
+        header("Content-Type: application/json; charset=UTF-8");
         function strposa($haystack, $needle, $offset=0) {
             if(!is_array($needle)) $needle = array($needle);
             foreach($needle as $query) {
