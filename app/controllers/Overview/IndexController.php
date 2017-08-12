@@ -17,4 +17,8 @@ class IndexController extends ControllerBase {
         $this->tag->prependTitle("404 - ");
     }
 
+    public function usenotfoundAction() {
+        return $this->response->redirect('https://docs.gameapis.net/', true);
+    }
+
 }

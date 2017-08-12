@@ -1,5 +1,11 @@
 <?php
 
+$Documentation->notFound([
+    'namespace'     => 'GameAPIs\Controllers\Overview',
+    'controller'    => 'index',
+    'action'        => 'notfound',
+]);
+
 $Documentation->add('/', [
     'namespace'     => 'GameAPIs\Controllers\Documentation',
     'controller'    => 'index',
