@@ -6,10 +6,6 @@ use Redis;
 
 class IndexController extends ControllerBase {
 
-    public function initialize() {
-        $this->tag->setTitle("GameAPIs");
-    }
-
     public function skinAction() {
         $params = $this->dispatcher->getParams();
         $name = $params['name'];

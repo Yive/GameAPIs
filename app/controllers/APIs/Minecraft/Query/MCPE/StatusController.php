@@ -7,10 +7,6 @@ use GameAPIs\Libraries\Minecraft\Query\MCPEPing;
 
 class StatusController extends ControllerBase {
 
-    public function initialize() {
-        $this->tag->setTitle("GameAPIs");
-    }
-
     public function indexAction() {
         $params = $this->dispatcher->getParams();
         if(empty($params['ip'])) {

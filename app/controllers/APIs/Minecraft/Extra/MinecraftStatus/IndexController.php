@@ -6,10 +6,6 @@ use Redis;
 
 class IndexController extends ControllerBase {
 
-    public function initialize() {
-        $this->tag->setTitle("GameAPIs");
-    }
-
     public function indexAction() {
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);

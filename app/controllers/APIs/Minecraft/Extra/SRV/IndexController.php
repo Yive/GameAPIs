@@ -6,10 +6,6 @@ use Redis;
 
 class IndexController extends ControllerBase {
 
-    public function initialize() {
-        $this->tag->setTitle("GameAPIs");
-    }
-
     public function indexAction() {
         function strposa($haystack, $needle, $offset=0) {
             if(!is_array($needle)) $needle = array($needle);
