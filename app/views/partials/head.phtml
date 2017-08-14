@@ -64,85 +64,11 @@
         <a href="javascript:" class="goto-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
         <?php
             switch (true) {
-                case strpos($this->tag->getTitle(), "Index") !== false: {
-                    $subtitle = "API Web Service For Game Servers";
-                    break;
-                }
                 case strpos($this->tag->getTitle(), "Documentation") !== false: {
                     switch (true) {
-                        case strpos($this->tag->getTitle(), "7 Days to Die") !== false: {
-                            $subtitle = "7 Days to Die Documentation";
-                            $button = "7 Days to Die";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Alien Swarm") !== false: {
-                            $subtitle = "Alien Swarm Documentation";
-                            $button = "Alien Swarm";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "ARK: Survival Evolved") !== false: {
-                            $subtitle = "ARK: Survival Evolved Documentation";
-                            $button = "ARK: Survival Evolved";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield 2") !== false: {
-                            $subtitle = "Battlefield 2 Documentation";
-                            $button = "Battlefield 2";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield 3") !== false: {
-                            $subtitle = "Battlefield 3 Documentation";
-                            $button = "Battlefield 3";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield 4") !== false: {
-                            $subtitle = "Battlefield 4 Documentation";
-                            $button = "Battlefield 4";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield: Bad Company 2") !== false: {
-                            $subtitle = "Battlefield: Bad Company 2 Documentation";
-                            $button = "Battlefield: Bad Company 2";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield 1942") !== false: {
-                            $subtitle = "Battlefield 1942 Documentation";
-                            $button = "Battlefield 1942";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Battlefield: Hardline") !== false: {
-                            $subtitle = "Battlefield: Hardline Documentation";
-                            $button = "Battlefield: Hardline";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Counter-Strike 1.6") !== false: {
-                            $subtitle = "Counter-Strike 1.6 Documentation";
-                            $button = "Counter-Strike 1.6";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Counter-Strike: Global Offensive") !== false: {
-                            $subtitle = "Counter-Strike: Global Offensive Documentation";
-                            $button = "Counter-Strike: Global Offensive";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Counter-Strike: Source") !== false: {
-                            $subtitle = "Counter-Strike: Source Documentation";
-                            $button = "Counter-Strike: Source";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Garry") !== false: {
-                            $subtitle = "Garry's Mod Documentation";
-                            $button = "Garry's Mod";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Minecraft: Pocket Edition") !== false: {
-                            $subtitle = "Minecraft: Pocket Edition Documentation";
-                            $button = "Minecraft: Pocket Edition";
-                            break;
-                        }
-                        case strpos($this->tag->getTitle(), "Minecraft") !== false: {
-                            $subtitle = "Minecraft Documentation";
-                            $button = "Minecraft";
+                        case strpos($this->tag->getTitle(), "Documentation") !== false: {
+                            $subtitle = $this->tag->getTitle();
+                            $button = str_replace("Documentation", "", $this->tag->getTitle());
                             break;
                         }
                         default: {
@@ -154,10 +80,6 @@
                 }
                 case strpos($this->tag->getTitle(), "404") !== false: {
                     $subtitle = 404;
-                    break;
-                }
-                case strpos($this->tag->getTitle(), "BlockedServers Check") !== false: {
-                    $subtitle = "API Web Service For Game Servers";
                     break;
                 }
                 default: {
