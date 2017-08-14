@@ -20,6 +20,10 @@ class IndexController extends ControllerBase {
         $this->tag->prependTitle("Minecraft Query Documentation - ");
     }
 
+    public function playerAction() {
+        $this->tag->prependTitle("Minecraft Player Documentation - ");
+    }
+
     public function imagesAction() {
         $this->tag->prependTitle("Minecraft Images Documentation - ");
     }

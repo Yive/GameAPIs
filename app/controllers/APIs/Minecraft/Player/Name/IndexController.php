@@ -30,7 +30,7 @@ class IndexController extends ControllerBase {
                         if($checkRedis['expiresAt'] > time()) {
                             $realOutput = array();
                             $realOutput['name']             = $checkRedis['name'];
-                            $realOutput['uuid']             = $checkRedis['uuid'];
+                            $realOutput['id']               = $checkRedis['id'];
                             $realOutput['uuid_formatted']   = $checkRedis['uuid_formatted'];
                             return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                         } else {
@@ -43,7 +43,9 @@ class IndexController extends ControllerBase {
                                         'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Name',
                                         'controller'    => 'index',
                                         'action'        => 'second',
-                                        'uuid'          => $uuid
+                                        'params'        => array(
+                                            'uuid'          => $uuid
+                                        )
                                     ]
                                 );
                             }
@@ -54,13 +56,15 @@ class IndexController extends ControllerBase {
                                 'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Name',
                                 'controller'    => 'index',
                                 'action'        => 'second',
-                                'uuid'          => $uuid
+                                'params'        => array(
+                                    'uuid'          => $uuid
+                                )
                             ]
                         );
                     }
                 }
             } else {
-                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
                 $output = array("error" => "Invalid UUID characters.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
@@ -87,6 +91,16 @@ class IndexController extends ControllerBase {
             );
             curl_setopt_array($curl, $curlConfig);
             $req = json_decode(curl_exec($curl), true);
+            if (!curl_errno($curl)) {
+                switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                    case 200: {
+                        break;
+                    }
+                    default: {
+                        $req['error'] = true;
+                    }
+                }
+            }
             curl_close($curl);
             return $req;
         }
@@ -103,6 +117,16 @@ class IndexController extends ControllerBase {
             );
             curl_setopt_array($curl, $curlConfig);
             $req = json_decode(curl_exec($curl), true);
+            if (!curl_errno($curl)) {
+                switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                    case 200: {
+                        break;
+                    }
+                    default: {
+                        $req['error'] = true;
+                    }
+                }
+            }
             curl_close($curl);
             return $req;
         }
@@ -130,8 +154,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];
@@ -147,13 +169,17 @@ class IndexController extends ControllerBase {
                     ));
                     $realOutput = array();
                     $realOutput['name']             = $output['name'];
-                    $realOutput['uuid']             = $output['uuid'];
+                    $realOutput['id']               = $output['id'];
                     $realOutput['uuid_formatted']   = $output['uuid_formatted'];
                     return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 }
             } else {
                 $getUser = getUser($uuid);
-                if(empty($getUser['id'])) {
+                if(!empty($getUser['error'])) {
+                    $output = array("error" => "Invalid UUID.");
+                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$uuid, true, 300);
+                    return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                } elseif(empty($getUser['id'])) {
                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
                     $redis->set($this->config->application->redis->keyStructure->mcpc->player->overloaded, true, 300);
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
@@ -164,8 +190,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];
@@ -181,7 +205,7 @@ class IndexController extends ControllerBase {
                     ));
                     $realOutput = array();
                     $realOutput['name']             = $output['name'];
-                    $realOutput['uuid']             = $output['uuid'];
+                    $realOutput['id']               = $output['id'];
                     $realOutput['uuid_formatted']   = $output['uuid_formatted'];
                     return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 }

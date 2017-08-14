@@ -211,22 +211,22 @@ $APIs->add('/mc/extra/status', [
     'action'        => 'index'
 ]);
 
-$APIs->add('/mc/jhdsgfi/profile/{target}', [
+$APIs->add('/mc/player/profile/{target}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Profile',
     'controller'    => 'index',
-    'action'        => 'index'
+    'action'        => 'first'
 ]);
 
-$APIs->add('/mc/jhdsgfi/name/{target}', [
+$APIs->add('/mc/player/name/{target}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Name',
     'controller'    => 'index',
-    'action'        => 'index'
+    'action'        => 'first'
 ]);
 
-$APIs->add('/mc/jhdsgfi/uuid/{target}', [
+$APIs->add('/mc/player/uuid/{target}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\UUID',
     'controller'    => 'index',
-    'action'        => 'index'
+    'action'        => 'first'
 ]);
 
  ?>

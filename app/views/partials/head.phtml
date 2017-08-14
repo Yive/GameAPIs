@@ -66,9 +66,9 @@
             switch (true) {
                 case strpos($this->tag->getTitle(), "Documentation") !== false: {
                     switch (true) {
-                        case strpos($this->tag->getTitle(), "Documentation") !== false: {
-                            $subtitle = $this->tag->getTitle();
-                            $button = str_replace("Documentation", "", $this->tag->getTitle());
+                        case strpos($this->tag->getTitle(), " Documentation") !== false: {
+                            $subtitle = str_replace("<title>","",str_replace(" - GameAPIs</title>","",$this->tag->getTitle()));
+                            $button = str_replace("<title>","",str_replace(" - GameAPIs</title>","",str_replace(" Documentation","",$this->tag->getTitle())));
                             break;
                         }
                         default: {

@@ -371,14 +371,16 @@ class IndexController extends ControllerBase {
                                 }
                                 $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
-                                    foreach ($checkAvaliable[$key] as $key2) {
-                                        if(@$statuses['statuses']['available'][$key] == true) {
-                                            continue;
-                                        }
-                                        if ($key2['blocked'] == true) {
-                                            $statuses['statuses']['available'][$key] = true;
-                                        } else {
-                                            $statuses['statuses']['available'][$key] = false;
+                                    if(@is_array($checkAvaliable[$key])) {
+                                        foreach ($checkAvaliable[$key] as $key2) {
+                                            if(@$statuses['statuses']['available'][$key] == true) {
+                                                continue;
+                                            }
+                                            if ($key2['blocked'] == true) {
+                                                $statuses['statuses']['available'][$key] = true;
+                                            } else {
+                                                $statuses['statuses']['available'][$key] = false;
+                                            }
                                         }
                                     }
                                 }
@@ -416,14 +418,16 @@ class IndexController extends ControllerBase {
                                 }
                                 $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
-                                    foreach ($checkAvaliable[$key] as $key2) {
-                                        if(@$statuses['statuses']['available'][$key] == true) {
-                                            continue;
-                                        }
-                                        if ($key2['blocked'] == true) {
-                                            $statuses['statuses']['available'][$key] = true;
-                                        } else {
-                                            $statuses['statuses']['available'][$key] = false;
+                                    if(@is_array($checkAvaliable[$key])) {
+                                        foreach ($checkAvaliable[$key] as $key2) {
+                                            if(@$statuses['statuses']['available'][$key] == true) {
+                                                continue;
+                                            }
+                                            if ($key2['blocked'] == true) {
+                                                $statuses['statuses']['available'][$key] = true;
+                                            } else {
+                                                $statuses['statuses']['available'][$key] = false;
+                                            }
                                         }
                                     }
                                 }

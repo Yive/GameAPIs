@@ -39,7 +39,9 @@ class IndexController extends ControllerBase {
                                         'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Profile',
                                         'controller'    => 'index',
                                         'action'        => 'second',
-                                        'uuid'          => $uuid
+                                        'params'        => array(
+                                            'uuid'          => $uuid
+                                        )
                                     ]
                                 );
                             }
@@ -50,20 +52,22 @@ class IndexController extends ControllerBase {
                                 'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Profile',
                                 'controller'    => 'index',
                                 'action'        => 'second',
-                                'uuid'          => $uuid
+                                'params'        => array(
+                                    'uuid'          => $uuid
+                                )
                             ]
                         );
                     }
                 }
             } else {
-                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
                 $output = array("error" => "Invalid UUID characters.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         } else {
             if (ctype_alnum(str_replace('_', '', $target))) {
                 if(strpos($target, '-')) {
-                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target);
+                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
                     $output = array("error" => "Invalid username characters.");
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } else {
@@ -85,7 +89,9 @@ class IndexController extends ControllerBase {
                                             'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Profile',
                                             'controller'    => 'index',
                                             'action'        => 'second',
-                                            'username'      => $target
+                                            'params'        => array(
+                                                'username'      => $target
+                                            )
                                         ]
                                     );
                                 }
@@ -96,7 +102,9 @@ class IndexController extends ControllerBase {
                                     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\Profile',
                                     'controller'    => 'index',
                                     'action'        => 'second',
-                                    'username'      => $target
+                                    'params'        => array(
+                                        'username'      => $target
+                                    )
                                 ]
                             );
                         }
@@ -106,7 +114,7 @@ class IndexController extends ControllerBase {
                 $output = array("error" => "Missing username or UUID.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
-                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
                 $output = array("error" => "Invalid username characters.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
@@ -130,6 +138,16 @@ class IndexController extends ControllerBase {
             );
             curl_setopt_array($curl, $curlConfig);
             $req = json_decode(curl_exec($curl), true);
+            if (!curl_errno($curl)) {
+                switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                    case 200: {
+                        break;
+                    }
+                    default: {
+                        $req['error'] = true;
+                    }
+                }
+            }
             curl_close($curl);
             return $req;
         }
@@ -146,6 +164,16 @@ class IndexController extends ControllerBase {
             );
             curl_setopt_array($curl, $curlConfig);
             $req = json_decode(curl_exec($curl), true);
+            if (!curl_errno($curl)) {
+                switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                    case 200: {
+                        break;
+                    }
+                    default: {
+                        $req['error'] = true;
+                    }
+                }
+            }
             curl_close($curl);
             return $req;
         }
@@ -169,8 +197,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];
@@ -188,7 +214,11 @@ class IndexController extends ControllerBase {
                 }
             } else {
                 $getUser = getUser($uuid);
-                if(empty($getUser['id'])) {
+                if(!empty($getUser['error'])) {
+                    $output = array("error" => "Invalid UUID.");
+                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$uuid, true, 300);
+                    return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                } elseif(empty($getUser['id'])) {
                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
                     $redis->set($this->config->application->redis->keyStructure->mcpc->player->overloaded, true, 300);
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
@@ -199,8 +229,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];
@@ -238,8 +266,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];
@@ -257,7 +283,11 @@ class IndexController extends ControllerBase {
                 }
             } else {
                 $getUUID = getUUID($username);
-                if(empty($getUUID['id'])) {
+                if(!empty($getUUID['error'])) {
+                    $output = array("error" => "Invalid Username.");
+                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$username, true, 300);
+                    return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                } elseif(empty($getUUID['id'])) {
                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
                     $redis->set($this->config->application->redis->keyStructure->mcpc->player->overloaded, true, 300);
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
@@ -269,8 +299,6 @@ class IndexController extends ControllerBase {
                     $uid.= substr($getUser['id'], 12, 4) . '-';
                     $uid.= substr($getUser['id'], 16, 4) . '-';
                     $uid.= substr($getUser['id'], 20);
-                    $output['_id'] = $getUser['id'];
-                    $output['uuid'] = $getUser['id'];
                     $output['id'] = $getUser['id'];
                     $output['uuid_formatted'] = $uid;
                     $output['name'] = $getUser['name'];

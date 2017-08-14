@@ -1,0 +1,181 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab" href="/docs/mc/query">Query</a>
+            <a class="nav-item is-tab is-active" href="#">Player</a>
+            <a class="nav-item is-tab" href="/docs/mc/ecommerce">Ecommerce</a>
+            <a class="nav-item is-tab" href="/docs/mc/images">Images</a>
+            <a class="nav-item is-tab" href="/docs/mc/extra">Extra</a>
+        </div>
+    </div>
+</nav>
+<section class="section" style="padding-top:1.5rem;">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="notification is-danger">This selection of APIs are free to use during the alpha state of GameAPIs.</div>
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Parameters</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Required</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>True</th>
+                                        <th>UUID/Username</th>
+                                        <td>String</td>
+                                        <td>UUID or Username of a player.</td>
+                                        <td>None</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="profile"><a href="#profile" style="text-decoration:none;color:black;">Profile</a></h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">UUID</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/player/profile/{UUID}</div>
+                            <pre><code class="hljs json">{
+    "id": "da6ab8ee71ad46d29529cf95df6902b9",
+    "uuid_formatted": "da6ab8ee-71ad-46d2-9529-cf95df6902b9",
+    "name": "Yive",
+    "properties": [
+        {
+            "name": "textures",
+            "value": "eyJ0aW1lc3RhbXAiOjE1MDI2OTYzODQwNzksInByb2ZpbGVJZCI6ImRhNmFiOGVlNzFhZDQ2ZDI5NTI5Y2Y5NWRmNjkwMmI5IiwicHJvZmlsZU5hbWUiOiJZaXZlIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9kZmNhYjE0M2ExMmUyNTNkNDUyNzM0ZmIyMWVmMjIyNTlkMWQwYTEzN2Q0NjBiNjc2Njg0OTFlOWQyNCJ9fX0=",
+            "signature": "pyU4PU/jmDuQCDrZeTeZ4+AD4NIoZLs5tC1v8NOrqeYxM+DVxwjnZHdeekw6L7xpTg3A4DVMkEwwMekmL3dBeSmBVZTZCvqynVRzKLtepUNJfBU0ggKF+NkYYrNF8OCZIUeRoUzdOinXNhCn2I5xUIEMnBITiaquQ4GQJKFNG51GSscF+8k+q0h8iZyHBYSXyeTxONDURNAOzXZm9XGpNtnaJmevnH78xC9KSgbW/sRn2eiMS2nMF8TcKJVzy3F5nEPZpDwmIyUeOLrVZ7afQW1N8gpBquz1Hfr6JrV3+kx5KTAthhxwrFzCO6ToU1uD44f+gztJnQUG4pXbI8itmrr+/Y/sflm6/d3CFePr6bN+QLFlmt/mmc4oKU2h6JwQsAxOl+N2tZ/h7uhmsRGCq51gbKm/uk6Qc5CmsGOM2ZmlEsk4/zrUbQO6Zf05gkZJWm5WFI7EJkwCE9WRBDSq7up2IDT05m7vpmfBJ0feq+fM/sB5GBVCJI9gCYkSwB3FswQmhJUhMxEjsZo9rbr/9Crcm7roYJZGmWwUqQJ80QA7NQ5Za1Kj0W9fZILL+UuvChOSG7O86Pu+ri62wzbPPHSol/zyZP9JSaTCbDLKfFTaFvB+ta2nWTQcXjTvI/2dNNZq+KBQLXugFSHcsNyi98TVGihssSWiMfvpCn1H9Zw="
+        }
+    ],
+    "properties_decoded": {
+        "timestamp": 1502696384079,
+        "profileId": "da6ab8ee71ad46d29529cf95df6902b9",
+        "profileName": "Yive",
+        "signatureRequired": true,
+        "textures": {
+            "SKIN": {
+                "url": "http://textures.minecraft.net/texture/dfcab143a12e253d452734fb21ef22259d1d0a137d460b67668491e9d24"
+            }
+        }
+    },
+    "expiresAt": 1502869184,
+    "expiresAtHR": "August 16, 2017, 2:39 am"
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Case Insenstive Username</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/player/profile/{Username}</div>
+                            <pre><code class="hljs json">{
+    "id": "069a79f444e94726a5befca90e38aaf5",
+    "uuid_formatted": "069a79f4-44e9-4726-a5be-fca90e38aaf5",
+    "name": "Notch",
+    "properties": [
+        {
+            "name": "textures",
+            "value": "eyJ0aW1lc3RhbXAiOjE1MDI3MDE3Njk0MDYsInByb2ZpbGVJZCI6IjA2OWE3OWY0NDRlOTQ3MjZhNWJlZmNhOTBlMzhhYWY1IiwicHJvZmlsZU5hbWUiOiJOb3RjaCIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTExNmU2OWE4NDVlMjI3ZjdjYTFmZGRlOGMzNTdjOGM4MjFlYmQ0YmE2MTkzODJlYTRhMWY4N2Q0YWU5NCJ9LCJDQVBFIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWVjM2NhYmZhZWVkNWRhZmU2MWM2NTQ2Mjk3ZTg1M2E1NDdjMzllYzIzOGQ3YzQ0YmY0ZWI0YTQ5ZGMxZjJjMCJ9fX0=",
+            "signature": "VzGfvbSolpMBCREIbrJcMaTAw9fM0exR/nlgTL18tclHLJcgLY6PhtCy1xXVlkjOmJ/iY5y60eyAZZYe5BoHSAm2WsyGHx+2v80V7bx3MHeHJXlvhHEzUAUgTeULaUsPV8fAdSiQV5yPhGEU93tbHjSZMf53OMYSQ+ZuPi2FDcUE+uIxnMU6x4exPTxSqjLnDU3B/dnSL5XJbL+Mm3SCQZY/pZtBWRk5QXR5ijQrEWCjyOfAv96c05vfRaBnLGtnATzi++L9COEhY49/dZy6XIqFQG0E42xPFor02FJ+SeChikCQHH0P5Q6jgwWgEG7KDeF1XYsga+eemRqTreAxOcs9QQs25/EVGhtjuido+E0+KAtcoF79ai3ya8Z2oKNHW4Apv20RalmlqGlvLTJ7j6QyrjBxIkCrBEYDCBZJgP1AFT05gEux1tB1baJyBlh90SXQIe3VffozX+PFyY7vQYNMrvsud3IgHH1N5icUhuNtj+hR4rLoMizjcCf0na1j4TLcFktXms1soiTBLhibhUluAd2GFhNN3B6DJvjTd0LfJLLwPck6sCHrrgJb/X1iZhthDcNxlnhXp1Z6dXVhsZBikNFzppyTEniHjKKM16C7B2BFIOg9OqzH131G/CZnkIG+tolBa3/M1W68MfZYrhiM4fVnyIZR/P7OfhnhF8E="
+        }
+    ],
+    "properties_decoded": {
+        "timestamp": 1502701769406,
+        "profileId": "069a79f444e94726a5befca90e38aaf5",
+        "profileName": "Notch",
+        "signatureRequired": true,
+        "textures": {
+            "SKIN": {
+                "url": "http://textures.minecraft.net/texture/a116e69a845e227f7ca1fdde8c357c8c821ebd4ba619382ea4a1f87d4ae94"
+            },
+            "CAPE": {
+                "url": "http://textures.minecraft.net/texture/eec3cabfaeed5dafe61c6546297e853a547c39ec238d7c44bf4eb4a49dc1f2c0"
+            }
+        }
+    },
+    "expiresAt": 1502874569,
+    "expiresAtHR": "August 16, 2017, 4:09 am"
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="name"><a href="#name" style="text-decoration:none;color:black;">Name</a></h1>
+            </div>
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">UUID</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/player/name/{UUID}</div>
+                            <pre><code class="hljs json">{
+    "name": "Yive",
+    "id": "da6ab8ee71ad46d29529cf95df6902b9",
+    "uuid_formatted": "da6ab8ee-71ad-46d2-9529-cf95df6902b9"
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="uuid"><a href="#uuid" style="text-decoration:none;color:black;">UUID</a></h1>
+            </div>
+            <div class="column is-12">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Case Insenstive Username</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/player/uuid/{Username}</div>
+                            <pre><code class="hljs json">{
+    "name": "Notch",
+    "id": "069a79f444e94726a5befca90e38aaf5",
+    "uuid_formatted": "069a79f4-44e9-4726-a5be-fca90e38aaf5"
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>
