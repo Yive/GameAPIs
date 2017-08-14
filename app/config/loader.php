@@ -209,6 +209,10 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Minecraft\Ecommerce'                 => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/',
         'GameAPIs\Controllers\APIs\Minecraft\Ecommerce\Buycraft'        => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/Buycraft/',
         'GameAPIs\Controllers\APIs\Minecraft\Ecommerce\MinecraftMarket' => $config->application->controllersDir.'APIs/Minecraft/Ecommerce/MinecraftMarket/',
+        'GameAPIs\Controllers\APIs\Minecraft\Player'                    => $config->application->controllersDir.'APIs/Minecraft/Player/',
+        'GameAPIs\Controllers\APIs\Minecraft\Player\Name'               => $config->application->controllersDir.'APIs/Minecraft/Player/Name/',
+        'GameAPIs\Controllers\APIs\Minecraft\Player\UUID'               => $config->application->controllersDir.'APIs/Minecraft/Player/UUID/',
+        'GameAPIs\Controllers\APIs\Minecraft\Player\Profile'            => $config->application->controllersDir.'APIs/Minecraft/Player/Profile/',
          // Medal Of Honor Allied Assault APIs //
         'GameAPIs\Controllers\APIs\MOHAA\Query'                         => $config->application->controllersDir.'APIs/MOHAA/Query/',
         'GameAPIs\Controllers\APIs\MOHAA\Query\Info'                    => $config->application->controllersDir.'APIs/MOHAA/Query/Info/',
