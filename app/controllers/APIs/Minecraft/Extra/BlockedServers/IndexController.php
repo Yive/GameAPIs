@@ -10,58 +10,77 @@ class IndexController extends ControllerBase {
         header("Content-Type: application/json; charset=UTF-8");
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
-        if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
-            $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
-            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
+        if($redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended)) {
+            $list = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended),true);
+            echo json_encode($list, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         } else {
-            $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
-        }
-        foreach ($json['blocked'] as $value) {
-            if(empty($value)) {
-                continue;
-            }
-            if(!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value)) {
-                $json['unknown'][$value]['sha1'] = $value;
+            if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
+                $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
+                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
             } else {
-                $check = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value),true);
-                if($check['domain'] == NULL) {
-                    $redis->del($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value);
+                $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
+            }
+            foreach ($json['blocked'] as $value) {
+                if(empty($value)) {
                     continue;
                 }
-                $json['found'][$value]['sha1']  = $value;
-                $json['found'][$value]['ip']    = $check['domain'];
+                if(!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value)) {
+                    $json['unknown'][$value]['sha1'] = $value;
+                } else {
+                    $check = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value),true);
+                    if($check['domain'] == NULL) {
+                        $redis->del($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value);
+                        continue;
+                    }
+                    $json['found'][$value]['sha1']  = $value;
+                    $json['found'][$value]['ip']    = $check['domain'];
+                }
             }
+            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 30);
+            echo json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         }
-        echo json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
     public function textAction() {
         header("Content-Type: text/plain; charset=UTF-8");
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
-        if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
-            $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
-            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
-        } else {
-            $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
-        }
-        foreach ($json['blocked'] as $value) {
-            if(empty($value)) {
-                continue;
+        if($redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended)) {
+            $list = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended),true);
+            foreach ($list['blocked'] as $value) {
+               if(array_key_exists($value, $list['found'])) {
+                   $check['domain'] = $list['found'][$value]['ip'];
+               } else {
+                   $check['domain'] = NULL;
+               }
+               echo $value.":".$check['domain']."\n";
             }
-            if(!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value)) {
-                $json['unknown'][$value]['sha1'] = $value;
-                $check['domain'] = NULL;
+        } else {
+            if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
+                $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
+                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
             } else {
-                $check = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value),true);
-                if($check['domain'] == NULL) {
-                    $redis->del($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value);
+                $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
+            }
+            foreach ($json['blocked'] as $value) {
+                if(empty($value)) {
                     continue;
                 }
-                $json['found'][$value]['sha1']  = $value;
-                $json['found'][$value]['ip']    = $check['domain'];
+                if(!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value)) {
+                    $json['unknown'][$value]['sha1'] = $value;
+                    $check['domain'] = NULL;
+                } else {
+                    $check = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value),true);
+                    if($check['domain'] == NULL) {
+                        $redis->del($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$value);
+                        continue;
+                    }
+                    $json['found'][$value]['sha1']  = $value;
+                    $json['found'][$value]['ip']    = $check['domain'];
+                }
+                echo $value.":".$check['domain']."\n";
             }
-            echo $value.":".$check['domain']."\n";
+            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 30);
         }
     }
 
