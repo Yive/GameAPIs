@@ -12,11 +12,13 @@ class IndexController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         if(empty($params['ip'])) {
             $output['error'] = "Please provide an address";
+            $output['code'] = 001;
             echo json_encode($output, JSON_PRETTY_PRINT);
         } else {
-            if(strpos($params['ip'],',')) {
+            if(strpos($params['ip'], ',')) {
                 if(count(explode(',', $params['ip'])) > 5) {
-                    $output['error'] = "Maximum address count surpassed. Please lower to 5 addresses.";
+                    $output['error'] = "Address count > 5.";
+                    $output['code'] = 002;
                     echo json_encode($output, JSON_PRETTY_PRINT);
                 } else {
                     $this->dispatcher->forward(
@@ -64,6 +66,7 @@ class IndexController extends ControllerBase {
                 $output['status']            = $response['online'];
                 $output['hostname']          = $response['hostname'];
                 $output['port']              = $params['port'];
+                $output['protocol']          = "tcp";
                 $output['error']             = $response['error'];
             } else {
                 $output['status']            = $response['online'];
@@ -71,7 +74,7 @@ class IndexController extends ControllerBase {
                 $output['port']              = $response['port'];
                 $output['ping']              = $response['ping'];
                 $output['version']           = $response['version'];
-                $output['protocol']          = $response['protocol'];
+                $output['protocol']          = "tcp";
                 $output['players']['online'] = $response['players'];
                 $output['players']['max']    = $response['max_players'];
                 $output['motds']['ingame']   = $response['motd'];
@@ -100,6 +103,7 @@ class IndexController extends ControllerBase {
                 $output['status']            = $response['online'];
                 $output['hostname']          = $response['hostname'];
                 $output['port']              = $params['port'];
+                $output['protocol']          = "tcp";
                 $output['error']             = $response['error'];
             } else {
                 $response['version']         = str_replace('kcauldron,cauldron,craftbukkit,mcpc,fml,forge ', '', $response['version']);
@@ -108,7 +112,7 @@ class IndexController extends ControllerBase {
                 $output['port']              = $response['port'];
                 $output['ping']              = $response['ping'];
                 $output['version']           = $response['version'];
-                $output['protocol']          = $response['protocol'];
+                $output['protocol']          = "tcp";
                 $output['players']['online'] = $response['players'];
                 $output['players']['max']    = $response['max_players'];
                 $output['motds']['ingame']   = $response['motd'];
@@ -157,6 +161,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']            = $response['online'];
                     $output[$combined]['hostname']          = $response['hostname'];
                     $output[$combined]['port']              = $params['port'];
+                    $output[$combined]['protocol']          = "tcp";
                     $output[$combined]['error']             = $response['error'];
                 } else {
                     $output[$combined]['status']            = $response['online'];
@@ -164,7 +169,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']              = $response['port'];
                     $output[$combined]['ping']              = $response['ping'];
                     $output[$combined]['version']           = $response['version'];
-                    $output[$combined]['protocol']          = $response['protocol'];
+                    $output[$combined]['protocol']          = "tcp";
                     $output[$combined]['players']['online'] = $response['players'];
                     $output[$combined]['players']['max']    = $response['max_players'];
                     $output[$combined]['motds']['ingame']   = $response['motd'];
@@ -192,6 +197,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']            = $response['online'];
                     $output[$combined]['hostname']          = $response['hostname'];
                     $output[$combined]['port']              = $params['port'];
+                    $output[$combined]['protocol']          = "tcp";
                     $output[$combined]['error']             = $response['error'];
                 } else {
                     $response['version']                    = str_replace('kcauldron,cauldron,craftbukkit,mcpc,fml,forge ', '', $response['version']);
@@ -200,7 +206,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['port']              = $response['port'];
                     $output[$combined]['ping']              = $response['ping'];
                     $output[$combined]['version']           = $response['version'];
-                    $output[$combined]['protocol']          = $response['protocol'];
+                    $output[$combined]['protocol']          = "tcp";
                     $output[$combined]['players']['online'] = $response['players'];
                     $output[$combined]['players']['max']    = $response['max_players'];
                     $output[$combined]['motds']['ingame']   = $response['motd'];

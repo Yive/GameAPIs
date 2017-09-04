@@ -15,8 +15,14 @@ class IndexController extends ControllerBase {
             $output = array("error" => "Please enter a username or UUID.");
             return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         }
+        $cConfig = array();
+        
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key']['avoid'] = $this->config->application->redis->keyStructure->mcpc->player->avoid;
+        $cConfig['redis']['key']['profile'] = $this->config->application->redis->keyStructure->mcpc->player->profile;
+        $cConfig['redis']['key']['overloaded'] = $this->config->application->redis->keyStructure->mcpc->player->overloaded;
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
+        $redis->pconnect($cConfig['redis']['host']);
 
         if (strlen($target) > 16) {
             $output = array("error" => "Only usernames are supported.");
@@ -24,16 +30,16 @@ class IndexController extends ControllerBase {
         } else {
             if (ctype_alnum(str_replace('_', '', $target))) {
                 if(strpos($target, '-')) {
-                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
+                    $redis->set($cConfig['redis']['key']['avoid'].$target, true, 300);
                     $output = array("error" => "Invalid username characters.");
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } else {
-                    if($redis->exists($this->config->application->redis->keyStructure->mcpc->player->avoid.$target)) {
+                    if($redis->exists($cConfig['redis']['key']['avoid'].$target)) {
                         $output = array("error" => "Requested username is on the avoid list. Check back later.");
                         return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                     } else {
-                        if($redis->exists($this->config->application->redis->keyStructure->mcpc->player->profile.$target)) {
-                            $checkRedis = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->player->profile.$target),true);
+                        if($redis->exists($cConfig['redis']['key']['profile'].$target)) {
+                            $checkRedis = json_decode($redis->get($cConfig['redis']['key']['profile'].$target),true);
                             if($checkRedis['expiresAt'] > time()) {
                                 $realOutput = array();
                                 $realOutput['name']             = $checkRedis['name'];
@@ -41,7 +47,7 @@ class IndexController extends ControllerBase {
                                 $realOutput['uuid_formatted']   = $checkRedis['uuid_formatted'];
                                 return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                             } else {
-                                if($redis->exists($this->config->application->redis->keyStructure->mcpc->player->overloaded)) {
+                                if($redis->exists($cConfig['redis']['key']['overloaded'])) {
                                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
                                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                                 } else {
@@ -75,7 +81,7 @@ class IndexController extends ControllerBase {
                 $output = array("error" => "Missing username or UUID.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
-                $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$target, true, 300);
+                $redis->set($cConfig['redis']['key']['avoid'].$target, true, 300);
                 $output = array("error" => "Invalid username characters.");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
@@ -84,8 +90,14 @@ class IndexController extends ControllerBase {
 
     public function secondAction() {
         $params = $this->dispatcher->getParams();
+        $cConfig = array();
+        
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key']['avoid'] = $this->config->application->redis->keyStructure->mcpc->player->avoid;
+        $cConfig['redis']['key']['profile'] = $this->config->application->redis->keyStructure->mcpc->player->profile;
+        $cConfig['redis']['key']['overloaded'] = $this->config->application->redis->keyStructure->mcpc->player->overloaded;
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
+        $redis->pconnect($cConfig['redis']['host']);
         function getUser($uuid) {
             session_write_close();
             $curl = curl_init();
@@ -140,15 +152,15 @@ class IndexController extends ControllerBase {
         }
         if (isset($params['username'])) {
             $username = $params['username'];
-            if($redis->exists($this->config->application->redis->keyStructure->mcpc->player->profile.$username)) {
+            if($redis->exists($cConfig['redis']['key']['profile'].$username)) {
                 $getUUID = getUUID($username);
                 if(empty($getUUID['id'])) {
-                    $output = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->player->profile.$username),true);
+                    $output = json_decode($redis->get($cConfig['redis']['key']['profile'].$username),true);
                     $output['expiresAt'] = time() + 172800;
                     $output['expiresAtHR'] = date("F j, Y, g:i a", time() + 172800);
                     $redis->mSet(array(
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . strtolower($output['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . $output['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+                        $cConfig['redis']['key']['profile'] . strtolower($output['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
+                        $cConfig['redis']['key']['profile'] . $output['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
                     ));
                     $realOutput = array();
                     $realOutput['name']             = $output['name'];
@@ -173,8 +185,8 @@ class IndexController extends ControllerBase {
                     $output['expiresAt'] = time() + 172800;
                     $output['expiresAtHR'] = date("F j, Y, g:i a", time() + 172800);
                     $redis->mSet(array(
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . strtolower($getUser['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . $getUser['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+                        $cConfig['redis']['key']['profile'] . strtolower($getUser['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
+                        $cConfig['redis']['key']['profile'] . $getUser['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
                     ));
                     $realOutput = array();
                     $realOutput['name']             = $output['name'];
@@ -186,11 +198,11 @@ class IndexController extends ControllerBase {
                 $getUUID = getUUID($username);
                 if(!empty($getUUID['error'])) {
                     $output = array("error" => "Invalid Username.");
-                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->avoid.$username, true, 300);
+                    $redis->set($cConfig['redis']['key']['avoid'].$username, true, 300);
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } elseif(empty($getUUID['id'])) {
                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
-                    $redis->set($this->config->application->redis->keyStructure->mcpc->player->overloaded, true, 300);
+                    $redis->set($cConfig['redis']['key']['overloaded'], true, 300);
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } else {
                     $getUser = getUser($getUUID['id']);
@@ -210,8 +222,8 @@ class IndexController extends ControllerBase {
                     $output['expiresAt'] = time() + 172800;
                     $output['expiresAtHR'] = date("F j, Y, g:i a", time() + 172800);
                     $redis->mSet(array(
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . strtolower($getUser['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
-                        $this->config->application->redis->keyStructure->mcpc->player->profile . $getUser['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+                        $cConfig['redis']['key']['profile'] . strtolower($getUser['name']) => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
+                        $cConfig['redis']['key']['profile'] . $getUser['id'] => json_encode($output,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
                     ));
                     $realOutput = array();
                     $realOutput['name']             = $output['name'];

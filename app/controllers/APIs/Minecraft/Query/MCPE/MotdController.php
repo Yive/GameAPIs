@@ -12,11 +12,13 @@ class MotdController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         if(empty($params['ip'])) {
             $output['error'] = "Please provide an address";
+            $output['code'] = 001;
             echo json_encode($output, JSON_PRETTY_PRINT);
         } else {
-            if(strpos($params['ip'],',')) {
+            if(strpos($params['ip'], ',')) {
                 if(count(explode(',', $params['ip'])) > 5) {
-                    $output['error'] = "Maximum address count surpassed. Please lower to 5 addresses.";
+                    $output['error'] = "Address count > 5.";
+                    $output['code'] = 002;
                     echo json_encode($output, JSON_PRETTY_PRINT);
                 } else {
                     $this->dispatcher->forward(
@@ -61,17 +63,19 @@ class MotdController extends ControllerBase {
         if($redis->exists($cConfig['redis']['key'])) {
             $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['online']) {
-                $output['status']            = $response['online'];
-                $output['hostname']          = $response['hostname'];
-                $output['port']              = $cConfig['port'];
-                $output['error']             = $response['error'];
+                $output['status']   = $response['online'];
+                $output['hostname'] = $response['hostname'];
+                $output['port']     = $cConfig['port'];
+                $output['protocol'] = "udp";
+                $output['error']    = $response['error'];
             } else {
-                $output['status']            = $response['online'];
-                $output['hostname']          = $response['hostname'];
-                $output['port']              = $response['port'];
-                $output['motds']['ingame']   = $response['motd'];
-                $output['motds']['html']     = $response['htmlmotd'];
-                $output['motds']['clean']    = $response['cleanmotd'];
+                $output['status']               = $response['online'];
+                $output['hostname']             = $response['hostname'];
+                $output['port']                 = $response['port'];
+                $output['protocol']             = "udp";
+                $output['motds']['ingame']      = $response['motd'];
+                $output['motds']['html']        = $response['htmlmotd'];
+                $output['motds']['clean']       = $response['cleanmotd'];
             }
             $output['cached'] = true;
         } else {
@@ -81,14 +85,16 @@ class MotdController extends ControllerBase {
             $response['cleanmotd'] = $status->ClearMotd($response['motd']);
 
             if(!$response['online']) {
-                $output['status']               = $response['online'];
-                $output['hostname']             = $response['hostname'];
-                $output['port']                 = $cConfig['port'];
-                $output['error']                = $response['error'];
+                $output['status']   = $response['online'];
+                $output['hostname'] = $response['hostname'];
+                $output['port']     = $cConfig['port'];
+                $output['protocol'] = "udp";
+                $output['error']    = $response['error'];
             } else {
                 $output['status']               = $response['online'];
                 $output['hostname']             = $response['hostname'];
                 $output['port']                 = $response['port'];
+                $output['protocol']             = "udp";
                 $output['motds']['ingame']      = $response['motd'];
                 $output['motds']['html']        = $response['htmlmotd'];
                 $output['motds']['clean']       = $response['cleanmotd'];
@@ -126,17 +132,19 @@ class MotdController extends ControllerBase {
             if($redis->exists($combinedRedis)) {
                 $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $value['port'];
-                    $output[$combined]['error']                = $response['error'];
+                    $output[$combined]['status']    = $response['online'];
+                    $output[$combined]['hostname']  = $response['hostname'];
+                    $output[$combined]['port']      = $value['port'];
+                    $output[$combined]['protocol']  = "udp";
+                    $output[$combined]['error']     = $response['error'];
                 } else {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $response['port'];
-                    $output[$combined]['motds']['ingame']      = $response['motd'];
-                    $output[$combined]['motds']['html']        = $response['htmlmotd'];
-                    $output[$combined]['motds']['clean']       = $response['cleanmotd'];
+                    $output[$combined]['status']            = $response['online'];
+                    $output[$combined]['hostname']          = $response['hostname'];
+                    $output[$combined]['port']              = $response['port'];
+                    $output[$combined]['protocol']          = "udp";
+                    $output[$combined]['motds']['ingame']   = $response['motd'];
+                    $output[$combined]['motds']['html']     = $response['htmlmotd'];
+                    $output[$combined]['motds']['clean']    = $response['cleanmotd'];
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -146,17 +154,19 @@ class MotdController extends ControllerBase {
                 $response['cleanmotd'] = $status->ClearMotd($response['motd']);
 
                 if(!$response['online']) {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $value['port'];
-                    $output[$combined]['error']                = $response['error'];
+                    $output[$combined]['status']    = $response['online'];
+                    $output[$combined]['hostname']  = $response['hostname'];
+                    $output[$combined]['port']      = $value['port'];
+                    $output[$combined]['protocol']  = "udp";
+                    $output[$combined]['error']     = $response['error'];
                 } else {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $response['port'];
-                    $output[$combined]['motds']['ingame']      = $response['motd'];
-                    $output[$combined]['motds']['html']        = $response['htmlmotd'];
-                    $output[$combined]['motds']['clean']       = $response['cleanmotd'];
+                    $output[$combined]['status']            = $response['online'];
+                    $output[$combined]['hostname']          = $response['hostname'];
+                    $output[$combined]['port']              = $response['port'];
+                    $output[$combined]['protocol']          = "udp";
+                    $output[$combined]['motds']['ingame']   = $response['motd'];
+                    $output[$combined]['motds']['html']     = $response['htmlmotd'];
+                    $output[$combined]['motds']['clean']    = $response['cleanmotd'];
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);

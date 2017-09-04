@@ -12,11 +12,13 @@ class IndexController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         if(empty($params['ip'])) {
             $output['error'] = "Please provide an address";
+            $output['code'] = 001;
             echo json_encode($output, JSON_PRETTY_PRINT);
         } else {
-            if(strpos($params['ip'],',')) {
+            if(strpos($params['ip'], ',')) {
                 if(count(explode(',', $params['ip'])) > 5) {
-                    $output['error'] = "Maximum address count surpassed. Please lower to 5 addresses.";
+                    $output['error'] = "Address count > 5.";
+                    $output['code'] = 002;
                     echo json_encode($output, JSON_PRETTY_PRINT);
                 } else {
                     $this->dispatcher->forward(
@@ -70,11 +72,13 @@ class IndexController extends ControllerBase {
                 $output['status']   = $response['online'];
                 $output['hostname'] = $response['hostname'];
                 $output['port']     = $cConfig['port'];
+                $output['protocol'] = "tcp";
                 $output['error']    = $response['error'];
             } else {
             	$output['status']   = $response['online'];
             	$output['hostname'] = $response['hostname'];
             	$output['port']     = $response['port'];
+                $output['protocol'] = "tcp";
             	$output['ping']     = $response['ping'];
             }
             $output['cached'] = true;
@@ -103,11 +107,13 @@ class IndexController extends ControllerBase {
                 $output['status']   = $response['online'];
                 $output['hostname'] = $response['hostname'];
                 $output['port']     = $cConfig['port'];
+                $output['protocol'] = "tcp";
                 $output['error']    = $response['error'];
             } else {
                 $output['status']   = $response['online'];
                 $output['hostname'] = $response['hostname'];
                 $output['port']     = $response['port'];
+                $output['protocol'] = "tcp";
                 $output['ping']     = $response['ping'];
             }
             $output['cached'] = false;
@@ -146,11 +152,13 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']   = $response['online'];
                     $output[$combined]['hostname'] = $response['hostname'];
                     $output[$combined]['port']     = $value['port'];
+                    $output[$combined]['protocol'] = "tcp";
                     $output[$combined]['error']    = $response['error'];
                 } else {
                 	$output[$combined]['status']   = $response['online'];
                 	$output[$combined]['hostname'] = $response['hostname'];
                 	$output[$combined]['port']     = $response['port'];
+                    $output[$combined]['protocol'] = "tcp";
                 	$output[$combined]['ping']     = $response['ping'];
                 }
                 $output[$combined]['cached'] = true;
@@ -170,11 +178,13 @@ class IndexController extends ControllerBase {
                     $output[$combined]['status']   = $response['online'];
                     $output[$combined]['hostname'] = $response['hostname'];
                     $output[$combined]['port']     = $value['port'];
+                    $output[$combined]['protocol'] = "tcp";
                     $output[$combined]['error']    = $response['error'];
                 } else {
                     $output[$combined]['status']   = $response['online'];
                     $output[$combined]['hostname'] = $response['hostname'];
                     $output[$combined]['port']     = $response['port'];
+                    $output[$combined]['protocol'] = "tcp";
                     $output[$combined]['ping']     = $response['ping'];
                 }
                 $output[$combined]['cached'] = false;

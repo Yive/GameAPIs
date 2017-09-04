@@ -315,12 +315,18 @@ class IndexController extends ControllerBase {
         if (!$key) {
             $output['error'] = "Key required. Contact Yive to purchase a key.";
         } else {
+            $cConfig = array();
+            
+            $cConfig['redis']['host'] = $this->config->application->redis->host;
+            $cConfig['redis']['key']['srv'] = $this->config->application->redis->keyStructure->mcpc->srv;
+            $cConfig['redis']['key']['list'] = $this->config->application->redis->keyStructure->mcpc->blockedservers->list;
+            $cConfig['redis']['key']['check'] = $this->config->application->redis->keyStructure->mcpc->blockedservers->check;
             $redis = new Redis();
-            $redis->pconnect($this->config->application->redis->host);
-            if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->srv.$key)) {
+            $redis->pconnect($cConfig['redis']['host']);
+            if (!$redis->exists($cConfig['redis']['key']['srv'].$key)) {
                 $output['error'] = "Invalid auth.";
             } else {
-                $account = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->srv.$key) , true);
+                $account = json_decode($redis->get($cConfig['redis']['key']['srv'].$key) , true);
                 if (!in_array($_SERVER['HTTP_CF_CONNECTING_IP'] || $_SERVER['REMOTE_ADDR'], $account['ips'])) {
                     $output['error'] = "Invalid source IP. This key will be deleted after contacting it's owner.";
                 } else {
@@ -332,17 +338,17 @@ class IndexController extends ControllerBase {
                     if (!$domain) {
                         $output['error'] = "Invalid post.";
                     } else {
-                        if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
+                        if (!$redis->exists($cConfig['redis']['key']['list'])) {
                             $checkDatabase = array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')));
-                            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($checkDatabase), 60);
+                            $redis->set($cConfig['redis']['key']['list'], json_encode($checkDatabase), 60);
                         } else {
-                            $checkDatabase = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
+                            $checkDatabase = json_decode($redis->get($cConfig['redis']['key']['list']),true);
                         }
                         if (in_array(sha1($domain['wildcard-domain']), $checkDatabase)) {
-                            $checkCurrent = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['current'], $checkDatabase), true);
+                            $checkCurrent = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['current'], $checkDatabase), true);
                             if ($checkCurrent[$domain['current']][0]['blocked']) {
                                 $statuses['statuses']['current'] = true;
-                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
+                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
                                     foreach ($checkAvaliable[$key] as $key2) {
                                         if(@$statuses['statuses']['available'][$key] == true) {
@@ -358,7 +364,7 @@ class IndexController extends ControllerBase {
                             } else {
                                 $statuses['statuses']['current'] = false;
                                 if($statuses['statuses']['current'] == false) {
-                                    $reCheck = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['current'], $checkDatabase), true);
+                                    $reCheck = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['current'], $checkDatabase), true);
                                     foreach ($reCheck[$domain['current']] as $reCheckkey) {
                                         if($reCheckkey['domain'] == "*.".$domain['current']) {
                                             if($reCheckkey['blocked'] == true) {
@@ -369,7 +375,7 @@ class IndexController extends ControllerBase {
                                         }
                                     }
                                 }
-                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
+                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
                                     if(@is_array($checkAvaliable[$key])) {
                                         foreach ($checkAvaliable[$key] as $key2) {
@@ -386,10 +392,10 @@ class IndexController extends ControllerBase {
                                 }
                             }
                         } else {
-                            $checkCurrent = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['current'], $checkDatabase), true);
+                            $checkCurrent = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['current'], $checkDatabase), true);
                             if ($checkCurrent[$domain['current']][0]['blocked']) {
                                 $statuses['statuses']['current'] = true;
-                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
+                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
                                     foreach ($checkAvaliable[$key] as $key2) {
                                         if(@$statuses['statuses']['available'][$key] == true) {
@@ -405,7 +411,7 @@ class IndexController extends ControllerBase {
                             } else {
                                 $statuses['statuses']['current'] = false;
                                 if($statuses['statuses']['current'] == false) {
-                                    $reCheck = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['current'], $checkDatabase), true);
+                                    $reCheck = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['current'], $checkDatabase), true);
                                     foreach ($reCheck[$domain['current']] as $reCheckkey) {
                                         if($reCheckkey['domain'] == "*.".$domain['current']) {
                                             if($reCheckkey['blocked'] == true) {
@@ -416,7 +422,7 @@ class IndexController extends ControllerBase {
                                         }
                                     }
                                 }
-                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $this->config->application->redis->keyStructure->mcpc->blockedservers->check, $domain['available'], $checkDatabase),true);
+                                $checkAvaliable = json_decode(check($this->config->application->redis->host, $cConfig['redis']['key']['check'], $domain['available'], $checkDatabase),true);
                                 foreach($domain['available'] as $key) {
                                     if(@is_array($checkAvaliable[$key])) {
                                         foreach ($checkAvaliable[$key] as $key2) {

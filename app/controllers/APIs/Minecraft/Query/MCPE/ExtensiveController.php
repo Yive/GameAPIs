@@ -61,24 +61,26 @@ class ExtensiveController extends ControllerBase {
         if($redis->exists($cConfig['redis']['key'])) {
             $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['online']) {
-                $output['status']            = $response['online'];
-                $output['hostname']          = $response['hostname'];
-                $output['port']              = $params['port'];
-                $output['error']             = $response['error'];
+                $output['status']   = $response['online'];
+                $output['hostname'] = $response['hostname'];
+                $output['port']     = $params['port'];
+                $output['protocol'] = "udp";
+                $output['error']    = $response['error'];
             } else {
-                $output['status']            = $response['online'];
-                $output['hostname']          = $response['hostname'];
-                $output['port']              = $params['port'];
-                $output['version']           = $response['version'];
-                $output['software']          = $response['software'];
-                $output['game_type']         = $response['game_type'];
-                $output['game_name']         = $response['game_name'];
-                $output['motd']              = $response['motd'];
-                $output['map']               = $response['map'];
-                $output['players']['online'] = $response['players'];
-                $output['players']['max']    = $response['max_players'];
-                $output['list']              = $response['player_list'];
-                $output['plugins']           = $response['plugins'];
+                $output['status']               = $response['online'];
+                $output['hostname']             = $response['hostname'];
+                $output['port']                 = $params['port'];
+                $output['protocol']             = "udp";
+                $output['version']              = $response['version'];
+                $output['software']             = $response['software'];
+                $output['game_type']            = $response['game_type'];
+                $output['game_name']            = $response['game_name'];
+                $output['motd']                 = $response['motd'];
+                $output['map']                  = $response['map'];
+                $output['players']['online']    = $response['players'];
+                $output['players']['max']       = $response['max_players'];
+                $output['list']                 = $response['player_list'];
+                $output['plugins']              = $response['plugins'];
             }
             $output['cached'] = true;
         } else {
@@ -87,19 +89,21 @@ class ExtensiveController extends ControllerBase {
             $response              = $getStatus->Response();
 
             if(!$response['online']) {
-                $output['status']               = $response['online'];
-                $output['hostname']             = $response['hostname'];
-                $output['port']                 = $params['port'];
-                $output['error']                = $response['error'];
+                $output['status']   = $response['online'];
+                $output['hostname'] = $response['hostname'];
+                $output['port']     = $params['port'];
+                $output['protocol'] = "udp";
+                $output['error']    = $response['error'];
             } else {
                 $output['status']               = $response['online'];
                 $output['hostname']             = $response['hostname'];
                 $output['port']                 = $params['port'];
+                $output['protocol']             = "udp";
                 $output['version']              = $response['version'];
                 $output['software']             = $response['software'];
                 $output['game_type']            = $response['game_type'];
                 $output['game_name']            = $response['game_name'];
-                $output['motds']                = $response['motd'];
+                $output['motd']                 = $response['motd'];
                 $output['map']                  = $response['map'];
                 $output['players']['online']    = $response['players'];
                 $output['players']['max']       = $response['max_players'];
@@ -139,24 +143,26 @@ class ExtensiveController extends ControllerBase {
             if($redis->exists($combinedRedis)) {
                 $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $params['port'];
-                    $output[$combined]['error']                = $response['error'];
+                    $output[$combined]['status']    = $response['online'];
+                    $output[$combined]['hostname']  = $response['hostname'];
+                    $output[$combined]['port']      = $params['port'];
+                    $output[$combined]['protocol']  = "udp";
+                    $output[$combined]['error']     = $response['error'];
                 } else {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $response['port'];
-                    $output[$combined]['version']              = $response['version'];
-                    $output[$combined]['software']             = $response['software'];
-                    $output[$combined]['game_type']            = $response['game_type'];
-                    $output[$combined]['game_name']            = $response['game_name'];
-                    $output[$combined]['motds']                = $response['motd'];
-                    $output[$combined]['map']                  = $response['map'];
-                    $output[$combined]['players']['online']    = $response['players'];
-                    $output[$combined]['players']['max']       = $response['max_players'];
-                    $output[$combined]['list']                 = $response['player_list'];
-                    $output[$combined]['plugins']              = $response['plugins'];
+                    $output[$combined]['status']            = $response['online'];
+                    $output[$combined]['hostname']          = $response['hostname'];
+                    $output[$combined]['port']              = $response['port'];
+                    $output[$combined]['protocol']          = "udp";
+                    $output[$combined]['version']           = $response['version'];
+                    $output[$combined]['software']          = $response['software'];
+                    $output[$combined]['game_type']         = $response['game_type'];
+                    $output[$combined]['game_name']         = $response['game_name'];
+                    $output[$combined]['motds']             = $response['motd'];
+                    $output[$combined]['map']               = $response['map'];
+                    $output[$combined]['players']['online'] = $response['players'];
+                    $output[$combined]['players']['max']    = $response['max_players'];
+                    $output[$combined]['list']              = $response['player_list'];
+                    $output[$combined]['plugins']           = $response['plugins'];
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -165,24 +171,26 @@ class ExtensiveController extends ControllerBase {
                 $response              = $getStatus->Response();
 
                 if(!$response['online']) {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $params['port'];
-                    $output[$combined]['error']                = $response['error'];
+                    $output[$combined]['status']    = $response['online'];
+                    $output[$combined]['hostname']  = $response['hostname'];
+                    $output[$combined]['port']      = $params['port'];
+                    $output[$combined]['protocol']  = "udp";
+                    $output[$combined]['error']     = $response['error'];
                 } else {
-                    $output[$combined]['status']               = $response['online'];
-                    $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $response['port'];
-                    $output[$combined]['version']              = $response['version'];
-                    $output[$combined]['software']             = $response['software'];
-                    $output[$combined]['game_type']            = $response['game_type'];
-                    $output[$combined]['game_name']            = $response['game_name'];
-                    $output[$combined]['motd']                 = $response['motd'];
-                    $output[$combined]['map']                  = $response['map'];
-                    $output[$combined]['players']['online']    = $response['players'];
-                    $output[$combined]['players']['max']       = $response['max_players'];
-                    $output[$combined]['list']                 = $response['player_list'];
-                    $output[$combined]['plugins']              = $response['plugins'];
+                    $output[$combined]['status']            = $response['online'];
+                    $output[$combined]['hostname']          = $response['hostname'];
+                    $output[$combined]['port']              = $response['port'];
+                    $output[$combined]['protocol']          = "udp";
+                    $output[$combined]['version']           = $response['version'];
+                    $output[$combined]['software']          = $response['software'];
+                    $output[$combined]['game_type']         = $response['game_type'];
+                    $output[$combined]['game_name']         = $response['game_name'];
+                    $output[$combined]['motds']             = $response['motd'];
+                    $output[$combined]['map']               = $response['map'];
+                    $output[$combined]['players']['online'] = $response['players'];
+                    $output[$combined]['players']['max']    = $response['max_players'];
+                    $output[$combined]['list']              = $response['player_list'];
+                    $output[$combined]['plugins']           = $response['plugins'];
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);

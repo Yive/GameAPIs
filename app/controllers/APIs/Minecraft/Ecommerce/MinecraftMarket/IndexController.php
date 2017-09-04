@@ -11,16 +11,20 @@ class IndexController extends ControllerBase {
         } elseif(empty($params['secret'])) {
             echo json_encode(array('error' => 'Key is missing.'), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         } else {
+            $cConfig = array();
+            
+            $cConfig['redis']['host'] = $this->config->application->redis->host;
+            $cConfig['redis']['key'] = $this->config->application->redis->keyStructure->mcpc->minecraftmarket;
             $redis = new Redis();
-            $redis->pconnect($this->config->application->redis->host);
+            $redis->pconnect($cConfig['redis']['host']);
             $hash = hash('sha512', $params['secret']);
             if($params['action'] == "ingame") {
                 $params['action'] = 'gui';
             } elseif($params['action'] == "payments") {
                 $params['action'] = 'recentdonor';
             }
-            if($redis->exists($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash)) {
-                $response = $redis->get($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash);
+            if($redis->exists($cConfig['redis']['key'].$params['action'].':'.$hash)) {
+                $response = $redis->get($cConfig['redis']['key'].$params['action'].':'.$hash);
                 echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             } else {
                 function file_get_contents_curl($url) {
@@ -47,7 +51,7 @@ class IndexController extends ControllerBase {
                     return $data;
            		}
                 $response = json_decode(file_get_contents_curl('http://www.minecraftmarket.com/api/1.5/'.$params['secret'].'/'.$params['action']), true);
-                $redis->set($this->config->application->redis->keyStructure->mcpc->minecraftmarket.$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
+                $redis->set($cConfig['redis']['key'].$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
            		echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         }
