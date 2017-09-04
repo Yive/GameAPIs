@@ -4,6 +4,7 @@ namespace GameAPIs\Controllers\APIs\Minecraft\Query\MCPE;
 
 use Redis;
 use GameAPIs\Libraries\Minecraft\Query\MCPEPing;
+use Phalcon\Filter;
 
 class MotdController extends ControllerBase {
 
@@ -40,6 +41,7 @@ class MotdController extends ControllerBase {
 
     public function singleAction() {
         $params = $this->dispatcher->getParams();
+        $filter = new Filter();
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip'] = $explodeParams[0];
@@ -47,14 +49,21 @@ class MotdController extends ControllerBase {
         } else {
             $params['port'] = 19132;
         }
+        $cConfig = array();
+        $cConfig['ip']   = $filter->sanitize($params['ip'], 'string');
+        $cConfig['port'] = $params['port'] ?? 19132;
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key']  = $this->config->application->redis->keyStructure->mcpe->ping.$cConfig['ip'].':'.$cConfig['port'];
+
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if($redis->exists($this->config->application->redis->keyStructure->mcpe->ping.$params['ip'].':'.$params['port'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpe->ping.$params['ip'].':'.$params['port'])),true);
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['online']) {
                 $output['status']            = $response['online'];
                 $output['hostname']          = $response['hostname'];
-                $output['port']              = $params['port'];
+                $output['port']              = $cConfig['port'];
                 $output['error']             = $response['error'];
             } else {
                 $output['status']            = $response['online'];
@@ -74,7 +83,7 @@ class MotdController extends ControllerBase {
             if(!$response['online']) {
                 $output['status']               = $response['online'];
                 $output['hostname']             = $response['hostname'];
-                $output['port']                 = $params['port'];
+                $output['port']                 = $cConfig['port'];
                 $output['error']                = $response['error'];
             } else {
                 $output['status']               = $response['online'];
@@ -85,7 +94,7 @@ class MotdController extends ControllerBase {
                 $output['motds']['clean']       = $response['cleanmotd'];
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->mcpe->ping.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -95,27 +104,31 @@ class MotdController extends ControllerBase {
         $explodeComma = explode(',', $params['ip']);
         unset($params['ip']);
         $i=0;
+        $cConfig = array();
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
+        $redis->pconnect($cConfig['redis']['host']);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
-                $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
+                $cConfig['addresses'][$i]['ip'] = $explodeParams[0];
+                $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
-                $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 19132;
+                $cConfig['addresses'][$i]['ip'] = $value;
+                $cConfig['addresses'][$i]['port'] = 19132;
             }
             $i++;
         }
-        foreach ($params['addresses'] as $key => $value) {
+        foreach ($cConfig['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->mcpe->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpe->ping.$combined)),true);
+            $combinedRedis = $this->config->application->redis->keyStructure->mcpe->ping.$combined;
+            if($redis->exists($combinedRedis)) {
+                $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']               = $response['online'];
                     $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $params['port'];
+                    $output[$combined]['port']                 = $value['port'];
                     $output[$combined]['error']                = $response['error'];
                 } else {
                     $output[$combined]['status']               = $response['online'];
@@ -135,7 +148,7 @@ class MotdController extends ControllerBase {
                 if(!$response['online']) {
                     $output[$combined]['status']               = $response['online'];
                     $output[$combined]['hostname']             = $response['hostname'];
-                    $output[$combined]['port']                 = $params['port'];
+                    $output[$combined]['port']                 = $value['port'];
                     $output[$combined]['error']                = $response['error'];
                 } else {
                     $output[$combined]['status']               = $response['online'];
@@ -146,7 +159,7 @@ class MotdController extends ControllerBase {
                     $output[$combined]['motds']['clean']       = $response['cleanmotd'];
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->mcpe->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

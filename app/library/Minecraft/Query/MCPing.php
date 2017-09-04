@@ -30,12 +30,12 @@ class MCPing
 		$this->Close();
 	}
 
-	public function GetStatus($Hostname = '127.0.0.1', $Port = 25565, $IsOld17 = false, $Timeout = 2) {
+	public function GetStatus($Hostname = '127.0.0.1', $Port = 25565, $IsOld17 = false, $Timeout = 1) {
 		$this->Clear();
 
 		$this->host = $Hostname;
 		$this->port = $Port;
-		$this->timeout = 2;
+		$this->timeout = 1;
 
 		//validate host
 		if (filter_var($this->host, FILTER_VALIDATE_IP)) {

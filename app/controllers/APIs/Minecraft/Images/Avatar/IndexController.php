@@ -3,18 +3,39 @@
 namespace GameAPIs\Controllers\APIs\Minecraft\Images\Avatar;
 
 use Redis;
+use Phalcon\Filter;
 
 class IndexController extends ControllerBase {
 
     public function avatarAction() {
+        $filter = new Filter();
         $params = $this->dispatcher->getParams();
-        $name = $params['name'];
-        $size = $params['size'];
-        $helm = $params['helm'];
+
+        $cConfig = array();
+        $cConfig['name']  = $filter->sanitize($params['name'], 'string');
+        $cConfig['size']  = $params['size'] ?? 100;
+        $cConfig['helm']  = $params['helm'] ?? 'true';
+
+        // Finalise variable values
+        if ($cConfig['helm'] !== 'false') {
+            $cConfig['helm'] = 'true';
+        } else {
+            $cConfig['helm'] = 'false';
+        }
+
+        if (!is_numeric($cConfig['size'])) {
+            $cConfig['size'] = 100;
+        } elseif($cConfig['size'] > 500) {
+            $cConfig['size'] = 500;
+        }
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key'] = $this->config->application->redis->keyStructure->mcpc->avatar.$cConfig['name'].':'.$cConfig['size'].':'.$cConfig['helm'];
+
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if($redis->exists($this->config->application->redis->keyStructure->mcpc->avatar.$name.':'.$size.':'.$helm)) {
-            $data = base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->avatar.$name.':'.$size.':'.$helm));
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $data = base64_decode($redis->get($cConfig['redis']['key']));
             echo $data;
         } else {
             function get_skin($name) {
@@ -41,7 +62,7 @@ class IndexController extends ControllerBase {
                 $output.= 'Ne9AAAAAElFTkSuQmCC';
                 $output = base64_decode($output);
                 if ($name != '') {
-                    $ch = curl_init('http://skins.minecraft.net/MinecraftSkins/' . $name . '.png');
+                    $ch = curl_init('http://skins.minecraft.net/MinecraftSkins/' . $cConfig['name'] . '.png');
                     curl_setopt($ch, CURLOPT_HEADER, 1);
                     curl_setopt($ch, CURLOPT_NOBODY, 1);
                     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
@@ -66,34 +87,12 @@ class IndexController extends ControllerBase {
                 return $output;
             }
 
-            $seconds_to_cache = 600;
-            if ($seconds_to_cache > 0) {
-                $ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . ' GMT';
-                header('Expires: ' . $ts);
-                header('Pragma: cache');
-                header('Cache-Control: max-age=' . $seconds_to_cache);
-            }
-            $api = '2d';
-
-            if ($helm !== "false") {
-                $helm = "true";
-            } else {
-                $helm = "false";
-            }
-
-            if (!is_numeric($size)) {
-                $size = 100;
-            } elseif($size > 500) {
-                $size = 500;
-            }
-
-            $skin = get_skin($name);
-            $im = imagecreatefromstring($skin);
-            $av = imagecreatetruecolor($size, $size);
-            imagecopyresized($av, $im, 0, 0, 8, 8, $size, $size, 8, 8); // Face
+            $im = imagecreatefromstring(get_skin($cConfig['name']));
+            $av = imagecreatetruecolor($cConfig['size'], $cConfig['size']);
+            imagecopyresized($av, $im, 0, 0, 8, 8, $cConfig['size'], $cConfig['size'], 8, 8); // Face
             imagecolortransparent($im, imagecolorat($im, 63, 0)); // Black Hat Issue
-            if (@$helm == 'true') {
-                imagecopyresized($av, $im, 0, 0, 40, 8, $size, $size, 8, 8); // Accessories
+            if (@$cConfig['helm'] == 'true') {
+                imagecopyresized($av, $im, 0, 0, 40, 8, $cConfig['size'], $cConfig['size'], 8, 8); // Accessories
             }
             ob_start();
             imagepng($av);
@@ -101,7 +100,7 @@ class IndexController extends ControllerBase {
             ob_end_clean();
             imagedestroy($im);
             imagedestroy($av);
-            $redis->set($this->config->application->redis->keyStructure->mcpc->avatar.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
+            $redis->set($cConfig['redis']['key'], base64_encode($imagedata), 120);
             echo $imagedata;
         }
     }

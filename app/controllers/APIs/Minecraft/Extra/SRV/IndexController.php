@@ -334,7 +334,7 @@ class IndexController extends ControllerBase {
                     } else {
                         if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
                             $checkDatabase = array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')));
-                            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($checkDatabase), 15);
+                            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($checkDatabase), 60);
                         } else {
                             $checkDatabase = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
                         }

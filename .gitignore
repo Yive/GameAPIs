@@ -223,4 +223,3 @@ pip-log.txt
 
 # GameAPIs
 app/config/config.php
-app/library/Multiple/*

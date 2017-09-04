@@ -3,30 +3,38 @@
 namespace GameAPIs\Controllers\APIs\Minecraft\Images\Skin;
 
 use Redis;
+use Phalcon\Filter;
 
 class IndexController extends ControllerBase {
 
     public function skinAction() {
+        $filter = new Filter();
         $params = $this->dispatcher->getParams();
-        $name = $params['name'];
-        $size = $params['size'];
-        $helm = $params['helm'];
-        if ( empty($helm) || !in_array($helm, array('false','true'), true ) ) {
-            $helm = "true";
+
+        $cConfig = array();
+        $cConfig['name']  = $filter->sanitize($params['name'], 'string');
+        $cConfig['size']  = $params['size'] ?? 85;
+        $cConfig['helm']  = $params['helm'] ?? 'true';
+
+        if ($cConfig['helm'] !== 'false') {
+            $cConfig['helm'] = 'true';
+        } else {
+            $cConfig['helm'] = 'false';
         }
 
-        if (!is_numeric($size)) {
-            $size = 85;
+        if (!is_numeric($cConfig['size'])) {
+            $cConfig['size'] = 85;
+        } elseif($cConfig['size'] > 250) {
+            $cConfig['size'] = 250;
         }
-        if($size >= 250) {
-            $size = 250;
-        } elseif($size <= 5) {
-            $size = 25;
-        }
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key'] = $this->config->application->redis->keyStructure->mcpc->skin->render.$cConfig['name'].':'.$cConfig['size'].':'.$cConfig['helm'];
+
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if($redis->exists($this->config->application->redis->keyStructure->mcpc->skin->render.$name.':'.$size.':'.$helm)) {
-            $skin = base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->skin->render.$name.':'.$size.':'.$helm));
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $skin = base64_decode($redis->get($cConfig['redis']['key']));
             echo $skin;
         } else {
             define('MC_SKINS_BASE_URL', 'http://skins.minecraft.net/MinecraftSkins/');
@@ -157,19 +165,26 @@ class IndexController extends ControllerBase {
             imagepng($fullsize);
             $imagedata = ob_get_contents();
             ob_end_clean();
-            $redis->set($this->config->application->redis->keyStructure->mcpc->skin->render.$name.':'.$size.':'.$helm, base64_encode($imagedata), 120);
+            $redis->set($cConfig['redis']['key'], base64_encode($imagedata), 120);
 
             echo $imagedata;
         }
     }
 
     public function rawskinAction() {
+        $filter = new Filter();
         $params = $this->dispatcher->getParams();
-        $name = $params['name'];
+
+        $cConfig = array();
+        $cConfig['name']  = $filter->sanitize($params['name'], 'string');
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key'] = $this->config->application->redis->keyStructure->mcpc->skin->rawfile.$cConfig['name'];
+
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if($redis->exists($this->config->application->redis->keyStructure->mcpc->skin->rawfile.$name)) {
-            $skin = base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->skin->rawfile.$name));
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $skin = base64_decode($redis->get($cConfig['redis']['key']));
             echo $skin;
         } else {
             function file_get_contents_curl($url) {
@@ -190,7 +205,7 @@ class IndexController extends ControllerBase {
             if(!$skin) {
                 $skin = file_get_contents_curl('http://assets.mojang.com/SkinTemplates/steve.png');
             }
-            $redis->set($this->config->application->redis->keyStructure->mcpc->skin->rawfile.$name, base64_encode($skin), 120);
+            $redis->set($cConfig['redis']['key'], base64_encode($skin), 120);
             echo $skin;
         }
     }

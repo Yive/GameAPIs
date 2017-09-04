@@ -42,11 +42,6 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\ARK\Query\Info'                      => $config->application->controllersDir.'APIs/ARK/Query/Info/',
         'GameAPIs\Controllers\APIs\ARK\Query\Status'                    => $config->application->controllersDir.'APIs/ARK/Query/Status/',
         'GameAPIs\Controllers\APIs\ARK\Query\Players'                   => $config->application->controllersDir.'APIs/ARK/Query/Players/',
-         // Arma 2 APIs //
-        'GameAPIs\Controllers\APIs\ARMA2\Query'                         => $config->application->controllersDir.'APIs/ARMA2/Query/',
-        'GameAPIs\Controllers\APIs\ARMA2\Query\Info'                    => $config->application->controllersDir.'APIs/ARMA2/Query/Info/',
-        'GameAPIs\Controllers\APIs\ARMA2\Query\Status'                  => $config->application->controllersDir.'APIs/ARMA2/Query/Status/',
-        'GameAPIs\Controllers\APIs\ARMA2\Query\Players'                 => $config->application->controllersDir.'APIs/ARMA2/Query/Players/',
          // Arma 3 APIs //
         'GameAPIs\Controllers\APIs\ARMA3\Query'                         => $config->application->controllersDir.'APIs/ARMA3/Query/',
         'GameAPIs\Controllers\APIs\ARMA3\Query\Info'                    => $config->application->controllersDir.'APIs/ARMA3/Query/Info/',
@@ -82,6 +77,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\BFHL\Query\Info'                     => $config->application->controllersDir.'APIs/BFHL/Query/Info/',
         'GameAPIs\Controllers\APIs\BFHL\Query\Status'                   => $config->application->controllersDir.'APIs/BFHL/Query/Status/',
         'GameAPIs\Controllers\APIs\BFHL\Query\Players'                  => $config->application->controllersDir.'APIs/BFHL/Query/Players/',
+         // BRINK APIs //
+        'GameAPIs\Controllers\APIs\BRINK\Query'                         => $config->application->controllersDir.'APIs/BRINK/Query/',
+        'GameAPIs\Controllers\APIs\BRINK\Query\Info'                    => $config->application->controllersDir.'APIs/BRINK/Query/Info/',
+        'GameAPIs\Controllers\APIs\BRINK\Query\Status'                  => $config->application->controllersDir.'APIs/BRINK/Query/Status/',
+        'GameAPIs\Controllers\APIs\BRINK\Query\Players'                 => $config->application->controllersDir.'APIs/BRINK/Query/Players/',
          // Conan Exiles APIs //
         'GameAPIs\Controllers\APIs\CE\Query'                            => $config->application->controllersDir.'APIs/CE/Query/',
         'GameAPIs\Controllers\APIs\CE\Query\Info'                       => $config->application->controllersDir.'APIs/CE/Query/Info/',

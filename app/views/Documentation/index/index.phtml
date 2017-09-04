@@ -17,11 +17,6 @@
             'link' => '/docs/ark',
             'file' => '/img/games/ark.jpg'
         ),
-        'arma2' => array(
-            'name' => 'Arma 2',
-            'link' => '/docs/arma2',
-            'file' => '/img/games/arma2.jpg'
-        ),
         'arma3' => array(
             'name' => 'Arma 3',
             'link' => '/docs/arma3',
@@ -256,11 +251,12 @@
                 $liveAPIs = array('7d2d','alienswarm','bf1942','bf2','bfbc2','bf3','bf4','bfhl','ark','cs','csgo','css','gmod','mc','mcpe');
                 foreach ($games as $key => $value) {
                     if(in_array($key, $liveAPIs)) {
+                        header("Link: <".$value['file'].">; rel=preload; as=image", false);
                         echo '<div class="column is-full-mobile is-one-third-tablet is-one-quarter-desktop">
                             <div class="card shadow-hover">
                                 <div class="card-image">
                                     <figure class="image">
-                                        <img src="'.$value['file'].'" alt="'.$value['name'].'">
+                                        <a href="'.$value['link'].'"><img src="'.$value['file'].'" alt="'.$value['name'].'"></a>
                                     </figure>
                                 </div>
                                 <a class="card-content button is-info is-fullwidth" style="border-radius:0;border:0px;" href="'.$value['link'].'">View Documentation</a>

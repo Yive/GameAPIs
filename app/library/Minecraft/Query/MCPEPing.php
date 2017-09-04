@@ -131,11 +131,14 @@ class McpePing {
 		return $returnstring;
 	}
 
-    public static function ping($host, $port, $timeout = 1)
+    public static function ping($host, $port, $debug = false)
     {
         $stream = fsockopen("udp://" . $host, $port, $errno, $errstr, 1);
         if (!$stream) {
 			fclose($stream);
+			if($debug) {
+				return array("online" => false, "error" => "Unable to connect to " . $host . ":" . $port . ": " . $errstr, "hostname" => $host, "port" => $port, "errno" => $errno, "errstr" => $errstr);
+			}
             return array("online" => false, "error" => "Unable to connect to " . $host . ":" . $port . ": " . $errstr, "hostname" => $host, "port" => $port);
         }
         stream_set_timeout($stream, 1);
@@ -150,6 +153,9 @@ class McpePing {
         
         if (count($buf) < 1 || $buf[0] != "\x1c") {
 			fclose($stream);
+			if($debug) {
+				return array("online" => false, "error" => "Unable to get a response / valid response", "hostname" => $host, "port" => $port, "errno" => $errno, "errstr" => $errstr, "buf" => $buf);
+			}
             return array("online" => false, "error" => "Unable to get a response / valid response", "hostname" => $host, "port" => $port);
         }
         $ping_raw = substr($buf, strlen(self::RAKNET_MAGIC) + 19);

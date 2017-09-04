@@ -7,7 +7,6 @@ use Redis;
 class IndexController extends ControllerBase {
 
     public function indexAction() {
-        header("Content-Type: application/json; charset=UTF-8");
         $redis = new Redis();
         $redis->pconnect($this->config->application->redis->host);
         if($redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->listExtended)) {
@@ -16,7 +15,7 @@ class IndexController extends ControllerBase {
         } else {
             if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
                 $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
-                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 60);
             } else {
                 $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
             }
@@ -58,7 +57,7 @@ class IndexController extends ControllerBase {
         } else {
             if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
                 $json['blocked'] = array_values(array_unique(array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')))));
-                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 15);
+                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($json['blocked']), 60);
             } else {
                 $json['blocked'] = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
             }
@@ -85,7 +84,6 @@ class IndexController extends ControllerBase {
     }
 
     public function checkAction() {
-        header("Content-Type: application/json; charset=UTF-8");
         function strposa($haystack, $needle, $offset=0) {
             if(!is_array($needle)) $needle = array($needle);
             foreach($needle as $query) {
@@ -125,7 +123,7 @@ class IndexController extends ControllerBase {
         $noipDomains = array("ddns.net","ddnsking.com","3utilities.com","bounceme.net","freedynamicdns.net","freedynamicdns.org","gotdns.ch","hopto.org","myftp.biz","myftp.org","myvnc.com","onthewifi.com","redirectme.net","servebeer.com","serveblog.net","servecounterstrike.com","serveftp.com","servegame.com","servehalflife.com","servehttp.com","serveirc.com","serveminecraft.net","servemp3.com","servepics.com","servequake.com","sytes.net","viewdns.net","webhop.me","zapto.org","access.ly","blogsyte.com","brasilia.me","cable-modem.org","ciscofreak.com","collegefan.org","couchpotatofries.org","damnserver.com","ddns.me","ditchyourip.com","dnsfor.me","dnsiskinky.com","dvrcam.info","dynns.com","eating-organic.net","fantasyleague.cc","geekgalaxy.com","golffan.us","health-carereform.com","homesecuritymac.com","homesecuritypc.com","hosthampster.com","hopto.me","ilovecollege.info","loginto.me","mlbfan.org","mmafan.biz","myactivedirectory.com","mydissent.net","myeffect.net","mymediapc.net","mypsx.net","mysecuritycamera.com","mysecuritycamera.net","mysecuritycamera.org","net-freaks.com","nflfan.org","nhlfan.net","pgafan.net","point2this.com","pointto.us","privatizehealthinsurance.net","quicksytes.com","read-books.org","securitytactics.com","serveexchange.com","servehumour.com","servep2p.com","servesarcasm.com","stufftoread.com","ufcfan.org","unusualperson.com","workisboring.com");
         if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->list)) {
             $blockedservers = array_filter(explode(PHP_EOL, file_get_contents('https://sessionserver.mojang.com/blockedservers')));
-            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($blockedservers), 15);
+            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->list, json_encode($blockedservers), 60);
         } else {
             $blockedservers = json_decode($redis->get($this->config->application->redis->keyStructure->mcpc->blockedservers->list),true);
         }
@@ -163,6 +161,23 @@ class IndexController extends ControllerBase {
                         $output[$ip][$i]['blocked'] = false;
                     }
                 }
+                if($output[$ip][$i]['blocked'] == false) {
+                    $i++;
+                    $domain = "*.".extract_domain($ip);
+                    $sha1 = sha1($domain);
+                    $output[$ip][$i]['domain'] = $domain;
+                    $output[$ip][$i]['sha1'] = $sha1;
+                    $redisSet['sha1'] = $sha1;
+                    $redisSet['domain'] = $domain;
+                    if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                        $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                    }
+                    if(in_array($sha1, $blockedservers)) {
+                        $output[$ip][$i]['blocked'] = true;
+                    } else {
+                        $output[$ip][$i]['blocked'] = false;
+                    }
+                }
             } else {
                 if(empty(dns_get_record('_minecraft._tcp.'.$ip, DNS_SRV))) {
                     if(filter_var($ip,FILTER_VALIDATE_IP)) {
@@ -186,6 +201,23 @@ class IndexController extends ControllerBase {
                     if($output[$ip][$i]['blocked'] == false) {
                         $i++;
                         $domain = "*.".$ip;
+                        $sha1 = sha1($domain);
+                        $output[$ip][$i]['domain'] = $domain;
+                        $output[$ip][$i]['sha1'] = $sha1;
+                        $redisSet['sha1'] = $sha1;
+                        $redisSet['domain'] = $domain;
+                        if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                            $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                        }
+                        if(in_array($sha1, $blockedservers)) {
+                            $output[$ip][$i]['blocked'] = true;
+                        } else {
+                            $output[$ip][$i]['blocked'] = false;
+                        }
+                    }
+                    if($output[$ip][$i]['blocked'] == false) {
+                        $i++;
+                        $domain = $ip;
                         $sha1 = sha1($domain);
                         $output[$ip][$i]['domain'] = $domain;
                         $output[$ip][$i]['sha1'] = $sha1;
@@ -239,6 +271,23 @@ class IndexController extends ControllerBase {
                                     $output[$ip][$i]['blocked'] = false;
                                 }
                             }
+                            if($output[$ip][$i]['blocked'] == false) {
+                                $i++;
+                                $domain = "*.".extract_domain($domain);
+                                $sha1 = sha1($domain);
+                                $output[$ip][$i]['domain'] = $domain;
+                                $output[$ip][$i]['sha1'] = $sha1;
+                                $redisSet['sha1'] = $sha1;
+                                $redisSet['domain'] = $domain;
+                                if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                                    $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                                }
+                                if(in_array($sha1, $blockedservers)) {
+                                    $output[$ip][$i]['blocked'] = true;
+                                } else {
+                                    $output[$ip][$i]['blocked'] = false;
+                                }
+                            }
                         } else {
                             if(filter_var($ip,FILTER_VALIDATE_IP)) {
                                 $domain = $value['target'];
@@ -261,6 +310,23 @@ class IndexController extends ControllerBase {
                             if($output[$ip][$i]['blocked'] == false) {
                                 $i++;
                                 $domain = "*.".$value['target'];
+                                $sha1 = sha1($domain);
+                                $output[$ip][$i]['domain'] = $domain;
+                                $output[$ip][$i]['sha1'] = $sha1;
+                                $redisSet['sha1'] = $sha1;
+                                $redisSet['domain'] = $domain;
+                                if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                                    $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                                }
+                                if(in_array($sha1, $blockedservers)) {
+                                    $output[$ip][$i]['blocked'] = true;
+                                } else {
+                                    $output[$ip][$i]['blocked'] = false;
+                                }
+                            }
+                            if($output[$ip][$i]['blocked'] == false) {
+                                $i++;
+                                $domain = $value['target'];
                                 $sha1 = sha1($domain);
                                 $output[$ip][$i]['domain'] = $domain;
                                 $output[$ip][$i]['sha1'] = $sha1;
@@ -314,6 +380,23 @@ class IndexController extends ControllerBase {
                                 $output[$ip][$i]['blocked'] = false;
                             }
                         }
+                        if($output[$ip][$i]['blocked'] == false) {
+                            $i++;
+                            $domain = "*.".extract_domain($ip);
+                            $sha1 = sha1($domain);
+                            $output[$ip][$i]['domain'] = $domain;
+                            $output[$ip][$i]['sha1'] = $sha1;
+                            $redisSet['sha1'] = $sha1;
+                            $redisSet['domain'] = $domain;
+                            if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            }
+                            if(in_array($sha1, $blockedservers)) {
+                                $output[$ip][$i]['blocked'] = true;
+                            } else {
+                                $output[$ip][$i]['blocked'] = false;
+                            }
+                        }
                     } else {
                         if(filter_var($ip,FILTER_VALIDATE_IP)) {
                             $domain = $ip;
@@ -336,6 +419,23 @@ class IndexController extends ControllerBase {
                         if($output[$ip][$i]['blocked'] == false) {
                             $i++;
                             $domain = "*.".$ip;
+                            $sha1 = sha1($domain);
+                            $output[$ip][$i]['domain'] = $domain;
+                            $output[$ip][$i]['sha1'] = $sha1;
+                            $redisSet['sha1'] = $sha1;
+                            $redisSet['domain'] = $domain;
+                            if (!$redis->exists($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1)) {
+                                $redis->set($this->config->application->redis->keyStructure->mcpc->blockedservers->check.$sha1, json_encode($redisSet, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+                            }
+                            if(in_array($sha1, $blockedservers)) {
+                                $output[$ip][$i]['blocked'] = true;
+                            } else {
+                                $output[$ip][$i]['blocked'] = false;
+                            }
+                        }
+                        if($output[$ip][$i]['blocked'] == false) {
+                            $i++;
+                            $domain = $ip;
                             $sha1 = sha1($domain);
                             $output[$ip][$i]['domain'] = $domain;
                             $output[$ip][$i]['sha1'] = $sha1;

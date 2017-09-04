@@ -4,6 +4,7 @@ namespace GameAPIs\Controllers\APIs\Minecraft\Query\Status;
 
 use GameAPIs\Libraries\Minecraft\Query\MCPing;
 use Redis;
+use Phalcon\Filter;
 
 class IndexController extends ControllerBase {
 
@@ -40,6 +41,14 @@ class IndexController extends ControllerBase {
 
     public function singleAction() {
         $params = $this->dispatcher->getParams();
+        $filter = new Filter();
+        $cConfig = array();
+        if(strpos($params['ip'], ';debug')) {
+            $params['ip'] = str_replace(';debug', '', $params['ip']);
+            $cConfig['debug'] = true;
+        } else {
+            $cConfig['debug'] = false;
+        }
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip'] = $explodeParams[0];
@@ -47,14 +56,20 @@ class IndexController extends ControllerBase {
         } else {
             $params['port'] = 25565;
         }
+        $cConfig['ip']  = $filter->sanitize($params['ip'], 'string');
+        $cConfig['port']  = $params['port'] ?? 25565;
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key'] = $this->config->application->redis->keyStructure->mcpc->ping.$cConfig['ip'].':'.$cConfig['port'];
+
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if($redis->exists($this->config->application->redis->keyStructure->mcpc->ping.$params['ip'].':'.$params['port'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->ping.$params['ip'].':'.$params['port'])),true);
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['online']) {
                 $output['status']   = $response['online'];
                 $output['hostname'] = $response['hostname'];
-                $output['port']     = $params['port'];
+                $output['port']     = $cConfig['port'];
                 $output['error']    = $response['error'];
             } else {
             	$output['status']   = $response['online'];
@@ -63,14 +78,23 @@ class IndexController extends ControllerBase {
             	$output['ping']     = $response['ping'];
             }
             $output['cached'] = true;
+            if($cConfig['debug']) {
+                $output['debug'] = $response;
+            }
         } else {
             $status    = new MCPing();
-            $getStatus = $status->GetStatus($params['ip'], $params['port']);
+            $getStatus = $status->GetStatus($cConfig['ip'], $cConfig['port']);
             $response  = $getStatus->Response();
+            if($cConfig['debug']) {
+                $output['debug'] = $response;
+            }
             if($response['error'] == "Server returned too little data.") {
                 $status    = new MCPing();
-                $getStatus = $status->GetStatus($params['ip'], $params['port'], true);
+                $getStatus = $status->GetStatus($cConfig['ip'], $cConfig['port'], true);
                 $response  = $getStatus->Response();
+                if($cConfig['debugOld']) {
+                    $output['debug'] = $response;
+                }
             }
             $response['htmlmotd']  = $getStatus->MotdToHtml($response['motd']);
             $response['cleanmotd'] = $getStatus->ClearMotd($response['motd']);
@@ -78,7 +102,7 @@ class IndexController extends ControllerBase {
             if(!$response['online']) {
                 $output['status']   = $response['online'];
                 $output['hostname'] = $response['hostname'];
-                $output['port']     = $params['port'];
+                $output['port']     = $cConfig['port'];
                 $output['error']    = $response['error'];
             } else {
                 $output['status']   = $response['online'];
@@ -87,7 +111,7 @@ class IndexController extends ControllerBase {
                 $output['ping']     = $response['ping'];
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->mcpc->ping.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
@@ -97,27 +121,31 @@ class IndexController extends ControllerBase {
         $explodeComma = explode(',', $params['ip']);
         unset($params['ip']);
         $i=0;
+        $cConfig = array();
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
+        $redis->pconnect($cConfig['redis']['host']);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
-                $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
+                $cConfig['addresses'][$i]['ip'] = $explodeParams[0];
+                $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
-                $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 25565;
+                $cConfig['addresses'][$i]['ip'] = $value;
+                $cConfig['addresses'][$i]['port'] = 25565;
             }
             $i++;
         }
-        foreach ($params['addresses'] as $key => $value) {
+        foreach ($cConfig['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->mcpc->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->mcpc->ping.$combined)),true);
+            $combinedRedis = $this->config->application->redis->keyStructure->mcpc->ping.$combined;
+            if($redis->exists($combinedRedis)) {
+                $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['online'];
                     $output[$combined]['hostname'] = $response['hostname'];
-                    $output[$combined]['port']     = $params['port'];
+                    $output[$combined]['port']     = $value['port'];
                     $output[$combined]['error']    = $response['error'];
                 } else {
                 	$output[$combined]['status']   = $response['online'];
@@ -141,7 +169,7 @@ class IndexController extends ControllerBase {
                 if(!$response['online']) {
                     $output[$combined]['status']   = $response['online'];
                     $output[$combined]['hostname'] = $response['hostname'];
-                    $output[$combined]['port']     = $params['port'];
+                    $output[$combined]['port']     = $value['port'];
                     $output[$combined]['error']    = $response['error'];
                 } else {
                     $output[$combined]['status']   = $response['online'];
@@ -150,7 +178,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['ping']     = $response['ping'];
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->mcpc->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
