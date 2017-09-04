@@ -3,6 +3,7 @@
 namespace GameAPIs\Controllers\APIs\GMOD\Query\Info;
 
 use Redis;
+use Phalcon\Filter;
 
 class IndexController extends ControllerBase {
 
@@ -10,11 +11,13 @@ class IndexController extends ControllerBase {
         $params = $this->dispatcher->getParams();
         if(empty($params['ip'])) {
             $output['error'] = "Please provide an address";
+            $output['code'] = 001;
             echo json_encode($output, JSON_PRETTY_PRINT);
         } else {
-            if(strpos($params['ip'],',')) {
+            if(strpos($params['ip'], ',')) {
                 if(count(explode(',', $params['ip'])) > 5) {
-                    $output['error'] = "Maximum address count surpassed. Please lower to 5 addresses.";
+                    $output['error'] = "Address count > 5.";
+                    $output['code'] = 002;
                     echo json_encode($output, JSON_PRETTY_PRINT);
                 } else {
                     $this->dispatcher->forward(
@@ -38,236 +41,308 @@ class IndexController extends ControllerBase {
     }
 
     public function singleAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
+        require_once(APP_PATH . '/library/Multiple/Query/Dev/Autoloader.php');
         $params = $this->dispatcher->getParams();
-        $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
-        if(!strpos($params['ip'], ':')) {
-            $params['ip'] = $params['ip'].':27015';
+        $filter = new Filter();
+        $cConfig = array();
+        if(strpos($params['ip'], ':')) {
+            $explodeParams = explode(':', $params['ip']);
+            $params['ip']   = $explodeParams[0];
+            $params['port'] = $explodeParams[1] ?? 27015;
+        } else {
+            $params['port'] = 27015;
         }
-        if($redis->exists($this->config->application->redis->keyStructure->gmod->ping.$params['ip'])) {
-            $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->gmod->ping.$params['ip'])),true);
+        $cConfig['ip']   = $filter->sanitize($params['ip'], 'string');
+        $cConfig['port'] = $params['port'];
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
+        $cConfig['redis']['key']  = $this->config->application->redis->keyStructure->gmod->ping.$cConfig['ip'].':'.$cConfig['port'];
+
+        $redis = new Redis();
+        $redis->pconnect($cConfig['redis']['host']);
+        if($redis->exists($cConfig['redis']['key'])) {
+            $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['gq_online']) {
-                $output['status']   = $response['gq_online'];
-                $output['hostname'] = $response['gq_address'];
-                $output['port']     = $response['gq_port_client'];
-                $output['error']    = "Couldn't connect to address.";
+                $output['status']    = $response['gq_online'];
+                $output['hostname']  = $response['gq_address'];
+                $output['port']      = $response['gq_port_client'];
+                $output['queryPort'] = $response['gq_port_query'];
+                $output['protocol']  = $response['gq_transport'];
+                $output['error']     = "Couldn't connect to address.";
+                $output['code']      = 003;
             } else {
                 if(in_array($response['game_dir'], array('garrysmod'))) {
                     $output['status']               = $response['gq_online'];
                     $output['hostname']             = $response['gq_address'];
                     $output['port']                 = $response['gq_port_client'];
+                    $output['queryPort']            = $response['gq_port_query'];
                     $output['name']                 = $response['gq_hostname'];
                     $output['map']                  = $response['gq_mapname'];
-                    if($response['secure'] == 1) {
-                        $response['secure'] = true;
-                    } else {
-                        $response['secure'] = false;
-                    }
-                    if($response['gq_password'] == 1) {
-                        $response['gq_password'] = true;
-                    } else {
-                        $response['gq_password'] = false;
-                    }
-                    $output['secured']              = $response['secure'];
-                    $output['password_protected']   = $response['gq_password'];
+                    $output['secured']              = ($response['secure'] == 1) ? true : false;
+                    $output['password_protected']   = ($response['gq_password'] == 1) ? true : false;
                     $output['join']                 = $response['gq_joinlink'];
                     $output['version']              = $response['version'];
-                    $output['protocol']             = $response['protocol'];
+                    $output['protocol']             = $response['gq_transport'];
                     $output['players']['online']    = $response['gq_numplayers'];
                     $output['players']['max']       = $response['gq_maxplayers'];
                     $output['players']['list']      = $response['players'];
                     foreach ($response['players'] as $key => $value) {
-                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
+                        if(empty($output['players']['list'][$key]['name'])) {
+                            unset($output['players']['list'][$key]);
+                            continue;
+                        }
+                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
                         $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
                         $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
                         $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
                     }
+                    $output['players']['list'] = array_values($output['players']['list']);
                 } else {
-                    $output['status']   = $response['gq_online'];
-                    $output['hostname'] = $response['gq_address'];
-                    $output['port']     = $response['gq_port_client'];
-                    $output['error']    = "Server is not running Garry's Mod. It's running ".$response['game_descr']." (".$response['game_id'].")";
+                    $output['status']    = $response['gq_online'];
+                    $output['hostname']  = $response['gq_address'];
+                    $output['port']      = $response['gq_port_client'];
+                    $output['queryPort'] = $response['gq_port_query'];
+                    $output['protocol']  = $response['gq_transport'];
+                    $output['error']    = "Server is not running Garry's Mod. (".$response['game_descr']." - ".$response['game_id'].")";
+                    $output['code']      = 004;
                 }
             }
             $output['cached'] = true;
         } else {
             $GameQ = new \GameQ\GameQ();
-            $GameQ->addServer(['type' => 'gmod','host'=> $params['ip']]);
-            $GameQ->setOption('timeout', 3); // seconds
+            // Switch to multiple servers, sometimes people will either provide the correct query port or the join port.
+            $GameQ->addServers(
+                [
+                    [
+                        'type'  => 'gmod',
+                        'host'  => $cConfig['ip'].':'.$cConfig['port'],
+                        'id'    => 0
+                    ],
+                    [
+                        'type' => 'gmod',
+                        'host'=> $cConfig['ip'].':'.$cConfig['port'],
+                        'id'    => 1,
+                        'options' => [
+                            'query_port' => $cConfig['port']
+                        ]
+                    ]
+                ]
+            );
+            $GameQ->setOption('timeout', 3); // Russian servers have shitty filters causing their query time to sometimes be above 2 seconds.
 
-            $response = $GameQ->process();
-            $response = $response[$params['ip']];
+            $responses = $GameQ->process();
+            foreach ($responses as $resp) {
+                if($resp['gq_online']) {
+                    $response = $resp;
+                }
+            }
+            if(empty($response)) {
+                $response = $responses[0];
+            }
 
             if(!$response['gq_online']) {
-                $output['status']   = $response['gq_online'];
-                $output['hostname'] = $response['gq_address'];
-                $output['port']     = $response['gq_port_client'];
-                $output['error']    = "Couldn't connect to address.";
+                $output['status']    = $response['gq_online'];
+                $output['hostname']  = $response['gq_address'];
+                $output['port']      = $response['gq_port_client'];
+                $output['queryPort'] = $response['gq_port_query'];
+                $output['protocol']  = $response['gq_transport'];
+                $output['error']     = "Couldn't connect to address.";
+                $output['code']      = 003;
             } else {
                 if(in_array($response['game_dir'], array('garrysmod'))) {
                     $output['status']               = $response['gq_online'];
                     $output['hostname']             = $response['gq_address'];
                     $output['port']                 = $response['gq_port_client'];
+                    $output['queryPort']            = $response['gq_port_query'];
                     $output['name']                 = $response['gq_hostname'];
                     $output['map']                  = $response['gq_mapname'];
-                    if($response['secure'] == 1) {
-                        $response['secure'] = true;
-                    } else {
-                        $response['secure'] = false;
-                    }
-                    if($response['gq_password'] == 1) {
-                        $response['gq_password'] = true;
-                    } else {
-                        $response['gq_password'] = false;
-                    }
-                    $output['secured']              = $response['secure'];
-                    $output['password_protected']   = $response['gq_password'];
+                    $output['secured']              = ($response['secure'] == 1) ? true : false;
+                    $output['password_protected']   = ($response['gq_password'] == 1) ? true : false;
                     $output['join']                 = $response['gq_joinlink'];
                     $output['version']              = $response['version'];
-                    $output['protocol']             = $response['protocol'];
+                    $output['protocol']             = $response['gq_transport'];
                     $output['players']['online']    = $response['gq_numplayers'];
                     $output['players']['max']       = $response['gq_maxplayers'];
                     $output['players']['list']      = $response['players'];
                     foreach ($response['players'] as $key => $value) {
-                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time']);
+                        if(empty($output['players']['list'][$key]['name'])) {
+                            unset($output['players']['list'][$key]);
+                            continue;
+                        }
+                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
                         $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
                         $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
                         $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
                     }
+                    $output['players']['list'] = array_values($output['players']['list']);
                 } else {
-                    $output['status']   = $response['gq_online'];
-                    $output['hostname'] = $response['gq_address'];
-                    $output['port']     = $response['gq_port_client'];
-                    $output['error']    = "Server is not running Garry's Mod. It's running ".$response['game_descr']." (".$response['game_id'].")";
+                    $output['status']    = $response['gq_online'];
+                    $output['hostname']  = $response['gq_address'];
+                    $output['port']      = $response['gq_port_client'];
+                    $output['queryPort'] = $response['gq_port_query'];
+                    $output['protocol']  = $response['gq_transport'];
+                    $output['error']    = "Server is not running Garry's Mod. (".$response['game_descr']." - ".$response['game_id'].")";
+                    $output['code']      = 004;
                 }
             }
             $output['cached'] = false;
-            $redis->set($this->config->application->redis->keyStructure->gmod->ping.$params['ip'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
     public function multiAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/V3/vendor/autoload.php');
+        require_once(APP_PATH . '/library/Multiple/Query/Dev/Autoloader.php');
         $params = $this->dispatcher->getParams();
         $explodeComma = explode(',', $params['ip']);
         unset($params['ip']);
         $i=0;
+        $cConfig = array();
+
+        $cConfig['redis']['host'] = $this->config->application->redis->host;
         $redis = new Redis();
-        $redis->pconnect($this->config->application->redis->host);
+        $redis->pconnect($cConfig['redis']['host']);
         foreach ($explodeComma as $key => $value) {
             if(strpos($value, ':')) {
                 $explodeParams = explode(':', $value);
-                $params['addresses'][$i]['ip'] = $explodeParams[0];
-                $params['addresses'][$i]['port'] = (int) $explodeParams[1];
+                $cConfig['addresses'][$i]['ip'] = $explodeParams[0];
+                $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
-                $params['addresses'][$i]['ip'] = $value;
-                $params['addresses'][$i]['port'] = 27015;
+                $cConfig['addresses'][$i]['ip'] = $value;
+                $cConfig['addresses'][$i]['port'] = 27015;
             }
             $i++;
         }
-        foreach ($params['addresses'] as $key => $value) {
+        foreach ($cConfig['addresses'] as $key => $value) {
             $combined = $value['ip'].':'.$value['port'];
-            if($redis->exists($this->config->application->redis->keyStructure->gmod->ping.$combined)) {
-                $response = json_decode(base64_decode($redis->get($this->config->application->redis->keyStructure->gmod->ping.$combined)),true);
+            $combinedRedis = $this->config->application->redis->keyStructure->gmod->ping.$combined;
+            if($redis->exists($combinedRedis)) {
+                $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
-                    $output[$combined]['status']   = $response['gq_online'];
-                    $output[$combined]['hostname'] = $response['gq_address'];
-                    $output[$combined]['port']     = $response['gq_port_client'];
-                    $output[$combined]['error']    = "Couldn't connect to address.";
+                    $output[$combined]['status']    = $response['gq_online'];
+                    $output[$combined]['hostname']  = $response['gq_address'];
+                    $output[$combined]['port']      = $response['gq_port_client'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query'];
+                    $output[$combined]['protocol']  = $response['gq_transport'];
+                    $output[$combined]['error']     = "Couldn't connect to address.";
+                    $output[$combined]['code']      = 003;
                 } else {
                     if(in_array($response['game_dir'], array('garrysmod'))) {
-                        $output[$combined]['status']   = $response['gq_online'];
-                        $output[$combined]['hostname'] = $response['gq_address'];
-                        $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['name']     = $response['gq_hostname'];
-                        $output[$combined]['map']      = $response['gq_mapname'];
-                        if($response['secure'] == 1) {
-                            $response['secure'] = true;
-                        } else {
-                            $response['secure'] = false;
-                        }
-                        if($response['gq_password'] == 1) {
-                            $response['gq_password'] = true;
-                        } else {
-                            $response['gq_password'] = false;
-                        }
-                        $output[$combined]['secured']              = $response['secure'];
-                        $output[$combined]['password_protected']   = $response['gq_password'];
-                        $output[$combined]['join']                 = $response['gq_joinlink'];
-                        $output[$combined]['version']              = $response['version'];
-                        $output[$combined]['protocol']             = $response['protocol'];
-                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                        $output[$combined]['players']['list']      = $response['players'];
+                        $output[$combined]['status']                = $response['gq_online'];
+                        $output[$combined]['hostname']              = $response['gq_address'];
+                        $output[$combined]['port']                  = $response['gq_port_client'];
+                        $output[$combined]['queryPort']             = $response['gq_port_query'];
+                        $output[$combined]['name']                  = $response['gq_hostname'];
+                        $output[$combined]['map']                   = $response['gq_mapname'];
+                        $output[$combined]['secured']               = ($response['secure'] == 1) ? true : false;
+                        $output[$combined]['password_protected']    = ($response['gq_password'] == 1) ? true : false;
+                        $output[$combined]['join']                  = $response['gq_joinlink'];
+                        $output[$combined]['version']               = $response['version'];
+                        $output[$combined]['protocol']              = $response['gq_transport'];
+                        $output[$combined]['players']['online']     = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']        = $response['gq_maxplayers'];
+                        $output[$combined]['players']['list']       = $response['players'];
                         foreach ($response['players'] as $key => $value) {
+                            if(empty($output[$combined]['players']['list'][$key]['name'])) {
+                                unset($output[$combined]['players']['list'][$key]);
+                                continue;
+                            }
                             unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
                             $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
                             $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
                             $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
                         }
+                        $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                     } else {
-                        $output[$combined]['status']   = $response['gq_online'];
-                        $output[$combined]['hostname'] = $response['gq_address'];
-                        $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['error']    = "Server is not running Garry's Mod. It's running ".$response['game_descr']." (".$response['game_id'].")";
+                        $output[$combined]['status']    = $response['gq_online'];
+                        $output[$combined]['hostname']  = $response['gq_address'];
+                        $output[$combined]['port']      = $response['gq_port_client'];
+                        $output[$combined]['queryPort'] = $response['gq_port_query'];
+                        $output[$combined]['protocol']  = $response['gq_transport'];
+                        $output[$combined]['error']     = "Server is not running Garry's Mod. (".$response['game_descr']." - ".$response['game_id'].")";
+                        $output[$combined]['code']      = 004;
                     }
                 }
                 $output[$combined]['cached'] = true;
             } else {
                 $GameQ = new \GameQ\GameQ();
-                $GameQ->addServer(['type' => 'gmod','host'=> $combined]);
-                $GameQ->setOption('timeout', 2); // seconds
+                // Switch to multiple servers, sometimes people will either provide the correct query port or the join port.
+                $GameQ->addServers(
+                    [
+                        [
+                            'type'  => 'gmod',
+                            'host'  => $combined,
+                            'id'    => 0
+                        ],
+                        [
+                            'type'  => 'gmod',
+                            'host'  => $value['ip'].':'.$value['port'],
+                            'id'    => 1,
+                            'options' => [
+                                'query_port' => $value['port']
+                            ]
+                        ]
+                    ]
+                );
+                $GameQ->setOption('timeout', 3); // Russian servers have shitty filters causing their query time to sometimes be above 2 seconds.
 
-                $response = $GameQ->process();
-                $response = $response[$combined];
+                $responses = $GameQ->process();
+                foreach ($responses as $resp) {
+                    if($resp['gq_online']) {
+                        $response = $resp;
+                    }
+                }
+                if(empty($response)) {
+                    $response = $responses[0];
+                }
 
                 if(!$response['online']) {
-                    $output[$combined]['status']   = $response['gq_online'];
-                    $output[$combined]['hostname'] = $response['gq_address'];
-                    $output[$combined]['port']     = $params['gq_port_client'];
-                    $output[$combined]['error']    = "Couldn't connect to address.";
+                    $output[$combined]['status']    = $response['gq_online'];
+                    $output[$combined]['hostname']  = $response['gq_address'];
+                    $output[$combined]['port']      = $response['gq_port_client'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query'];
+                    $output[$combined]['protocol']  = $response['gq_transport'];
+                    $output[$combined]['error']     = "Couldn't connect to address.";
+                    $output[$combined]['code']      = 003;
                 } else {
-                	if(in_array($response['game_dir'], array('garrysmod'))) {
-                        $output[$combined]['status']   = $response['gq_online'];
-                        $output[$combined]['hostname'] = $response['gq_address'];
-                        $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['name']     = $response['gq_hostname'];
-                        $output[$combined]['map']      = $response['gq_mapname'];
-                        if($response['secure'] == 1) {
-                            $response['secure'] = true;
-                        } else {
-                            $response['secure'] = false;
-                        }
-                        if($response['gq_password'] == 1) {
-                            $response['gq_password'] = true;
-                        } else {
-                            $response['gq_password'] = false;
-                        }
-                        $output[$combined]['secured']              = $response['secure'];
-                        $output[$combined]['password_protected']   = $response['gq_password'];
-                        $output[$combined]['join']                 = $response['gq_joinlink'];
-                        $output[$combined]['version']              = $response['version'];
-                        $output[$combined]['protocol']             = $response['protocol'];
-                        $output[$combined]['players']['online']    = $response['gq_numplayers'];
-                        $output[$combined]['players']['max']       = $response['gq_maxplayers'];
-                        $output[$combined]['players']['list']      = $response['players'];
+                    if(in_array($response['game_dir'], array('garrysmod'))) {
+                        $output[$combined]['status']                = $response['gq_online'];
+                        $output[$combined]['hostname']              = $response['gq_address'];
+                        $output[$combined]['port']                  = $response['gq_port_client'];
+                        $output[$combined]['queryPort']             = $response['gq_port_query'];
+                        $output[$combined]['name']                  = $response['gq_hostname'];
+                        $output[$combined]['map']                   = $response['gq_mapname'];
+                        $output[$combined]['secured']               = ($response['secure'] == 1) ? true : false;
+                        $output[$combined]['password_protected']    = ($response['gq_password'] == 1) ? true : false;
+                        $output[$combined]['join']                  = $response['gq_joinlink'];
+                        $output[$combined]['version']               = $response['version'];
+                        $output[$combined]['protocol']              = $response['gq_transport'];
+                        $output[$combined]['players']['online']     = $response['gq_numplayers'];
+                        $output[$combined]['players']['max']        = $response['gq_maxplayers'];
+                        $output[$combined]['players']['list']       = $response['players'];
                         foreach ($response['players'] as $key => $value) {
+                            if(empty($output[$combined]['players']['list'][$key]['name'])) {
+                                unset($output[$combined]['players']['list'][$key]);
+                                continue;
+                            }
                             unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
                             $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
                             $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
                             $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
                         }
+                        $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                     } else {
-                        $output[$combined]['status']   = $response['gq_online'];
-                        $output[$combined]['hostname'] = $response['gq_address'];
-                        $output[$combined]['port']     = $response['gq_port_client'];
-                        $output[$combined]['error']    = "Server is not running Garry's Mod. It's running ".$response['game_descr']." (".$response['game_id'].")";
+                        $output[$combined]['status']    = $response['gq_online'];
+                        $output[$combined]['hostname']  = $response['gq_address'];
+                        $output[$combined]['port']      = $response['gq_port_client'];
+                        $output[$combined]['queryPort'] = $response['gq_port_query'];
+                        $output[$combined]['protocol']  = $response['gq_transport'];
+                        $output[$combined]['error']     = "Server is not running Garry's Mod. (".$response['game_descr']." - ".$response['game_id'].")";
+                        $output[$combined]['code']      = 004;
                     }
                 }
                 $output[$combined]['cached'] = false;
-                $redis->set($this->config->application->redis->keyStructure->gmod->ping.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+                $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
