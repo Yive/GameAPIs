@@ -1,6 +1,6 @@
 ## Alpha 1.1.0:
 
-### August 23rd 2017 - September __ 2017
+### August 23rd 2017 - September 4th 2017
 
 #### Added
 - Protocol output to determine if the request is udp or tcp.
@@ -26,5 +26,5 @@
 - MCPE redis entries were using MCPC's key structure.
 
 #### Removed
-- Removed documentation for Battlefield: Bad Company 2, removal of the API might happen in 365 days, but unlikely.
-- Removed up coming support for Arma2, couldn't get a positive response from any server listed on Gametracker.
+- Removed Battlefield: Bad Company 2 from the documentation list, full removal of the API might happen in a year if requests are non existent.
+- Removed WIP support for Arma2, couldn't get a positive response from any server listed on Gametracker.
