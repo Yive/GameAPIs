@@ -39,11 +39,4 @@ class Conanexiles extends Source
      * @type string
      */
     protected $name_long = "Conan Exiles";
-
-    /**
-     * query_port = client_port + 19238
-     *
-     * @type int
-     */
-     protected $port_diff = 19238;
 }
