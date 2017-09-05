@@ -132,7 +132,7 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\DAYZ\Query\Info'                     => $config->application->controllersDir.'APIs/DAYZ/Query/Info/',
         'GameAPIs\Controllers\APIs\DAYZ\Query\Status'                   => $config->application->controllersDir.'APIs/DAYZ/Query/Status/',
         'GameAPIs\Controllers\APIs\DAYZ\Query\Players'                  => $config->application->controllersDir.'APIs/DAYZ/Query/Players/',
-         // Dark And Light APIs //
+         // Dark and Light APIs //
         'GameAPIs\Controllers\APIs\DNL\Query'                           => $config->application->controllersDir.'APIs/DNL/Query/',
         'GameAPIs\Controllers\APIs\DNL\Query\Info'                      => $config->application->controllersDir.'APIs/DNL/Query/Info/',
         'GameAPIs\Controllers\APIs\DNL\Query\Status'                    => $config->application->controllersDir.'APIs/DNL/Query/Status/',

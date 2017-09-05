@@ -38,5 +38,5 @@ class Dnl extends Source
      *
      * @type string
      */
-    protected $name_long = "Dark And Light";
+    protected $name_long = "Dark and Light";
 }

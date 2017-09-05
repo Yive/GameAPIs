@@ -32,11 +32,6 @@
             'link' => '/docs/bf2',
             'file' => '/img/games/bf2.jpg'
         ),
-        'bfbc2' => array(
-            'name' => 'Battlefield: Bad Company 2',
-            'link' => '/docs/bfbc2',
-            'file' => '/img/games/bfbc2.jpg'
-        ),
         'bf3' => array(
             'name' => 'Battlefield 3',
             'link' => '/docs/bf3',
@@ -52,9 +47,14 @@
             'link' => '/docs/bfhl',
             'file' => '/img/games/bfhl.jpg'
         ),
+        'brink' => array(
+            'name' => 'BRINK',
+            'link' => '/docs/brink',
+            'file' => '/img/games/brink.jpg'
+        ),
         'ce' => array(
             'name' => 'Conan Exiles',
-            'link' => '/docs/ce',
+            'link' => '/docs/conanexiles',
             'file' => '/img/games/ce.jpg'
         ),
         'cmw' => array(
@@ -101,6 +101,11 @@
             'name' => 'Counter Strike Source',
             'link' => '/docs/css',
             'file' => '/img/games/css.jpg'
+        ),
+        'dnl' => array(
+            'name' => 'Dark and Light',
+            'link' => '/docs/dnl',
+            'file' => '/img/games/dnl.jpg'
         ),
         'dayz' => array(
             'name' => 'DayZ',
@@ -248,7 +253,7 @@
         <div class="notification is-danger">This API service is a work in progress. Currently this is the public alpha version of the project.</div>
         <div class="columns is-multiline">
             <?php
-                $liveAPIs = array('7d2d','alienswarm','bf1942','bf2','bfbc2','bf3','bf4','bfhl','ark','cs','csgo','css','gmod','mc','mcpe');
+                $liveAPIs = array('7d2d','alienswarm','bf1942','bf2','bf3','bf4','bfhl','ark','cs','csgo','css','gmod','mc','mcpe','arma3','ce','dayz','dnl','brink');
                 foreach ($games as $key => $value) {
                     if(in_array($key, $liveAPIs)) {
                         header("Link: <".$value['file'].">; rel=preload; as=image", false);

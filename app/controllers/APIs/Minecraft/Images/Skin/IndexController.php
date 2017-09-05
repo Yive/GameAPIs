@@ -47,7 +47,7 @@ class IndexController extends ControllerBase {
                 header('Cache-Control: max-age=' . $seconds_to_cache);
             }
 
-            $skin_path = MC_SKINS_BASE_URL . $name . '.png';
+            $skin_path = MC_SKINS_BASE_URL . $cConfig['name'] . '.png';
             function flipSkin($preview, $skin, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h) {
 
                 $tmp = imagecreatetruecolor(4, 12);
@@ -147,15 +147,15 @@ class IndexController extends ControllerBase {
             flipSkin($preview, $skin, 12, 8, 44, 20, 4, 12);
             imagecopy($preview, $skin, 4, 20, 4, 20, 4, 12);
             flipSkin($preview, $skin, 8, 20, 4, 20, 4, 12);
-            if ($helm != 'false') {
+            if ($cConfig['helm'] != 'false') {
                 if (!checkForPlainSquare($skin, 40, 8)) {
                     imagecopy($preview, $skin, 4, 0, 40, 8, 8, 8);
                 }
             }
 
             imagedestroy($skin);
-            $size1 = $size * 2;
-            $fullsize = imagecreatetruecolor($size, $size1);
+            $size1 = $cConfig['size'] * 2;
+            $fullsize = imagecreatetruecolor($cConfig['size'], $size1);
             imagesavealpha($fullsize, true);
             $transparent = imagecolorallocatealpha($fullsize, 255, 255, 255, 127);
             imagefill($fullsize, 0, 0, $transparent);
@@ -201,7 +201,7 @@ class IndexController extends ControllerBase {
                 curl_close($ch);
                 return $data;
             }
-            $skin = @file_get_contents_curl('http://skins.minecraft.net/MinecraftSkins/'.$name.'.png');
+            $skin = @file_get_contents_curl('http://skins.minecraft.net/MinecraftSkins/'.$cConfig['name'].'.png');
             if(!$skin) {
                 $skin = file_get_contents_curl('http://assets.mojang.com/SkinTemplates/steve.png');
             }

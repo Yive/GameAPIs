@@ -13,7 +13,7 @@
   - ARMA3
   - BRINK
   - Conan Exiles
-  - Dark And Light
+  - Dark and Light
   - DayZ Standalone
   - Rust
 

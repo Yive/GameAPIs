@@ -48,9 +48,9 @@ class IndexController extends ControllerBase {
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip']   = $explodeParams[0];
-            $params['port'] = $explodeParams[1] ?? 27016;
+            $params['port'] = $explodeParams[1] ?? 2302;
         } else {
-            $params['port'] = 27016;
+            $params['port'] = 2302;
         }
         $cConfig['ip']   = $filter->sanitize($params['ip'], 'string');
         $cConfig['port'] = $params['port'];
@@ -117,7 +117,7 @@ class IndexController extends ControllerBase {
                         'host'=> $cConfig['ip'].':'.$cConfig['port'],
                         'id'    => 1,
                         'options' => [
-                            'query_port' => $cConfig['port']
+                            'query_port' => floor(27016 + (($cConfig['port'] - 2302) / 100))
                         ]
                     ]
                 ]
@@ -197,7 +197,7 @@ class IndexController extends ControllerBase {
                 $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $cConfig['addresses'][$i]['ip'] = $value;
-                $cConfig['addresses'][$i]['port'] = 27016;
+                $cConfig['addresses'][$i]['port'] = 2302;
             }
             $i++;
         }
@@ -261,7 +261,7 @@ class IndexController extends ControllerBase {
                             'host'  => $value['ip'].':'.$value['port'],
                             'id'    => 1,
                             'options' => [
-                                'query_port' => $value['port']
+                                'query_port' => floor(27016 + (($value['port'] - 2302) / 100))
                             ]
                         ]
                     ]

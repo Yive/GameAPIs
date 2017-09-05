@@ -62,7 +62,7 @@ class IndexController extends ControllerBase {
                 $output.= 'Ne9AAAAAElFTkSuQmCC';
                 $output = base64_decode($output);
                 if ($name != '') {
-                    $ch = curl_init('http://skins.minecraft.net/MinecraftSkins/' . $cConfig['name'] . '.png');
+                    $ch = curl_init('http://skins.minecraft.net/MinecraftSkins/' . $name . '.png');
                     curl_setopt($ch, CURLOPT_HEADER, 1);
                     curl_setopt($ch, CURLOPT_NOBODY, 1);
                     curl_setopt($ch, CURLOPT_TIMEOUT, 1);

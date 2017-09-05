@@ -97,7 +97,7 @@ class IndexController extends ControllerBase {
                     $output['port']      = $response['gq_port_client'];
                     $output['queryPort'] = $response['gq_port_query'];
                     $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Dark And Light. (".$response['game_descr']." - ".$response['game_id'].")";
+                    $output['error']     = "Server is not running Dark and Light. (".$response['game_descr']." - ".$response['game_id'].")";
                     $output['code']      = 004;
                     if($cConfig['debug']) {
                         $output['debug'] = $response;
@@ -164,7 +164,7 @@ class IndexController extends ControllerBase {
                     $output['port']      = $response['gq_port_client'];
                     $output['queryPort'] = $response['gq_port_query'];
                     $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Dark And Light. (".$response['game_descr']." - ".$response['game_id'].")";
+                    $output['error']     = "Server is not running Dark and Light. (".$response['game_descr']." - ".$response['game_id'].")";
                     $output['code']      = 004;
                     if($cConfig['debug']) {
                         $output['debug'] = $response;
@@ -225,7 +225,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['port']      = $response['gq_port_client'];
                         $output[$combined]['queryPort'] = $response['gq_port_query'];
                         $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Dark And Light. (".$response['game_descr']." - ".$response['game_id'].")";
+                        $output[$combined]['error']     = "Server is not running Dark and Light. (".$response['game_descr']." - ".$response['game_id'].")";
                         $output[$combined]['code']      = 004;
                     }
                 }
@@ -283,7 +283,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['port']      = $response['gq_port_client'];
                         $output[$combined]['queryPort'] = $response['gq_port_query'];
                         $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Dark And Light. (".$response['game_descr']." - ".$response['game_id'].")";
+                        $output[$combined]['error']     = "Server is not running Dark and Light. (".$response['game_descr']." - ".$response['game_id'].")";
                         $output[$combined]['code']      = 004;
                     }
                 }
