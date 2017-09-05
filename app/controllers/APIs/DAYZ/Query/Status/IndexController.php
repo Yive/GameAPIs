@@ -56,9 +56,9 @@ class IndexController extends ControllerBase {
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip']   = $explodeParams[0];
-            $params['port'] = $explodeParams[1] ?? 27016;
+            $params['port'] = $explodeParams[1] ?? 2302;
         } else {
-            $params['port'] = 27016;
+            $params['port'] = 2302;
         }
         $cConfig['ip']   = $filter->sanitize($params['ip'], 'string');
         $cConfig['port'] = $params['port'];
@@ -71,11 +71,11 @@ class IndexController extends ControllerBase {
         if($redis->exists($cConfig['redis']['key'])) {
             $response = json_decode(base64_decode($redis->get($cConfig['redis']['key'])),true);
             if(!$response['gq_online']) {
-                $output['status']    = $response['gq_online'];
-                $output['hostname']  = $response['gq_address'];
-                $output['port']      = $response['gq_port_client'];
-                $output['queryPort'] = $response['gq_port_query'];
-                $output['protocol']  = $response['gq_transport'];
+                $output['status']    = $response['gq_online']       ?? false;
+                $output['hostname']  = $response['gq_address']      ?? $cConfig['ip'];
+                $output['port']      = $response['gq_port_client']  ?? $cConfig['port'];
+                $output['queryPort'] = $response['gq_port_query']   ?? floor(27016 + (($cConfig['port'] - 2302) / 100));
+                $output['protocol']  = $response['gq_transport']    ?? "udp";
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
                 if($cConfig['debug']) {
@@ -120,7 +120,7 @@ class IndexController extends ControllerBase {
                         'host'=> $cConfig['ip'].':'.$cConfig['port'],
                         'id'    => 1,
                         'options' => [
-                            'query_port' => $cConfig['port']
+                            'query_port' => floor(27016 + (($cConfig['port'] - 2302) / 100))
                         ]
                     ]
                 ]
@@ -138,11 +138,11 @@ class IndexController extends ControllerBase {
             }
 
             if(!$response['gq_online']) {
-                $output['status']    = $response['gq_online'];
-                $output['hostname']  = $response['gq_address'];
-                $output['port']      = $response['gq_port_client'];
-                $output['queryPort'] = $response['gq_port_query'];
-                $output['protocol']  = $response['gq_transport'];
+                $output['status']    = $response['gq_online']       ?? false;
+                $output['hostname']  = $response['gq_address']      ?? $cConfig['ip'];
+                $output['port']      = $response['gq_port_client']  ?? $cConfig['port'];
+                $output['queryPort'] = $response['gq_port_query']   ?? floor(27016 + (($cConfig['port'] - 2302) / 100));
+                $output['protocol']  = $response['gq_transport']    ?? "udp";
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
                 if($cConfig['debug']) {
@@ -195,7 +195,7 @@ class IndexController extends ControllerBase {
                 $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $cConfig['addresses'][$i]['ip'] = $value;
-                $cConfig['addresses'][$i]['port'] = 27016;
+                $cConfig['addresses'][$i]['port'] = 2302;
             }
             $i++;
         }
@@ -205,11 +205,11 @@ class IndexController extends ControllerBase {
             if($redis->exists($combinedRedis)) {
                 $response = json_decode(base64_decode($redis->get($combinedRedis)),true);
                 if(!$response['online']) {
-                    $output[$combined]['status']    = $response['gq_online'];
-                    $output[$combined]['hostname']  = $response['gq_address'];
-                    $output[$combined]['port']      = $response['gq_port_client'];
-                    $output[$combined]['queryPort'] = $response['gq_port_query'];
-                    $output[$combined]['protocol']  = $response['gq_transport'];
+                    $output[$combined]['status']    = $response['gq_online']        ?? false;
+                    $output[$combined]['hostname']  = $response['gq_address']       ?? $value['ip'];
+                    $output[$combined]['port']      = $response['gq_port_client']   ?? $value['port'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query']    ?? floor(27016 + (($value['port'] - 2302) / 100));
+                    $output[$combined]['protocol']  = $response['gq_transport']     ?? "udp";
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
@@ -245,7 +245,7 @@ class IndexController extends ControllerBase {
                             'host'  => $value['ip'].':'.$value['port'],
                             'id'    => 1,
                             'options' => [
-                                'query_port' => $value['port']
+                                'query_port' => floor(27016 + (($value['port'] - 2302) / 100))
                             ]
                         ]
                     ]
@@ -263,11 +263,11 @@ class IndexController extends ControllerBase {
                 }
 
                 if(!$response['online']) {
-                    $output[$combined]['status']    = $response['gq_online'];
-                    $output[$combined]['hostname']  = $response['gq_address'];
-                    $output[$combined]['port']      = $response['gq_port_client'];
-                    $output[$combined]['queryPort'] = $response['gq_port_query'];
-                    $output[$combined]['protocol']  = $response['gq_transport'];
+                    $output[$combined]['status']    = $response['gq_online']        ?? false;
+                    $output[$combined]['hostname']  = $response['gq_address']       ?? $value['ip'];
+                    $output[$combined]['port']      = $response['gq_port_client']   ?? $value['port'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query']    ?? floor(27016 + (($value['port'] - 2302) / 100));
+                    $output[$combined]['protocol']  = $response['gq_transport']     ?? "udp";
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {

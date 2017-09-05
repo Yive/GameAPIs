@@ -25,6 +25,7 @@
 
 #### Fixed
 - MCPE redis entries were using MCPC's key structure.
+- Finally fixed the null bug on failed queries. Should of fixed it long ago.
 
 #### Removed
 - Removed Battlefield: Bad Company 2 from the documentation list, full removal of the API might happen in a year if requests are non existent.
