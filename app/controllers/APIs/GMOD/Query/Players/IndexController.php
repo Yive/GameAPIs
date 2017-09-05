@@ -111,14 +111,6 @@ class IndexController extends ControllerBase {
                         'type'  => 'gmod',
                         'host'  => $cConfig['ip'].':'.$cConfig['port'],
                         'id'    => 0
-                    ],
-                    [
-                        'type' => 'gmod',
-                        'host'=> $cConfig['ip'].':'.$cConfig['port'],
-                        'id'    => 1,
-                        'options' => [
-                            'query_port' => $cConfig['port']
-                        ]
                     ]
                 ]
             );
@@ -255,14 +247,6 @@ class IndexController extends ControllerBase {
                             'type'  => 'gmod',
                             'host'  => $combined,
                             'id'    => 0
-                        ],
-                        [
-                            'type'  => 'gmod',
-                            'host'  => $value['ip'].':'.$value['port'],
-                            'id'    => 1,
-                            'options' => [
-                                'query_port' => $value['port']
-                            ]
                         ]
                     ]
                 );

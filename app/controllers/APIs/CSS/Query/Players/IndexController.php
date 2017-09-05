@@ -111,14 +111,6 @@ class IndexController extends ControllerBase {
                         'type'  => 'css',
                         'host'  => $cConfig['ip'].':'.$cConfig['port'],
                         'id'    => 0
-                    ],
-                    [
-                        'type' => 'css',
-                        'host'=> $cConfig['ip'].':'.$cConfig['port'],
-                        'id'    => 1,
-                        'options' => [
-                            'query_port' => $cConfig['port']
-                        ]
                     ]
                 ]
             );
@@ -254,14 +246,6 @@ class IndexController extends ControllerBase {
                             'type'  => 'css',
                             'host'  => $combined,
                             'id'    => 0
-                        ],
-                        [
-                            'type'  => 'css',
-                            'host'  => $value['ip'].':'.$value['port'],
-                            'id'    => 1,
-                            'options' => [
-                                'query_port' => $value['port']
-                            ]
                         ]
                     ]
                 );

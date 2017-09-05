@@ -104,7 +104,7 @@ class IndexController extends ControllerBase {
                         'host'=> $cConfig['ip'].':'.$cConfig['port'],
                         'id'    => 1,
                         'options' => [
-                            'query_port' => $cConfig['port']
+                            'query_port' => $cConfig['port'] + 1
                         ]
                     ]
                 ]
@@ -223,7 +223,7 @@ class IndexController extends ControllerBase {
                             'host'  => $value['ip'].':'.$value['port'],
                             'id'    => 1,
                             'options' => [
-                                'query_port' => $value['port']
+                                'query_port' => $value['port'] + 1
                             ]
                         ]
                     ]
