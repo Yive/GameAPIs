@@ -72,6 +72,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
     "cached": false
 }</code></pre>
                         </div>
@@ -91,12 +93,16 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
         "cached": false
     },
     "{IP2}:{PORT2}": {
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
         "cached": false
     }
 }</code></pre>
@@ -121,6 +127,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
     "players": {
         "online": 2,
         "max": 64,
@@ -164,6 +172,8 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
         "players": {
             "online": 2,
             "max": 64,
@@ -194,6 +204,8 @@
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
         "players": {
             "online": 0,
             "max": 64,
@@ -223,13 +235,14 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
     "name": "css server",
     "map": "de_dust2",
     "vac_secured": true,
     "password_protected": false,
     "join": "steam://connect/{IP}:{PORT}/",
     "version": "4014252",
-    "protocol": 17,
+    "protocol": "udp",
     "players": {
         "online": 2,
         "max": 64,
@@ -273,13 +286,14 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
         "name": "css server",
         "map": "de_dust2",
         "vac_secured": true,
         "password_protected": false,
         "join": "steam://connect/{IP}:{PORT}/",
         "version": "4014252",
-        "protocol": 17,
+        "protocol": "udp",
         "players": {
             "online": 2,
             "max": 64,
@@ -308,15 +322,16 @@
     },
     "{IP2}:{PORT2}": {
         "status": true,
-        "hostname": "{IP}",
-        "port": {PORT},
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "queryPort": {PORT2},
         "name": "css server",
         "map": "de_inferno",
         "vac_secured": true,
         "password_protected": false,
-        "join": "steam://connect/{IP}:{PORT}/",
+        "join": "steam://connect/{IP2}:{PORT2}/",
         "version": "4014252",
-        "protocol": 17,
+        "protocol": "udp",
         "players": {
             "online": 0,
             "max": 64,

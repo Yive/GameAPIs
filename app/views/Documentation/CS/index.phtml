@@ -72,6 +72,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
     "cached": false
 }</code></pre>
                         </div>
@@ -91,12 +93,16 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
         "cached": false
     },
     "{IP2}:{PORT2}": {
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
         "cached": false
     }
 }</code></pre>
@@ -121,6 +127,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
     "players": {
         "online": 2,
         "max": 32,
@@ -164,6 +172,8 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
         "players": {
             "online": 2,
             "max": 32,
@@ -194,6 +204,8 @@
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
         "players": {
             "online": 0,
             "max": 32,
@@ -223,6 +235,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
     "name": "cs 1.6 server",
     "map": "de_dust2",
     "vac_secured": true,
@@ -273,13 +287,14 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT},
         "name": "cs 1.6 server",
         "map": "de_dust2",
         "vac_secured": true,
         "password_protected": false,
         "join": "steam://connect/{IP}:{PORT}/",
         "version": "1.1.2.7/Stdio",
-        "protocol": 48,
+        "protocol": "udp",
         "players": {
             "online": 2,
             "max": 32,
@@ -309,14 +324,15 @@
     "{IP2}:{PORT2}": {
         "status": true,
         "hostname": "{IP}",
-        "port": {PORT},
+        "port": {PORT2},
+        "queryPort": {PORT2},
         "name": "cs 1.6 server",
         "map": "de_inferno",
         "vac_secured": true,
         "password_protected": false,
-        "join": "steam://connect/{IP}:{PORT}/",
+        "join": "steam://connect/{IP2}:{PORT2}/",
         "version": "1.1.2.7/Stdio",
-        "protocol": 48,
+        "protocol": "udp",
         "players": {
             "online": 0,
             "max": 32,

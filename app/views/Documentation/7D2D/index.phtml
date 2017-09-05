@@ -72,6 +72,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT + 1},
+    "protocol": "udp",
     "cached": false
 }</code></pre>
                         </div>
@@ -91,12 +93,16 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT + 1},
+        "protocol": "udp",
         "cached": false
     },
     "{IP2}:{PORT2}": {
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2 + 1},
+        "protocol": "udp",
         "cached": false
     }
 }</code></pre>
@@ -122,6 +128,8 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT + 1},
+    "protocol": "udp",
     "players": {
         "online": 20,
         "max": 100
@@ -145,6 +153,8 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT + 1},
+        "protocol": "udp",
         "players": {
             "online": 1,
             "max": 25
@@ -155,6 +165,8 @@
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2 + 1},
+        "protocol": "udp",
         "players": {
             "online": 22,
             "max": 50
@@ -184,13 +196,14 @@
     "status": true,
     "hostname": "{IP}",
     "port": {PORT},
+    "queryPort": {PORT + 1},
     "name": "7dtdNewServer",
     "map": "Navezgane",
     "eac_secured": true,
     "password_protected": false,
     "join": "steam://connect/{IP}:{PORT}/",
     "version": "Alpha 15.2",
-    "protocol": 17,
+    "protocol": "udp",
     "players": {
         "online": 20,
         "max": 100
@@ -214,13 +227,14 @@
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
+        "queryPort": {PORT + 1},
         "name": "7dtdNewServer",
         "map": "Navezgane",
         "eac_secured": true,
         "password_protected": false,
         "join": "steam://connect/{IP}:{PORT}/",
         "version": "Alpha 15.2",
-        "protocol": 17,
+        "protocol": "udp",
         "players": {
             "online": 1,
             "max": 25
@@ -231,13 +245,14 @@
         "status": true,
         "hostname": "{IP2}",
         "port": {PORT2},
+        "queryPort": {PORT2 + 1},
         "name": "7dtdNewServer",
         "map": "Random Gen",
         "eac_secured": true,
         "password_protected": false,
         "join": "steam://connect/{IP2}:{PORT2}/",
         "version": "Alpha 16",
-        "protocol": 17,
+        "protocol": "udp",
         "players": {
             "online": 22,
             "max": 50
