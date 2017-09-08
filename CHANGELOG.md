@@ -11,8 +11,6 @@
   - Call of Duty: World at War
   - Call of Duty: Modern Warfare 3
 - Added base query protocol support:
-  - Quake 2
-  - Quake 3
   - Gamespy
   - Gamespy 2
   - Gamespy 3
