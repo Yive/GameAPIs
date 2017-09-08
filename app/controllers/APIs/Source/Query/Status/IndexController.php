@@ -78,20 +78,12 @@ class IndexController extends ControllerBase {
                 $output['protocol']  = $response['gq_transport']    ?? "udp";
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
-                if($cConfig['debug']) {
-                    $output['debug'] = $response;
-                    var_dump($response);
-                }
             } else {
                 $output['status']    = $response['gq_online'];
                 $output['hostname']  = $response['gq_address'];
                 $output['port']      = $response['gq_port_client'];
                 $output['queryPort'] = $response['gq_port_query'];
                 $output['protocol']  = $response['gq_transport'];
-                if($cConfig['debug']) {
-                    $output['debug'] = $response;
-                    var_dump($response);
-                }
             }
             $output['cached'] = true;
         } else {
@@ -126,25 +118,23 @@ class IndexController extends ControllerBase {
                 $output['protocol']  = $response['gq_transport']    ?? "udp";
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
-                if($cConfig['debug']) {
-                    $output['debug'] = $response;
-                    var_dump($response);
-                }
             } else {
                 $output['status']    = $response['gq_online'];
                 $output['hostname']  = $response['gq_address'];
                 $output['port']      = $response['gq_port_client'];
                 $output['queryPort'] = $response['gq_port_query'];
                 $output['protocol']  = $response['gq_transport'];
-                if($cConfig['debug']) {
-                    $output['debug'] = $response;
-                    var_dump($response);
-                }
             }
             $output['cached'] = false;
             $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
+        if($cConfig['debug']) {
+            $output['debug'] = $response;
+        }
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+        if(!empty(json_last_error())) {
+            var_dump($response);
+        }
     }
 
     public function multiAction() {
