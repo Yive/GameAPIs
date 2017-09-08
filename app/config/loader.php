@@ -97,6 +97,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\COD\Query\Info'                      => $config->application->controllersDir.'APIs/COD/Query/Info/',
         'GameAPIs\Controllers\APIs\COD\Query\Status'                    => $config->application->controllersDir.'APIs/COD/Query/Status/',
         'GameAPIs\Controllers\APIs\COD\Query\Players'                   => $config->application->controllersDir.'APIs/COD/Query/Players/',
+        // Call of Duty: United Offensive APIs //
+        'GameAPIs\Controllers\APIs\CODUO\Query'                         => $config->application->controllersDir.'APIs/CODUO/Query/',
+        'GameAPIs\Controllers\APIs\CODUO\Query\Info'                    => $config->application->controllersDir.'APIs/CODUO/Query/Info/',
+        'GameAPIs\Controllers\APIs\CODUO\Query\Status'                  => $config->application->controllersDir.'APIs/CODUO/Query/Status/',
+        'GameAPIs\Controllers\APIs\CODUO\Query\Players'                 => $config->application->controllersDir.'APIs/CODUO/Query/Players/',
         // Call of Duty 2 APIs //
         'GameAPIs\Controllers\APIs\COD2\Query'                          => $config->application->controllersDir.'APIs/COD2/Query/',
         'GameAPIs\Controllers\APIs\COD2\Query\Info'                     => $config->application->controllersDir.'APIs/COD2/Query/Info/',
@@ -253,6 +258,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\SE\Query\Info'                       => $config->application->controllersDir.'APIs/SE/Query/Info/',
         'GameAPIs\Controllers\APIs\SE\Query\Status'                     => $config->application->controllersDir.'APIs/SE/Query/Status/',
         'GameAPIs\Controllers\APIs\SE\Query\Players'                    => $config->application->controllersDir.'APIs/SE/Query/Players/',
+        // Source APIs //
+        'GameAPIs\Controllers\APIs\Source\Query'                        => $config->application->controllersDir.'APIs/Source/Query/',
+        'GameAPIs\Controllers\APIs\Source\Query\Info'                   => $config->application->controllersDir.'APIs/Source/Query/Info/',
+        'GameAPIs\Controllers\APIs\Source\Query\Status'                 => $config->application->controllersDir.'APIs/Source/Query/Status/',
+        'GameAPIs\Controllers\APIs\Source\Query\Players'                => $config->application->controllersDir.'APIs/Source/Query/Players/',
         // SQUAD APIs //
         'GameAPIs\Controllers\APIs\SQUAD\Query'                         => $config->application->controllersDir.'APIs/SQUAD/Query/',
         'GameAPIs\Controllers\APIs\SQUAD\Query\Info'                    => $config->application->controllersDir.'APIs/SQUAD/Query/Info/',
