@@ -1,6 +1,6 @@
 ## Alpha 1.1.1:
 
-### September 4th 2017 - September __ 2017
+### September 4th 2017 - September 8th 2017
 
 #### Added
 - Added support for the following games:
@@ -16,12 +16,6 @@
   - Gamespy 3
   - All-Seeing Eye
   - Source
-
-#### Changes
-- IP & Port parameters are now separated.
-- Simplified error messages.
-- Cleaned up redis related lines.
-- Protocol is no longer a number, instead it's been replaced with either tcp or udp.
 
 #### Fixed
 - Battlefield series player list not returning anything.

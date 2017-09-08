@@ -47,6 +47,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\ARMA3\Query\Info'                    => $config->application->controllersDir.'APIs/ARMA3/Query/Info/',
         'GameAPIs\Controllers\APIs\ARMA3\Query\Status'                  => $config->application->controllersDir.'APIs/ARMA3/Query/Status/',
         'GameAPIs\Controllers\APIs\ARMA3\Query\Players'                 => $config->application->controllersDir.'APIs/ARMA3/Query/Players/',
+        // All-Seeing Eyes APIs //
+        'GameAPIs\Controllers\APIs\ASE\Query'                           => $config->application->controllersDir.'APIs/ASE/Query/',
+        'GameAPIs\Controllers\APIs\ASE\Query\Info'                      => $config->application->controllersDir.'APIs/ASE/Query/Info/',
+        'GameAPIs\Controllers\APIs\ASE\Query\Status'                    => $config->application->controllersDir.'APIs/ASE/Query/Status/',
+        'GameAPIs\Controllers\APIs\ASE\Query\Players'                   => $config->application->controllersDir.'APIs/ASE/Query/Players/',
         // Battlefield 2 APIs //
         'GameAPIs\Controllers\APIs\BF2\Query'                           => $config->application->controllersDir.'APIs/BF2/Query/',
         'GameAPIs\Controllers\APIs\BF2\Query\Info'                      => $config->application->controllersDir.'APIs/BF2/Query/Info/',
@@ -152,6 +157,21 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\DODS\Query\Info'                     => $config->application->controllersDir.'APIs/DODS/Query/Info/',
         'GameAPIs\Controllers\APIs\DODS\Query\Status'                   => $config->application->controllersDir.'APIs/DODS/Query/Status/',
         'GameAPIs\Controllers\APIs\DODS\Query\Players'                  => $config->application->controllersDir.'APIs/DODS/Query/Players/',
+        // GameSpy APIs //
+        'GameAPIs\Controllers\APIs\GameSpy\Query'                       => $config->application->controllersDir.'APIs/GameSpy/Query/',
+        'GameAPIs\Controllers\APIs\GameSpy\Query\Info'                  => $config->application->controllersDir.'APIs/GameSpy/Query/Info/',
+        'GameAPIs\Controllers\APIs\GameSpy\Query\Status'                => $config->application->controllersDir.'APIs/GameSpy/Query/Status/',
+        'GameAPIs\Controllers\APIs\GameSpy\Query\Players'               => $config->application->controllersDir.'APIs/GameSpy/Query/Players/',
+        // GameSpy2 APIs //
+        'GameAPIs\Controllers\APIs\GameSpy2\Query'                      => $config->application->controllersDir.'APIs/GameSpy2/Query/',
+        'GameAPIs\Controllers\APIs\GameSpy2\Query\Info'                 => $config->application->controllersDir.'APIs/GameSpy2/Query/Info/',
+        'GameAPIs\Controllers\APIs\GameSpy2\Query\Status'               => $config->application->controllersDir.'APIs/GameSpy2/Query/Status/',
+        'GameAPIs\Controllers\APIs\GameSpy2\Query\Players'              => $config->application->controllersDir.'APIs/GameSpy2/Query/Players/',
+        // GameSpy3 APIs //
+        'GameAPIs\Controllers\APIs\GameSpy3\Query'                      => $config->application->controllersDir.'APIs/GameSpy3/Query/',
+        'GameAPIs\Controllers\APIs\GameSpy3\Query\Info'                 => $config->application->controllersDir.'APIs/GameSpy3/Query/Info/',
+        'GameAPIs\Controllers\APIs\GameSpy3\Query\Status'               => $config->application->controllersDir.'APIs/GameSpy3/Query/Status/',
+        'GameAPIs\Controllers\APIs\GameSpy3\Query\Players'              => $config->application->controllersDir.'APIs/GameSpy3/Query/Players/',
         // Garry's Mod APIs //
         'GameAPIs\Controllers\APIs\GMOD\Query'                          => $config->application->controllersDir.'APIs/GMOD/Query/',
         'GameAPIs\Controllers\APIs\GMOD\Query\Info'                     => $config->application->controllersDir.'APIs/GMOD/Query/Info/',
