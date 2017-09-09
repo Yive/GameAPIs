@@ -2,15 +2,20 @@
     $this->partial("head");
 
     $games = array(
-        'mumble' => array(
-            'name' => 'Mumble',
-            'link' => '/docs/mumble',
-            'file' => '/img/voice/mumble.jpg'
+        'ase' => array(
+            'name' => 'All-Seeing Eye',
+            'link' => '/docs/ase',
+            'file' => '/img/protocols/ase.jpg'
         ),
-        'ts3' => array(
-            'name' => 'TeamSpeak 3',
-            'link' => '/docs/ts3',
-            'file' => '/img/voice/ts3.jpg'
+        'gamespy' => array(
+            'name' => 'GameSpy',
+            'link' => '/docs/gamespy',
+            'file' => '/img/protocols/gamespy.jpg'
+        ),
+        'source' => array(
+            'name' => 'Source',
+            'link' => '/docs/source',
+            'file' => '/img/protocols/source.jpg'
         )
     );
 ?>
@@ -21,9 +26,6 @@
                 Game Servers
             </a>
             <a class="nav-item is-tab is-active" href="#">
-                Voice Servers
-            </a>
-            <a class="nav-item is-tab" href="/protocol">
                 Protocols
             </a>
         </div>
@@ -34,7 +36,7 @@
         <div class="notification is-danger">This API service is a work in progress. Currently this is the public alpha version of the project.</div>
         <div class="columns is-multiline">
             <?php
-                $liveAPIs = array('mumble','ts3');
+                $liveAPIs = array('ase','gamespy','source');
                 foreach ($games as $key => $value) {
                     if(in_array($key, $liveAPIs)) {
                         header("Link: <".$value['file'].">; rel=preload; as=image", false);

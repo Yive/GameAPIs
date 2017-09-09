@@ -62,6 +62,11 @@
             'link' => '/docs/cmw',
             'file' => '/img/games/cmw.jpg'
         ),
+        'cod' => array(
+            'name' => 'Call of Duty',
+            'link' => '/docs/cod',
+            'file' => '/img/games/cod.jpg'
+        ),
         'cod2' => array(
             'name' => 'Call of Duty 2',
             'link' => '/docs/cod2',
@@ -245,6 +250,13 @@
             <a class="nav-item is-tab is-active" href="#">
                 Game Servers
             </a>
+            <?php
+            /*
+            <a class="nav-item is-tab" href="/protocol">
+                Protocols
+            </a>
+            */
+            ?>
         </div>
     </div>
 </nav>
@@ -253,7 +265,11 @@
         <div class="notification is-danger">This API service is a work in progress. Currently this is the public alpha version of the project.</div>
         <div class="columns is-multiline">
             <?php
-                $liveAPIs = array('7d2d','alienswarm','bf1942','bf2','bf3','bf4','bfhl','ark','cs','csgo','css','gmod','mc','mcpe','arma3','ce','dayz','dnl','brink');
+                $liveAPIs = array(
+                    '7d2d','alienswarm','bf1942','bf2','bf3','bf4','bfhl','ark','cs','csgo','css',
+                    'gmod','mc','mcpe','arma3','ce','dayz','dnl','brink','cod','cmw','cod2','cod4',
+                    'codwaw','codmw3'
+                );
                 foreach ($games as $key => $value) {
                     if(in_array($key, $liveAPIs)) {
                         header("Link: <".$value['file'].">; rel=preload; as=image", false);

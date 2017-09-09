@@ -15,6 +15,10 @@ class IndexController extends ControllerBase {
     public function voiceAction() {
         $this->tag->prependTitle("Documentation - ");
     }
+    
+    public function protocolAction() {
+        $this->tag->prependTitle("Documentation - ");
+    }
 
     public function otherAction() {
         $this->tag->prependTitle("Documentation - ");

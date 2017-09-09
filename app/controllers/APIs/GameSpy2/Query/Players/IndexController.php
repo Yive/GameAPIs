@@ -41,7 +41,7 @@ class IndexController extends ControllerBase {
     }
 
     public function singleAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/Dev/Autoloader.php');
+        require_once(APP_PATH . '/library/Multiple/Query/V2/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $filter = new Filter();
         $cConfig = array();
@@ -93,28 +93,19 @@ class IndexController extends ControllerBase {
             }
             $output['cached'] = true;
         } else {
-            $GameQ = new \GameQ\GameQ();
+            $GameQ = new \GameQ();
             // Switch to multiple servers, sometimes people will either provide the correct query port or the join port.
             $GameQ->addServers(
                 [
                     [
                         'type'  => 'gamespy2',
-                        'host'  => $cConfig['ip'].':'.$cConfig['port'],
-                        'id'    => 0
+                        'host'  => $cConfig['ip'].':'.$cConfig['port']
                     ]
                 ]
             );
             $GameQ->setOption('timeout', 3); // Russian servers have shitty filters causing their query time to sometimes be above 2 seconds.
 
-            $responses = $GameQ->process();
-            foreach ($responses as $resp) {
-                if($resp['gq_online']) {
-                    $response = $resp;
-                }
-            }
-            if(empty($response)) {
-                $response = $responses[0];
-            }
+            $response = $GameQ->requestData();
 
             if(!$response['gq_online']) {
                 $output['status']    = $response['gq_online']       ?? false;
@@ -152,7 +143,7 @@ class IndexController extends ControllerBase {
     }
 
     public function multiAction() {
-        require_once(APP_PATH . '/library/Multiple/Query/Dev/Autoloader.php');
+        require_once(APP_PATH . '/library/Multiple/Query/V2/vendor/autoload.php');
         $params = $this->dispatcher->getParams();
         $explodeComma = explode(',', $params['ip']);
         unset($params['ip']);
@@ -209,28 +200,19 @@ class IndexController extends ControllerBase {
                 }
                 $output[$combined]['cached'] = true;
             } else {
-                $GameQ = new \GameQ\GameQ();
+                $GameQ = new \GameQ();
                 // Switch to multiple servers, sometimes people will either provide the correct query port or the join port.
                 $GameQ->addServers(
                     [
                         [
                             'type'  => 'gamespy2',
-                            'host'  => $combined,
-                            'id'    => 0
+                            'host'  => $combined
                         ]
                     ]
                 );
                 $GameQ->setOption('timeout', 3); // Russian servers have shitty filters causing their query time to sometimes be above 2 seconds.
 
-                $responses = $GameQ->process();
-                foreach ($responses as $resp) {
-                    if($resp['gq_online']) {
-                        $response = $resp;
-                    }
-                }
-                if(empty($response)) {
-                    $response = $responses[0];
-                }
+                $response = $GameQ->requestData();
 
                 if(!$response['online']) {
                     $output[$combined]['status']    = $response['gq_online']        ?? false;

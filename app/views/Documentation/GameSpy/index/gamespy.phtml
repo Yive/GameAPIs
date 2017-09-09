@@ -1,0 +1,282 @@
+<?php
+    $this->partial("head");
+?>
+<nav class="nav has-shadow">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item is-tab is-active" href="#">GameSpy</a>
+            <a class="nav-item is-tab" href="/docs/gamespy/2">GameSpy2</a>
+            <a class="nav-item is-tab" href="/docs/gamespy/3">GameSpy3</a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+            <div class="notification is-danger">This is mainly used for testing what protocol a game server might be using. This can be used in the meantime if your game server's game is not natively supported yet.</div>
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Parameters</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Required</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>True</th>
+                                        <th>IP</th>
+                                        <td>String</td>
+                                        <td>Server's IP address or domain</td>
+                                        <td>None</td>
+                                    </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Port</th>
+                                        <td>Integer</td>
+                                        <td>The port of which the game server is running on.</td>
+                                        <td>27015</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <h1 class="title" id="status"><a href="#status" style="text-decoration:none;color:black;">Status Query</a></h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/status/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/status/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title" id="players"><a href="#players" style="text-decoration:none;color:black;">Players Query</a></h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/players/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "queryPort": {PORT},
+    "protocol": "udp",
+    "players": {
+        "online": 1,
+        "max": 32,
+        "list": [
+            {
+                "name": "TheEggMan",
+                "score": 0
+            }
+        ]
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/players/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "queryPort": {PORT},
+        "protocol": "udp",
+        "players": {
+            "online": 0,
+            "max": 32,
+            "list": null
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "queryPort": {PORT2},
+        "protocol": "udp",
+        "players": {
+            "online": 1,
+            "max": 32,
+            "list": [
+                {
+                    "name": "TheEggMan",
+                    "score": 0
+                }
+            ]
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title" id="info"><a href="#info" style="text-decoration:none;color:black;">Info Query</a></h1>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Single Server</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/info/{IP}:{PORT}</div>
+                            <pre><code class="hljs json">{
+    "status": true,
+    "hostname": "{IP}",
+    "port": {PORT},
+    "queryPort": {PORT},
+    "name": "New Server",
+    "map": "mp_mapname",
+    "version": "1.0.0",
+    "protocol": "udp",
+    "players": {
+        "online": 1,
+        "max": 32,
+        "list": [
+            {
+                "name": "TheEggMan",
+                "score": 0
+            }
+        ]
+    },
+    "cached": false
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Multiple Servers</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div style="background-color:#f5f5f5;border-bottom:1px solid rgba(10,10,10,.1);padding:.5rem;"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/gamespy/query/info/{IP}:{PORT},{IP2}:{PORT2}</div>
+                            <pre><code class="hljs json">{
+    "{IP}:{PORT}": {
+        "status": true,
+        "hostname": "{IP}",
+        "port": {PORT},
+        "queryPort": {PORT},
+        "name": "New Server",
+        "map": "mp_mapname",
+        "version": "1.0.0",
+        "protocol": "udp",
+        "players": {
+            "online": 0,
+            "max": 32,
+            "list": null
+        },
+        "cached": false
+    },
+    "{IP2}:{PORT2}": {
+        "status": true,
+        "hostname": "{IP2}",
+        "port": {PORT2},
+        "queryPort": {PORT2},
+        "name": "New Server",
+        "map": "mp_mapname",
+        "version": "1.0.0",
+        "protocol": "udp",
+        "players": {
+            "online": 1,
+            "max": 32,
+            "list": [
+                {
+                    "name": "TheEggMan",
+                    "score": 0
+                }
+            ]
+        },
+        "cached": false
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+    $this->partial("footer");
+?>
