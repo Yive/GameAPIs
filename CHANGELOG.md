@@ -1,3 +1,14 @@
+## Alpha 1.1.2:
+
+### September 9th 2017 - September __ 2017
+
+#### Added
+- Added support for the following games:
+  - Grand Theft Auto: San Andreas (MTA)
+  - Quake 2
+  - Quake 3
+  - Quake Live
+
 ## Alpha 1.1.1:
 
 ### September 4th 2017 - September 8th 2017
