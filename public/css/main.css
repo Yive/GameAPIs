@@ -1,10 +1,12 @@
-.nav-item a:not(.button).is-tab:hover, a.nav-item:not(.button).is-tab:hover {
-    color: #3273dc;
-    border-bottom-color: #3273dc;
+.nav-item a:not(.button).is-tab:hover,
+a.nav-item:not(.button).is-tab:hover {
+    color: #fff;
+    border-bottom-color: #fff;
 }
-.nav-item a:not(.button).is-tab.is-active, a.nav-item:not(.button).is-tab.is-active {
-    color: #3273dc;
-    border-bottom: 3px solid #3273dc;
+.nav-item a:not(.button).is-tab.is-active,
+a.nav-item:not(.button).is-tab.is-active {
+    color: #fff;
+    border-bottom: 3px solid #fff;
 }
 a {
     color: #3273dc;
@@ -52,4 +54,108 @@ a {
     -ms-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+}
+
+/* Attempt at a dark theme for bulma */
+
+body {
+    background-color: #333333;
+}
+
+.hero.is-dark .tabs.is-boxed li.is-active a,
+.hero.is-dark .tabs.is-boxed li.is-active a:hover,
+.hero.is-dark .tabs.is-toggle li.is-active a,
+.hero.is-dark .tabs.is-toggle li.is-active a:hover {
+    background-color: #383838;
+    border-color: rgba(255,255,255,0.1);
+    color: #ffffff;
+}
+
+.nav {
+    background-color: #383838;
+}
+
+.nav.has-shadow {
+    border-bottom: solid 1px rgba(0,0,0,0.6);
+    border-top: solid 1px;
+}
+
+.nav-item a:not(.button),
+a.nav-item:not(.button) {
+    color: #a9a9a9;
+}
+
+.card {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.card-header {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+}
+.card-header-title {
+    color: #fff;
+}
+
+.content table thead td,
+.content table thead th {
+    color: #fff;
+}
+
+.content table th {
+    color: #fff;
+}
+
+.content table td,
+.content table th {
+    border: 1px solid #797979;
+}
+
+.content table tr:hover {
+    background-color: #151515;
+}
+
+.request-url {
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    padding: .5rem;
+}
+
+hr {
+    background-color: #292929;
+}
+
+.title,
+.subtitle {
+    color: white;
+    text-decoration: none;
+}
+
+.notification.is-danger {
+    background-color: #790000;
+}
+
+.hero.is-dark {
+    background-color: #212121;
+}
+
+body, button, input, select, textarea {
+    font-family: 'Roboto', sans-serif;
+}
+
+.input.is-active,
+.input.is-focused,
+.input:active,
+.input:focus,
+.textarea.is-active,
+.textarea.is-focused,
+.textarea:active,
+.textarea:focus {
+    border-color: #fff;
+}
+
+.input,
+.textarea {
+    background-color: #383838;
+    border-color: #212121;
+    color: #ffffff;
 }

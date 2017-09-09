@@ -9,6 +9,9 @@
   - Quake 3
   - Quake Live
 
+#### Changes
+- Switched over to using a darker theme (Developers prefer working at night)
+
 ## Alpha 1.1.1:
 
 ### September 4th 2017 - September 8th 2017
