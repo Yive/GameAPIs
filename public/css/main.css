@@ -27,7 +27,8 @@ a {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: linear-gradient(141deg,#1577c6 0,#3273dc 71%,#4366e5 100%);
+    background: #232323;
+    border: solid 1px rgba(0,0,0,0.6);
     width: 50px;
     height: 50px;
     display: block;
@@ -96,12 +97,10 @@ a.nav-item:not(.button) {
 .card-header-title {
     color: #fff;
 }
-
+.table thead td,
+.table thead th,
 .content table thead td,
-.content table thead th {
-    color: #fff;
-}
-
+.content table thead th,
 .content table th {
     color: #fff;
 }
@@ -109,9 +108,11 @@ a.nav-item:not(.button) {
 .content table td,
 .content table th {
     border: 1px solid #797979;
+    border-width: 0 0 1px;
 }
 
-.content table tr:hover {
+.content table tr:hover,
+.table tr:hover {
     background-color: #151515;
 }
 
@@ -125,16 +126,21 @@ hr {
 }
 
 .title,
-.subtitle {
+.title a,
+.subtitle, 
+.subtitle a {
     color: white;
     text-decoration: none;
 }
 
-.notification.is-danger {
+.notification.is-danger,
+.tag.is-danger,
+.table tr.is-selected {
     background-color: #790000;
 }
 
-.hero.is-dark {
+.hero.is-dark,
+.button.is-dark {
     background-color: #212121;
 }
 
@@ -158,4 +164,12 @@ body, button, input, select, textarea {
     background-color: #383838;
     border-color: #212121;
     color: #ffffff;
+}
+
+pre {
+    background-color: transparent;
+}
+.table {
+    background-color: transparent;
+    color: #fff;
 }

@@ -47,8 +47,7 @@ class IndexController extends ControllerBase {
                 array_push($blockedserversList, array("sha1" => $value, "ip" => "Unknown"));
             }
         }
-        echo '<h2 class="title">BlockedServers List</h2>
-<table class="table" style="width:100%;">
+        echo '<table class="table" style="width:100%;">
     <thead>
         <tr>
             <th>Domain/IP</th>
@@ -58,7 +57,7 @@ class IndexController extends ControllerBase {
     <tbody>';
         foreach ($blockedserversList as $key => $value) {
             if($value['ip'] == "Unknown") {
-                echo '<tr style="background-color: #ff3860;color:white;">';
+                echo '<tr class="is-selected">';
             } else {
                 echo '<tr>';
             }

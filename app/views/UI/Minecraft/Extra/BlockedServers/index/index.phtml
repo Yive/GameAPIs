@@ -24,7 +24,7 @@
                             <input class="input" type="text" name="ips" placeholder="mc.hypixel.net,arkhamnetwork.org">
                         </div>
                         <div class="control">
-                            <input type="submit" value="Lookup" class="button is-dark">
+                            <input type="submit" value="Lookup" class="button is-dark" style="background-color:#212121;">
                         </div>
                     </div>
                 </form>
@@ -34,7 +34,14 @@
                 <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/BlacklistNotify">Tweets by BlacklistNotify</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
             <div class="column is-12">
-                <?php echo $this->getContent(); ?>
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">BlockedServers List</p>
+                    </header>
+                    <div class="card-content">
+                        <?php echo $this->getContent(); ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
