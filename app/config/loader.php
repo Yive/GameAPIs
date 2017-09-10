@@ -258,11 +258,26 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\NS2\Query\Info'                      => $config->application->controllersDir.'APIs/NS2/Query/Info/',
         'GameAPIs\Controllers\APIs\NS2\Query\Status'                    => $config->application->controllersDir.'APIs/NS2/Query/Status/',
         'GameAPIs\Controllers\APIs\NS2\Query\Players'                   => $config->application->controllersDir.'APIs/NS2/Query/Players/',
+        // Quake APIs //
+        'GameAPIs\Controllers\APIs\Quake\Query'                         => $config->application->controllersDir.'APIs/Quake/Query/',
+        'GameAPIs\Controllers\APIs\Quake\Query\Info'                    => $config->application->controllersDir.'APIs/Quake/Query/Info/',
+        'GameAPIs\Controllers\APIs\Quake\Query\Status'                  => $config->application->controllersDir.'APIs/Quake/Query/Status/',
+        'GameAPIs\Controllers\APIs\Quake\Query\Players'                 => $config->application->controllersDir.'APIs/Quake/Query/Players/',
+        // Quake 2 APIs //
+        'GameAPIs\Controllers\APIs\Quake2\Query'                        => $config->application->controllersDir.'APIs/Quake2/Query/',
+        'GameAPIs\Controllers\APIs\Quake2\Query\Info'                   => $config->application->controllersDir.'APIs/Quake2/Query/Info/',
+        'GameAPIs\Controllers\APIs\Quake2\Query\Status'                 => $config->application->controllersDir.'APIs/Quake2/Query/Status/',
+        'GameAPIs\Controllers\APIs\Quake2\Query\Players'                => $config->application->controllersDir.'APIs/Quake2/Query/Players/',
+        // Quake 3 APIs //
+        'GameAPIs\Controllers\APIs\Quake3\Query'                        => $config->application->controllersDir.'APIs/Quake3/Query/',
+        'GameAPIs\Controllers\APIs\Quake3\Query\Info'                   => $config->application->controllersDir.'APIs/Quake3/Query/Info/',
+        'GameAPIs\Controllers\APIs\Quake3\Query\Status'                 => $config->application->controllersDir.'APIs/Quake3/Query/Status/',
+        'GameAPIs\Controllers\APIs\Quake3\Query\Players'                => $config->application->controllersDir.'APIs/Quake3/Query/Players/',
         // Quake Live APIs //
-        'GameAPIs\Controllers\APIs\QL\Query'                            => $config->application->controllersDir.'APIs/QL/Query/',
-        'GameAPIs\Controllers\APIs\QL\Query\Info'                       => $config->application->controllersDir.'APIs/QL/Query/Info/',
-        'GameAPIs\Controllers\APIs\QL\Query\Status'                     => $config->application->controllersDir.'APIs/QL/Query/Status/',
-        'GameAPIs\Controllers\APIs\QL\Query\Players'                    => $config->application->controllersDir.'APIs/QL/Query/Players/',
+        'GameAPIs\Controllers\APIs\QuakeLive\Query'                     => $config->application->controllersDir.'APIs/QuakeLive/Query/',
+        'GameAPIs\Controllers\APIs\QuakeLive\Query\Info'                => $config->application->controllersDir.'APIs/QuakeLive/Query/Info/',
+        'GameAPIs\Controllers\APIs\QuakeLive\Query\Status'              => $config->application->controllersDir.'APIs/QuakeLive/Query/Status/',
+        'GameAPIs\Controllers\APIs\QuakeLive\Query\Players'             => $config->application->controllersDir.'APIs/QuakeLive/Query/Players/',
         // Red Orchestra 2 APIs //
         'GameAPIs\Controllers\APIs\RO2\Query'                           => $config->application->controllersDir.'APIs/RO2/Query/',
         'GameAPIs\Controllers\APIs\RO2\Query\Info'                      => $config->application->controllersDir.'APIs/RO2/Query/Info/',

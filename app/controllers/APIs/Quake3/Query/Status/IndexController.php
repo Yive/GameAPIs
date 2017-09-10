@@ -56,9 +56,9 @@ class IndexController extends ControllerBase {
         if(strpos($params['ip'], ':')) {
             $explodeParams = explode(':', $params['ip']);
             $params['ip']   = $explodeParams[0];
-            $params['port'] = $explodeParams[1] ?? 28960;
+            $params['port'] = $explodeParams[1] ?? 27960;
         } else {
-            $params['port'] = 28960;
+            $params['port'] = 27960;
         }
         $cConfig['ip']   = $filter->sanitize($params['ip'], 'string');
         $cConfig['port'] = $params['port'];
@@ -82,7 +82,7 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['gamename'], array('Call of Duty 2'))) {
+                if(in_array($response['gq_name'], array('Quake 3 Server'))) {
                     $output['status']    = $response['gq_online'];
                     $output['hostname']  = $response['gq_address'];
                     $output['port']      = $response['gq_port_client'];
@@ -97,7 +97,7 @@ class IndexController extends ControllerBase {
                     $output['port']      = $response['gq_port_client'];
                     $output['queryPort'] = $response['gq_port_query'];
                     $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
+                    $output['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
                     $output['code']      = 004;
                     if($cConfig['debug']) {
                         $output['debug'] = $response;
@@ -141,7 +141,7 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['gamename'], array('Call of Duty 2'))) {
+                if(in_array($response['gq_name'], array('Quake 3 Server'))) {
                     $output['status']    = $response['gq_online'];
                     $output['hostname']  = $response['gq_address'];
                     $output['port']      = $response['gq_port_client'];
@@ -156,7 +156,7 @@ class IndexController extends ControllerBase {
                     $output['port']      = $response['gq_port_client'];
                     $output['queryPort'] = $response['gq_port_query'];
                     $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
+                    $output['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
                     $output['code']      = 004;
                     if($cConfig['debug']) {
                         $output['debug'] = $response;
@@ -187,7 +187,7 @@ class IndexController extends ControllerBase {
                 $cConfig['addresses'][$i]['port'] = (int) $explodeParams[1];
             } else {
                 $cConfig['addresses'][$i]['ip'] = $value;
-                $cConfig['addresses'][$i]['port'] = 28960;
+                $cConfig['addresses'][$i]['port'] = 27960;
             }
             $i++;
         }
@@ -205,7 +205,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gamename'], array('Call of Duty 2'))) {
+                    if(in_array($response['gq_name'], array('Quake 3 Server'))) {
                         $output[$combined]['status']    = $response['gq_online'];
                         $output[$combined]['hostname']  = $response['gq_address'];
                         $output[$combined]['port']      = $response['gq_port_client'];
@@ -217,7 +217,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['port']      = $response['gq_port_client'];
                         $output[$combined]['queryPort'] = $response['gq_port_query'];
                         $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
+                        $output[$combined]['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
                         $output[$combined]['code']      = 004;
                     }
                 }
@@ -255,7 +255,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gamename'], array('Call of Duty 2'))) {
+                    if(in_array($response['gq_name'], array('Quake 3 Server'))) {
                         $output[$combined]['status']    = $response['gq_online'];
                         $output[$combined]['hostname']  = $response['gq_address'];
                         $output[$combined]['port']      = $response['gq_port_client'];
@@ -267,7 +267,7 @@ class IndexController extends ControllerBase {
                         $output[$combined]['port']      = $response['gq_port_client'];
                         $output[$combined]['queryPort'] = $response['gq_port_query'];
                         $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
+                        $output[$combined]['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
                         $output[$combined]['code']      = 004;
                     }
                 }
