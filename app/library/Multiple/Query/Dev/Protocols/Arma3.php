@@ -39,7 +39,8 @@ class Arma3 extends Source
         DLC_MARKSMEN = 2,
         DLC_HELICOPTERS = 4,
         DLC_APEX = 16,
-        DLC_JETS = 32;
+        DLC_JETS = 32,
+        DLC_LOW = 64;
 
     /**
      * Defines the names for the specific game DLCs
@@ -52,6 +53,7 @@ class Arma3 extends Source
         self::DLC_HELICOPTERS => 'Helicopters',
         self::DLC_APEX        => 'Apex',
         self::DLC_JETS        => 'Jets',
+        self::DLC_LOW         => 'Laws of War'
     ];
 
     /**
