@@ -75,8 +75,8 @@ class IndexController extends ControllerBase {
                 $output['hostname']             = $response['gq_address'];
                 $output['port']                 = $response['gq_port_client'];
                 $output['queryPort']            = $response['gq_port_query'];
-                $output['name']                 = $response['hostname'];
-                $output['map']                  = $response['map'];
+                $output['name']                 = $response['gq_hostname'];
+                $output['map']                  = $response['gq_mapname'];
                 $output['secured']              = ($response['secure'] == 1) ? true : false;
                 $output['password_protected']   = ($response['gq_password'] == 1) ? true : false;
                 $output['join']                 = $response['gq_joinlink'];
@@ -135,8 +135,8 @@ class IndexController extends ControllerBase {
                 $output['hostname']             = $response['gq_address'];
                 $output['port']                 = $response['gq_port_client'];
                 $output['queryPort']            = $response['gq_port_query'];
-                $output['name']                 = $response['hostname'];
-                $output['map']                  = $response['map'];
+                $output['name']                 = $response['gq_hostname'];
+                $output['map']                  = $response['gq_mapname'];
                 $output['secured']              = ($response['secure'] == 1) ? true : false;
                 $output['password_protected']   = ($response['gq_password'] == 1) ? true : false;
                 $output['join']                 = $response['gq_joinlink'];
@@ -203,8 +203,8 @@ class IndexController extends ControllerBase {
                     $output[$combined]['hostname']              = $response['gq_address'];
                     $output[$combined]['port']                  = $response['gq_port_client'];
                     $output[$combined]['queryPort']             = $response['gq_port_query'];
-                    $output[$combined]['name']                  = $response['hostname'];
-                    $output[$combined]['map']                   = $response['map'];
+                    $output[$combined]['name']                  = $response['gq_hostname'];
+                    $output[$combined]['map']                   = $response['gq_mapname'];
                     $output[$combined]['secured']               = ($response['secure'] == 1) ? true : false;
                     $output[$combined]['password_protected']    = ($response['gq_password'] == 1) ? true : false;
                     $output[$combined]['join']                  = $response['gq_joinlink'];
@@ -263,8 +263,8 @@ class IndexController extends ControllerBase {
                     $output[$combined]['hostname']              = $response['gq_address'];
                     $output[$combined]['port']                  = $response['gq_port_client'];
                     $output[$combined]['queryPort']             = $response['gq_port_query'];
-                    $output[$combined]['name']                  = $response['hostname'];
-                    $output[$combined]['map']                   = $response['map'];
+                    $output[$combined]['name']                  = $response['gq_hostname'];
+                    $output[$combined]['map']                   = $response['gq_mapname'];
                     $output[$combined]['secured']               = ($response['secure'] == 1) ? true : false;
                     $output[$combined]['password_protected']    = ($response['gq_password'] == 1) ? true : false;
                     $output[$combined]['join']                  = $response['gq_joinlink'];
