@@ -71,37 +71,26 @@ class IndexController extends ControllerBase {
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
             } else {
-                if(in_array($response['gamename'], array('Call of Duty 2'))) {
-                    $output['status']               = $response['gq_online'];
-                    $output['hostname']             = $response['gq_address'];
-                    $output['port']                 = $response['gq_port_client'];
-                    $output['queryPort']            = $response['gq_port_query'];
-                    $output['name']                 = $response['sv_hostname'];
-                    $output['map']                  = $response['mapname'];
-                    $output['secured']              = ($response['sv_pure'] == 1) ? true : false;
-                    $output['password_protected']   = ($response['pswrd'] == 1) ? true : false;
-                    $output['version']              = $response['shortversion'];
-                    $output['protocol']             = $response['gq_transport'];
-                    $output['players']['online']    = $response['gq_numplayers'];
-                    $output['players']['max']       = $response['gq_maxplayers'];
-                    $output['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        if(empty($output['players']['list'][$key]['name'])) {
-                            unset($output['players']['list'][$key]);
-                            continue;
-                        }
-                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time'], $output['players']['list'][$key]['gq_ping']);
+                $output['status']               = $response['gq_online'];
+                $output['hostname']             = $response['gq_address'];
+                $output['port']                 = $response['gq_port_client'];
+                $output['queryPort']            = $response['gq_port_query'];
+                $output['name']                 = $response['gq_hostname'];
+                $output['map']                  = $response['gq_mapname'];
+                $output['password_protected']   = ($response['needpass'] == 1) ? true : false;
+                $output['version']              = $response['version'];
+                $output['protocol']             = $response['gq_transport'];
+                $output['players']['online']    = $response['gq_numplayers'];
+                $output['players']['max']       = $response['gq_maxplayers'];
+                $output['players']['list']      = $response['players'];
+                foreach ($response['players'] as $key => $value) {
+                    if(empty($output['players']['list'][$key]['name'])) {
+                        unset($output['players']['list'][$key]);
+                        continue;
                     }
-                    $output['players']['list'] = array_values($output['players']['list']);
-                } else {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
-                    $output['code']      = 004;
+                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time'], $output['players']['list'][$key]['gq_ping']);
                 }
+                $output['players']['list'] = array_values($output['players']['list']);
             }
             $output['cached'] = true;
         } else {
@@ -137,37 +126,26 @@ class IndexController extends ControllerBase {
                 $output['error']     = "Couldn't connect to address.";
                 $output['code']      = 003;
             } else {
-                if(in_array($response['gamename'], array('Call of Duty 2'))) {
-                    $output['status']               = $response['gq_online'];
-                    $output['hostname']             = $response['gq_address'];
-                    $output['port']                 = $response['gq_port_client'];
-                    $output['queryPort']            = $response['gq_port_query'];
-                    $output['name']                 = $response['sv_hostname'];
-                    $output['map']                  = $response['mapname'];
-                    $output['secured']              = ($response['sv_pure'] == 1) ? true : false;
-                    $output['password_protected']   = ($response['pswrd'] == 1) ? true : false;
-                    $output['version']              = $response['shortversion'];
-                    $output['protocol']             = $response['gq_transport'];
-                    $output['players']['online']    = $response['gq_numplayers'];
-                    $output['players']['max']       = $response['gq_maxplayers'];
-                    $output['players']['list']      = $response['players'];
-                    foreach ($response['players'] as $key => $value) {
-                        if(empty($output['players']['list'][$key]['name'])) {
-                            unset($output['players']['list'][$key]);
-                            continue;
-                        }
-                        unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time'], $output['players']['list'][$key]['gq_ping']);
+                $output['status']               = $response['gq_online'];
+                $output['hostname']             = $response['gq_address'];
+                $output['port']                 = $response['gq_port_client'];
+                $output['queryPort']            = $response['gq_port_query'];
+                $output['name']                 = $response['gq_hostname'];
+                $output['map']                  = $response['gq_mapname'];
+                $output['password_protected']   = ($response['needpass'] == 1) ? true : false;
+                $output['version']              = $response['version'];
+                $output['protocol']             = $response['gq_transport'];
+                $output['players']['online']    = $response['gq_numplayers'];
+                $output['players']['max']       = $response['gq_maxplayers'];
+                $output['players']['list']      = $response['players'];
+                foreach ($response['players'] as $key => $value) {
+                    if(empty($output['players']['list'][$key]['name'])) {
+                        unset($output['players']['list'][$key]);
+                        continue;
                     }
-                    $output['players']['list'] = array_values($output['players']['list']);
-                } else {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
-                    $output['code']      = 004;
+                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time'], $output['players']['list'][$key]['gq_ping']);
                 }
+                $output['players']['list'] = array_values($output['players']['list']);
             }
             $output['cached'] = false;
             $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
@@ -211,37 +189,26 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gamename'], array('Call of Duty 2'))) {
-                        $output[$combined]['status']                = $response['gq_online'];
-                        $output[$combined]['hostname']              = $response['gq_address'];
-                        $output[$combined]['port']                  = $response['gq_port_client'];
-                        $output[$combined]['queryPort']             = $response['gq_port_query'];
-                        $output[$combined]['name']                  = $response['sv_hostname'];
-                        $output[$combined]['map']                   = $response['mapname'];
-                        $output[$combined]['secured']               = ($response['sv_pure'] == 1) ? true : false;
-                        $output[$combined]['password_protected']    = ($response['pswrd'] == 1) ? true : false;
-                        $output[$combined]['version']               = $response['shortversion'];
-                        $output[$combined]['protocol']              = $response['gq_transport'];
-                        $output[$combined]['players']['online']     = $response['gq_numplayers'];
-                        $output[$combined]['players']['max']        = $response['gq_maxplayers'];
-                        $output[$combined]['players']['list']       = $response['players'];
-                        foreach ($response['players'] as $key => $value) {
-                            if(empty($output[$combined]['players']['list'][$key]['name'])) {
-                                unset($output[$combined]['players']['list'][$key]);
-                                continue;
-                            }
-                            unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time'], $output[$combined]['players']['list'][$key]['gq_ping']);
+                    $output[$combined]['status']                = $response['gq_online'];
+                    $output[$combined]['hostname']              = $response['gq_address'];
+                    $output[$combined]['port']                  = $response['gq_port_client'];
+                    $output[$combined]['queryPort']             = $response['gq_port_query'];
+                    $output[$combined]['name']                  = $response['gq_hostname'];
+                    $output[$combined]['map']                   = $response['gq_mapname'];
+                    $output[$combined]['password_protected']    = ($response['needpass'] == 1) ? true : false;
+                    $output[$combined]['version']               = $response['version'];
+                    $output[$combined]['protocol']              = $response['gq_transport'];
+                    $output[$combined]['players']['online']     = $response['gq_numplayers'];
+                    $output[$combined]['players']['max']        = $response['gq_maxplayers'];
+                    $output[$combined]['players']['list']       = $response['players'];
+                    foreach ($response['players'] as $key => $value) {
+                        if(empty($output[$combined]['players']['list'][$key]['name'])) {
+                            unset($output[$combined]['players']['list'][$key]);
+                            continue;
                         }
-                        $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
-                    } else {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
-                        $output[$combined]['code']      = 004;
+                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time'], $output[$combined]['players']['list'][$key]['gq_ping']);
                     }
+                    $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -277,37 +244,26 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gamename'], array('Call of Duty 2'))) {
-                        $output[$combined]['status']                = $response['gq_online'];
-                        $output[$combined]['hostname']              = $response['gq_address'];
-                        $output[$combined]['port']                  = $response['gq_port_client'];
-                        $output[$combined]['queryPort']             = $response['gq_port_query'];
-                        $output[$combined]['name']                  = $response['sv_hostname'];
-                        $output[$combined]['map']                   = $response['mapname'];
-                        $output[$combined]['secured']               = ($response['sv_pure'] == 1) ? true : false;
-                        $output[$combined]['password_protected']    = ($response['pswrd'] == 1) ? true : false;
-                        $output[$combined]['version']               = $response['shortversion'];
-                        $output[$combined]['protocol']              = $response['gq_transport'];
-                        $output[$combined]['players']['online']     = $response['gq_numplayers'];
-                        $output[$combined]['players']['max']        = $response['gq_maxplayers'];
-                        $output[$combined]['players']['list']       = $response['players'];
-                        foreach ($response['players'] as $key => $value) {
-                            if(empty($output[$combined]['players']['list'][$key]['name'])) {
-                                unset($output[$combined]['players']['list'][$key]);
-                                continue;
-                            }
-                            unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time'], $output[$combined]['players']['list'][$key]['gq_ping']);
+                    $output[$combined]['status']                = $response['gq_online'];
+                    $output[$combined]['hostname']              = $response['gq_address'];
+                    $output[$combined]['port']                  = $response['gq_port_client'];
+                    $output[$combined]['queryPort']             = $response['gq_port_query'];
+                    $output[$combined]['name']                  = $response['gq_hostname'];
+                    $output[$combined]['map']                   = $response['gq_mapname'];
+                    $output[$combined]['password_protected']    = ($response['needpass'] == 1) ? true : false;
+                    $output[$combined]['version']               = $response['version'];
+                    $output[$combined]['protocol']              = $response['gq_transport'];
+                    $output[$combined]['players']['online']     = $response['gq_numplayers'];
+                    $output[$combined]['players']['max']        = $response['gq_maxplayers'];
+                    $output[$combined]['players']['list']       = $response['players'];
+                    foreach ($response['players'] as $key => $value) {
+                        if(empty($output[$combined]['players']['list'][$key]['name'])) {
+                            unset($output[$combined]['players']['list'][$key]);
+                            continue;
                         }
-                        $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
-                    } else {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Call of Duty 2. (".$response['gamename'].")";
-                        $output[$combined]['code']      = 004;
+                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time'], $output[$combined]['players']['list'][$key]['gq_ping']);
                     }
+                    $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);

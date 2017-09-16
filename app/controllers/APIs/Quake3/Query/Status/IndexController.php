@@ -82,26 +82,13 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['gq_name'], array('Quake 3 Server'))) {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    if($cConfig['debug']) {
-                        $output['debug'] = $response;
-                    }
-                } else {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
-                    $output['code']      = 004;
-                    if($cConfig['debug']) {
-                        $output['debug'] = $response;
-                    }
+                $output['status']    = $response['gq_online'];
+                $output['hostname']  = $response['gq_address'];
+                $output['port']      = $response['gq_port_client'];
+                $output['queryPort'] = $response['gq_port_query'];
+                $output['protocol']  = $response['gq_transport'];
+                if($cConfig['debug']) {
+                    $output['debug'] = $response;
                 }
             }
             $output['cached'] = true;
@@ -141,26 +128,13 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['gq_name'], array('Quake 3 Server'))) {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    if($cConfig['debug']) {
-                        $output['debug'] = $response;
-                    }
-                } else {
-                    $output['status']    = $response['gq_online'];
-                    $output['hostname']  = $response['gq_address'];
-                    $output['port']      = $response['gq_port_client'];
-                    $output['queryPort'] = $response['gq_port_query'];
-                    $output['protocol']  = $response['gq_transport'];
-                    $output['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
-                    $output['code']      = 004;
-                    if($cConfig['debug']) {
-                        $output['debug'] = $response;
-                    }
+                $output['status']    = $response['gq_online'];
+                $output['hostname']  = $response['gq_address'];
+                $output['port']      = $response['gq_port_client'];
+                $output['queryPort'] = $response['gq_port_query'];
+                $output['protocol']  = $response['gq_transport'];
+                if($cConfig['debug']) {
+                    $output['debug'] = $response;
                 }
             }
             $output['cached'] = false;
@@ -205,21 +179,11 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gq_name'], array('Quake 3 Server'))) {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                    } else {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
-                        $output[$combined]['code']      = 004;
-                    }
+                    $output[$combined]['status']    = $response['gq_online'];
+                    $output[$combined]['hostname']  = $response['gq_address'];
+                    $output[$combined]['port']      = $response['gq_port_client'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query'];
+                    $output[$combined]['protocol']  = $response['gq_transport'];
                 }
                 $output[$combined]['cached'] = true;
             } else {
@@ -255,21 +219,11 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['gq_name'], array('Quake 3 Server'))) {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                    } else {
-                        $output[$combined]['status']    = $response['gq_online'];
-                        $output[$combined]['hostname']  = $response['gq_address'];
-                        $output[$combined]['port']      = $response['gq_port_client'];
-                        $output[$combined]['queryPort'] = $response['gq_port_query'];
-                        $output[$combined]['protocol']  = $response['gq_transport'];
-                        $output[$combined]['error']     = "Server is not running Quake 3. (".$response['gq_name'].")";
-                        $output[$combined]['code']      = 004;
-                    }
+                    $output[$combined]['status']    = $response['gq_online'];
+                    $output[$combined]['hostname']  = $response['gq_address'];
+                    $output[$combined]['port']      = $response['gq_port_client'];
+                    $output[$combined]['queryPort'] = $response['gq_port_query'];
+                    $output[$combined]['protocol']  = $response['gq_transport'];
                 }
                 $output[$combined]['cached'] = false;
                 $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
