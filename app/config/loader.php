@@ -72,6 +72,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\BF1942\Query\Info'                   => $config->application->controllersDir.'APIs/BF1942/Query/Info/',
         'GameAPIs\Controllers\APIs\BF1942\Query\Status'                 => $config->application->controllersDir.'APIs/BF1942/Query/Status/',
         'GameAPIs\Controllers\APIs\BF1942\Query\Players'                => $config->application->controllersDir.'APIs/BF1942/Query/Players/',
+        // Battlefield 2142 APIs //
+        'GameAPIs\Controllers\APIs\BF2142\Query'                        => $config->application->controllersDir.'APIs/BF2142/Query/',
+        'GameAPIs\Controllers\APIs\BF2142\Query\Info'                   => $config->application->controllersDir.'APIs/BF2142/Query/Info/',
+        'GameAPIs\Controllers\APIs\BF2142\Query\Status'                 => $config->application->controllersDir.'APIs/BF2142/Query/Status/',
+        'GameAPIs\Controllers\APIs\BF2142\Query\Players'                => $config->application->controllersDir.'APIs/BF2142/Query/Players/',
         // Battlefield Bad Company 2 APIs //
         'GameAPIs\Controllers\APIs\BFBC2\Query'                         => $config->application->controllersDir.'APIs/BFBC2/Query/',
         'GameAPIs\Controllers\APIs\BFBC2\Query\Info'                    => $config->application->controllersDir.'APIs/BFBC2/Query/Info/',
