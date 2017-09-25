@@ -84,10 +84,20 @@ class IndexController extends ControllerBase {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    unset(
+                        $output['players']['list'][$key]['id'],
+                        $output['players']['list'][$key]['gq_name'],
+                        $output['players']['list'][$key]['gq_score'],
+                        $output['players']['list'][$key]['gq_team'],
+                        $output['players']['list'][$key]['gq_ping'],
+                        $output['players']['list'][$key]['gq_time'],
+                        $output['players']['list'][$key]['time']
+                    );
+                    if(!empty($response['players'][$key]['time'])) {
+                        $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                        $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                        $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    }
                 }
                 $output['players']['list'] = array_values($output['players']['list']);
             }
@@ -138,10 +148,20 @@ class IndexController extends ControllerBase {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
-                    unset($output['players']['list'][$key]['id'], $output['players']['list'][$key]['gq_name'], $output['players']['list'][$key]['gq_score'], $output['players']['list'][$key]['gq_time'], $output['players']['list'][$key]['time']);
-                    $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                    $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                    $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    unset(
+                        $output['players']['list'][$key]['id'],
+                        $output['players']['list'][$key]['gq_name'],
+                        $output['players']['list'][$key]['gq_score'],
+                        $output['players']['list'][$key]['gq_team'],
+                        $output['players']['list'][$key]['gq_ping'],
+                        $output['players']['list'][$key]['gq_time'],
+                        $output['players']['list'][$key]['time']
+                    );
+                    if(!empty($response['players'][$key]['time'])) {
+                        $output['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                        $output['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                        $output['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                    }
                 }
                 $output['players']['list'] = array_values($output['players']['list']);
             }
@@ -200,10 +220,19 @@ class IndexController extends ControllerBase {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        unset(
+                            $output[$combined]['players']['list'][$key]['id'],
+                            $output[$combined]['players']['list'][$key]['gq_name'],
+                            $output[$combined]['players']['list'][$key]['gq_score'],
+                            $output[$combined]['players']['list'][$key]['gq_team'],
+                            $output[$combined]['players']['list'][$key]['gq_ping'],
+                            $output[$combined]['players']['list'][$key]['gq_time']
+                        );
+                        if(!empty($response['players'][$key]['time'])) {
+                            $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                            $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                            $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        }
                     }
                     $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                 }
@@ -254,10 +283,19 @@ class IndexController extends ControllerBase {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }
-                        unset($output[$combined]['players']['list'][$key]['id'], $output[$combined]['players']['list'][$key]['gq_name'], $output[$combined]['players']['list'][$key]['gq_score'], $output[$combined]['players']['list'][$key]['gq_time']);
-                        $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
-                        $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
-                        $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        unset(
+                            $output[$combined]['players']['list'][$key]['id'],
+                            $output[$combined]['players']['list'][$key]['gq_name'],
+                            $output[$combined]['players']['list'][$key]['gq_score'],
+                            $output[$combined]['players']['list'][$key]['gq_team'],
+                            $output[$combined]['players']['list'][$key]['gq_ping'],
+                            $output[$combined]['players']['list'][$key]['gq_time']
+                        );
+                        if(!empty($response['players'][$key]['time'])) {
+                            $output[$combined]['players']['list'][$key]['time']['seconds'] = $response['players'][$key]['time'];
+                            $output[$combined]['players']['list'][$key]['time']['minutes'] = $response['players'][$key]['time'] / 60;
+                            $output[$combined]['players']['list'][$key]['time']['hours'] = $response['players'][$key]['time'] / 3600;
+                        }
                     }
                     $output[$combined]['players']['list'] = array_values($output[$combined]['players']['list']);
                 }
