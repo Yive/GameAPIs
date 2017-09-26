@@ -162,6 +162,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\DODS\Query\Info'                     => $config->application->controllersDir.'APIs/DODS/Query/Info/',
         'GameAPIs\Controllers\APIs\DODS\Query\Status'                   => $config->application->controllersDir.'APIs/DODS/Query/Status/',
         'GameAPIs\Controllers\APIs\DODS\Query\Players'                  => $config->application->controllersDir.'APIs/DODS/Query/Players/',
+        // FiveM (GTA5) APIs //
+        'GameAPIs\Controllers\APIs\FiveM\Query'                         => $config->application->controllersDir.'APIs/FiveM/Query/',
+        'GameAPIs\Controllers\APIs\FiveM\Query\Info'                    => $config->application->controllersDir.'APIs/FiveM/Query/Info/',
+        'GameAPIs\Controllers\APIs\FiveM\Query\Status'                  => $config->application->controllersDir.'APIs/FiveM/Query/Status/',
+        'GameAPIs\Controllers\APIs\FiveM\Query\Players'                 => $config->application->controllersDir.'APIs/FiveM/Query/Players/',
         // GameSpy APIs //
         'GameAPIs\Controllers\APIs\GameSpy\Query'                       => $config->application->controllersDir.'APIs/GameSpy/Query/',
         'GameAPIs\Controllers\APIs\GameSpy\Query\Info'                  => $config->application->controllersDir.'APIs/GameSpy/Query/Info/',
@@ -182,16 +187,6 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\GMOD\Query\Info'                     => $config->application->controllersDir.'APIs/GMOD/Query/Info/',
         'GameAPIs\Controllers\APIs\GMOD\Query\Status'                   => $config->application->controllersDir.'APIs/GMOD/Query/Status/',
         'GameAPIs\Controllers\APIs\GMOD\Query\Players'                  => $config->application->controllersDir.'APIs/GMOD/Query/Players/',
-        // Grand Theft Auto 5 APIs //
-        'GameAPIs\Controllers\APIs\GTA5\Query'                          => $config->application->controllersDir.'APIs/GTA5/Query/',
-        'GameAPIs\Controllers\APIs\GTA5\Query\Info'                     => $config->application->controllersDir.'APIs/GTA5/Query/Info/',
-        'GameAPIs\Controllers\APIs\GTA5\Query\Status'                   => $config->application->controllersDir.'APIs/GTA5/Query/Status/',
-        'GameAPIs\Controllers\APIs\GTA5\Query\Players'                  => $config->application->controllersDir.'APIs/GTA5/Query/Players/',
-        // Grand Theft Auto: San Andreas APIs //
-        'GameAPIs\Controllers\APIs\GTASA\Query'                         => $config->application->controllersDir.'APIs/GTASA/Query/',
-        'GameAPIs\Controllers\APIs\GTASA\Query\Info'                    => $config->application->controllersDir.'APIs/GTASA/Query/Info/',
-        'GameAPIs\Controllers\APIs\GTASA\Query\Status'                  => $config->application->controllersDir.'APIs/GTASA/Query/Status/',
-        'GameAPIs\Controllers\APIs\GTASA\Query\Players'                 => $config->application->controllersDir.'APIs/GTASA/Query/Players/',
         // Half Life 2: Deathmatch APIs //
         'GameAPIs\Controllers\APIs\HL2DM\Query'                         => $config->application->controllersDir.'APIs/HL2DM/Query/',
         'GameAPIs\Controllers\APIs\HL2DM\Query\Info'                    => $config->application->controllersDir.'APIs/HL2DM/Query/Info/',
@@ -227,6 +222,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\L4D2\Query\Info'                     => $config->application->controllersDir.'APIs/L4D2/Query/Info/',
         'GameAPIs\Controllers\APIs\L4D2\Query\Status'                   => $config->application->controllersDir.'APIs/L4D2/Query/Status/',
         'GameAPIs\Controllers\APIs\L4D2\Query\Players'                  => $config->application->controllersDir.'APIs/L4D2/Query/Players/',
+        // Medal Of Honor Allied Assault APIs //
+        'GameAPIs\Controllers\APIs\MOHAA\Query'                         => $config->application->controllersDir.'APIs/MOHAA/Query/',
+        'GameAPIs\Controllers\APIs\MOHAA\Query\Info'                    => $config->application->controllersDir.'APIs/MOHAA/Query/Info/',
+        'GameAPIs\Controllers\APIs\MOHAA\Query\Status'                  => $config->application->controllersDir.'APIs/MOHAA/Query/Status/',
+        'GameAPIs\Controllers\APIs\MOHAA\Query\Players'                 => $config->application->controllersDir.'APIs/MOHAA/Query/Players/',
         // Minecraft APIs //
         'GameAPIs\Controllers\APIs\Minecraft'                           => $config->application->controllersDir.'APIs/Minecraft/',
         'GameAPIs\Controllers\APIs\Minecraft\Extra'                     => $config->application->controllersDir.'APIs/Minecraft/Extra/',
@@ -238,6 +238,7 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Minecraft\Query\Icon'                => $config->application->controllersDir.'APIs/Minecraft/Query/Icon/',
         'GameAPIs\Controllers\APIs\Minecraft\Query\MOTD'                => $config->application->controllersDir.'APIs/Minecraft/Query/MOTD/',
         'GameAPIs\Controllers\APIs\Minecraft\Query\MCPE'                => $config->application->controllersDir.'APIs/Minecraft/Query/MCPE/',
+        'GameAPIs\Controllers\APIs\Minecraft\Query\Banner'              => $config->application->controllersDir.'APIs/Minecraft/Query/Banner/',
         'GameAPIs\Controllers\APIs\Minecraft\Query\Players'             => $config->application->controllersDir.'APIs/Minecraft/Query/Players/',
         'GameAPIs\Controllers\APIs\Minecraft\Query\Extensive'           => $config->application->controllersDir.'APIs/Minecraft/Query/Extensive/',
         'GameAPIs\Controllers\APIs\Minecraft\Images'                    => $config->application->controllersDir.'APIs/Minecraft/Images/',
@@ -253,11 +254,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Minecraft\Player\Name'               => $config->application->controllersDir.'APIs/Minecraft/Player/Name/',
         'GameAPIs\Controllers\APIs\Minecraft\Player\UUID'               => $config->application->controllersDir.'APIs/Minecraft/Player/UUID/',
         'GameAPIs\Controllers\APIs\Minecraft\Player\Profile'            => $config->application->controllersDir.'APIs/Minecraft/Player/Profile/',
-        // Medal Of Honor Allied Assault APIs //
-        'GameAPIs\Controllers\APIs\MOHAA\Query'                         => $config->application->controllersDir.'APIs/MOHAA/Query/',
-        'GameAPIs\Controllers\APIs\MOHAA\Query\Info'                    => $config->application->controllersDir.'APIs/MOHAA/Query/Info/',
-        'GameAPIs\Controllers\APIs\MOHAA\Query\Status'                  => $config->application->controllersDir.'APIs/MOHAA/Query/Status/',
-        'GameAPIs\Controllers\APIs\MOHAA\Query\Players'                 => $config->application->controllersDir.'APIs/MOHAA/Query/Players/',
+        // Multi Theft Auto APIs //
+        'GameAPIs\Controllers\APIs\MTA\Query'                           => $config->application->controllersDir.'APIs/MTA/Query/',
+        'GameAPIs\Controllers\APIs\MTA\Query\Info'                      => $config->application->controllersDir.'APIs/MTA/Query/Info/',
+        'GameAPIs\Controllers\APIs\MTA\Query\Status'                    => $config->application->controllersDir.'APIs/MTA/Query/Status/',
+        'GameAPIs\Controllers\APIs\MTA\Query\Players'                   => $config->application->controllersDir.'APIs/MTA/Query/Players/',
         // Natural Selection 2 APIs //
         'GameAPIs\Controllers\APIs\NS2\Query'                           => $config->application->controllersDir.'APIs/NS2/Query/',
         'GameAPIs\Controllers\APIs\NS2\Query\Info'                      => $config->application->controllersDir.'APIs/NS2/Query/Info/',
@@ -293,6 +294,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\Rust\Query\Info'                     => $config->application->controllersDir.'APIs/Rust/Query/Info/',
         'GameAPIs\Controllers\APIs\Rust\Query\Status'                   => $config->application->controllersDir.'APIs/Rust/Query/Status/',
         'GameAPIs\Controllers\APIs\Rust\Query\Players'                  => $config->application->controllersDir.'APIs/Rust/Query/Players/',
+        // San Andreas Multiplayer APIs //
+        'GameAPIs\Controllers\APIs\SAMP\Query'                          => $config->application->controllersDir.'APIs/SAMP/Query/',
+        'GameAPIs\Controllers\APIs\SAMP\Query\Info'                     => $config->application->controllersDir.'APIs/SAMP/Query/Info/',
+        'GameAPIs\Controllers\APIs\SAMP\Query\Status'                   => $config->application->controllersDir.'APIs/SAMP/Query/Status/',
+        'GameAPIs\Controllers\APIs\SAMP\Query\Players'                  => $config->application->controllersDir.'APIs/SAMP/Query/Players/',
         // Space Engineers APIs //
         'GameAPIs\Controllers\APIs\SE\Query'                            => $config->application->controllersDir.'APIs/SE/Query/',
         'GameAPIs\Controllers\APIs\SE\Query\Info'                       => $config->application->controllersDir.'APIs/SE/Query/Info/',
