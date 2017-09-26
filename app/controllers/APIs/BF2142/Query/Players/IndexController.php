@@ -81,7 +81,7 @@ class IndexController extends ControllerBase {
                 $output['players']['list']      = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    if(empty($output['players']['list'][$key]['player'])) {
+                    if(empty($output['players']['list'][$key]['player']) || empty($output['players']['list'][$key]['pid'])) {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
@@ -150,7 +150,7 @@ class IndexController extends ControllerBase {
                 $output['players']['list']      = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    if(empty($output['players']['list'][$key]['player'])) {
+                    if(empty($output['players']['list'][$key]['player']) || empty($output['players']['list'][$key]['pid'])) {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
@@ -219,7 +219,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        if(empty($output[$combined]['players']['list'][$key]['player'])) {
+                        if(empty($output[$combined]['players']['list'][$key]['player']) || empty($output[$combined]['players']['list'][$key]['pid'])) {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }
@@ -288,7 +288,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        if(empty($output[$combined]['players']['list'][$key]['player'])) {
+                        if(empty($output[$combined]['players']['list'][$key]['player']) || empty($output[$combined]['players']['list'][$key]['pid'])) {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }

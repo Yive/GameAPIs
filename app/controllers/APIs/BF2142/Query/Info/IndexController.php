@@ -77,14 +77,13 @@ class IndexController extends ControllerBase {
                 $output['queryPort']            = $response['gq_port_query'];
                 $output['name']                 = $response['hostname'];
                 $output['map']                  = $response['gq_mapname'];
-                $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['gamever'];
                 $output['players']['online']    = $response['gq_numplayers'];
                 $output['players']['max']       = $response['gq_maxplayers'];
                 $output['players']['list']      = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    if(empty($output['players']['list'][$key]['player'])) {
+                    if(empty($output['players']['list'][$key]['player']) || empty($output['players']['list'][$key]['pid'])) {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
@@ -149,14 +148,13 @@ class IndexController extends ControllerBase {
                 $output['queryPort']            = $response['gq_port_query'];
                 $output['name']                 = $response['hostname'];
                 $output['map']                  = $response['gq_mapname'];
-                $output['join']                 = $response['gq_joinlink'];
                 $output['version']              = $response['gamever'];
                 $output['players']['online']    = $response['gq_numplayers'];
                 $output['players']['max']       = $response['gq_maxplayers'];
                 $output['players']['list']      = $response['players'];
 
                 foreach ($response['players'] as $key => $value) {
-                    if(empty($output['players']['list'][$key]['player'])) {
+                    if(empty($output['players']['list'][$key]['player']) || empty($output['players']['list'][$key]['pid'])) {
                         unset($output['players']['list'][$key]);
                         continue;
                     }
@@ -221,7 +219,6 @@ class IndexController extends ControllerBase {
                     $output[$combined]['queryPort']         = $response['gq_port_query'];
                     $output[$combined]['name']              = $response['hostname'];
                     $output[$combined]['map']               = $response['gq_mapname'];
-                    $output[$combined]['join']              = $response['gq_joinlink'];
                     $output[$combined]['version']           = $response['gamever'];
                     $output[$combined]['protocol']          = $response['gq_transport'];
                     $output[$combined]['players']['online'] = $response['gq_numplayers'];
@@ -229,7 +226,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        if(empty($output[$combined]['players']['list'][$key]['player'])) {
+                        if(empty($output[$combined]['players']['list'][$key]['player']) || empty($output[$combined]['players']['list'][$key]['pid'])) {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }
@@ -294,7 +291,6 @@ class IndexController extends ControllerBase {
                     $output[$combined]['queryPort']         = $response['gq_port_query'];
                     $output[$combined]['name']              = $response['hostname'];
                     $output[$combined]['map']               = $response['gq_mapname'];
-                    $output[$combined]['join']              = $response['gq_joinlink'];
                     $output[$combined]['version']           = $response['gamever'];
                     $output[$combined]['protocol']          = $response['gq_transport'];
                     $output[$combined]['players']['online'] = $response['gq_numplayers'];
@@ -302,7 +298,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['players']['list']   = $response['players'];
 
                     foreach ($response['players'] as $key => $value) {
-                        if(empty($output[$combined]['players']['list'][$key]['player'])) {
+                        if(empty($output[$combined]['players']['list'][$key]['player']) || empty($output[$combined]['players']['list'][$key]['pid'])) {
                             unset($output[$combined]['players']['list'][$key]);
                             continue;
                         }

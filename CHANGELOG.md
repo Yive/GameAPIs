@@ -1,13 +1,12 @@
 ## Alpha 1.1.2:
 
 ### September 9th 2017 - September 24th 2017
-- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years, I hope one day I'll be reunited with him <3. I hope once I am reunited with him, that we both remember each other. He'll always be in my heart <3
+- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years. He'll always be in my heart <3
 
 #### Added
 - Added support for the following games:
   - Quake 2
   - Quake 3
-  - Quake Live
   - Battlefield 2142
 - Documentation for All-Seeing Eye
 - Protocol documentation listings
@@ -21,7 +20,7 @@
 ## Alpha 1.1.1:
 
 ### September 4th 2017 - September 8th 2017
-- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years, I hope one day I'll be reunited with him <3. I hope once I am reunited with him, that we both remember each other. He'll always be in my heart <3
+- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years. He'll always be in my heart <3
 
 #### Added
 - Added support for the following games:
@@ -45,7 +44,7 @@
 ## Alpha 1.1.0:
 
 ### August 23rd 2017 - September 4th 2017
-- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years, I hope one day I'll be reunited with him <3. I hope once I am reunited with him, that we both remember each other. He'll always be in my heart <3
+- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years. He'll always be in my heart <3
 
 #### Added
 - Protocol output to determine if the request is udp or tcp.
