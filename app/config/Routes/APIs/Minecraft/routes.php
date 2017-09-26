@@ -12,11 +12,24 @@ $APIs->add('/mc/query/icon/{ip}', [
     'action'        => 'index'
 ]);
 
+$APIs->add('/mc/query/banner/{ip}', [
+    'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Query\Banner',
+    'controller'    => 'index',
+    'action'        => 'index'
+]);
+
+$APIs->add('/mc/query/banner/{ip}/{options}', [
+    'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Query\Banner',
+    'controller'    => 'index',
+    'action'        => 'index'
+]);
+
 $APIs->add('/mcpe/query/info/{ip}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Query\MCPE',
     'controller'    => 'info',
     'action'        => 'index'
 ]);
+
 $APIs->add('/mcpe/query/players/{ip}', [
     'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Query\MCPE',
     'controller'    => 'players',
