@@ -82,7 +82,7 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['game_descr'], array('Day of Defeat: Source'))) {
+                if(in_array($response['game_descr'], array('Day of Defeat: Source','Day of Defeat'))) {
                     $output['status']    = $response['gq_online'];
                     $output['hostname']  = $response['gq_address'];
                     $output['port']      = $response['gq_port_client'];
@@ -141,7 +141,7 @@ class IndexController extends ControllerBase {
                     $output['debug'] = $response;
                 }
             } else {
-                if(in_array($response['game_descr'], array('Day of Defeat: Source'))) {
+                if(in_array($response['game_descr'], array('Day of Defeat: Source','Day of Defeat'))) {
                     $output['status']    = $response['gq_online'];
                     $output['hostname']  = $response['gq_address'];
                     $output['port']      = $response['gq_port_client'];
@@ -205,7 +205,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['game_descr'], array('Day of Defeat: Source'))) {
+                    if(in_array($response['game_descr'], array('Day of Defeat: Source','Day of Defeat'))) {
                         $output[$combined]['status']    = $response['gq_online'];
                         $output[$combined]['hostname']  = $response['gq_address'];
                         $output[$combined]['port']      = $response['gq_port_client'];
@@ -255,7 +255,7 @@ class IndexController extends ControllerBase {
                     $output[$combined]['error']     = "Couldn't connect to address.";
                     $output[$combined]['code']      = 003;
                 } else {
-                    if(in_array($response['game_descr'], array('Day of Defeat: Source'))) {
+                    if(in_array($response['game_descr'], array('Day of Defeat: Source','Day of Defeat'))) {
                         $output[$combined]['status']    = $response['gq_online'];
                         $output[$combined]['hostname']  = $response['gq_address'];
                         $output[$combined]['port']      = $response['gq_port_client'];
