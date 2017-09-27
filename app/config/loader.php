@@ -157,6 +157,11 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\DNL\Query\Info'                      => $config->application->controllersDir.'APIs/DNL/Query/Info/',
         'GameAPIs\Controllers\APIs\DNL\Query\Status'                    => $config->application->controllersDir.'APIs/DNL/Query/Status/',
         'GameAPIs\Controllers\APIs\DNL\Query\Players'                   => $config->application->controllersDir.'APIs/DNL/Query/Players/',
+        // Day of Defeat APIs //
+        'GameAPIs\Controllers\APIs\DOD\Query'                           => $config->application->controllersDir.'APIs/DOD/Query/',
+        'GameAPIs\Controllers\APIs\DOD\Query\Info'                      => $config->application->controllersDir.'APIs/DOD/Query/Info/',
+        'GameAPIs\Controllers\APIs\DOD\Query\Status'                    => $config->application->controllersDir.'APIs/DOD/Query/Status/',
+        'GameAPIs\Controllers\APIs\DOD\Query\Players'                   => $config->application->controllersDir.'APIs/DOD/Query/Players/',
         // Day of Defeat: Source APIs //
         'GameAPIs\Controllers\APIs\DODS\Query'                          => $config->application->controllersDir.'APIs/DODS/Query/',
         'GameAPIs\Controllers\APIs\DODS\Query\Info'                     => $config->application->controllersDir.'APIs/DODS/Query/Info/',

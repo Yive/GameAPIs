@@ -7,6 +7,7 @@
 - Experimenting with dynamic banners (Minecraft only right now)
 - Added support for the following games:
   - Quake Live
+  - Day of Defeat
   - Day of Defeat: Source
   - FiveM
   - San Andreas Multiplayer (SAMP)
