@@ -47,6 +47,13 @@
                                         <td>The port of which the Minecraft server is running on.</td>
                                         <td>25565</td>
                                     </tr>
+                                    <tr>
+                                        <th>False</th>
+                                        <th>Options</th>
+                                        <td>String</td>
+                                        <td>(Banners only) Set the background &amp; if the text should be capitalised.</td>
+                                        <td>None</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -54,24 +61,17 @@
                 </div>
             </div>
             <div class="column is-12">
-                <h1 class="title" id="status"><a href="#status">Status Query</a></h1>
+                <h1 class="title" id="status"><a href="#status"><span class="tag is-info">New!</span> Banner Query</a></h1>
             </div>
             <div class="column is-half">
                 <div class="card">
                     <header class="card-header">
-                        <p class="card-header-title">Single Server</p>
+                        <p class="card-header-title">Default</p>
                     </header>
                     <div class="card-content" style="padding:0;">
                         <div class="content">
-                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/status/{IP}:{PORT}</div>
-                            <pre><code class="hljs json">{
-    "status": true,
-    "hostname": "{IP}",
-    "port": {PORT},
-    "protocol": "tcp",
-    "ping": 2,
-    "cached": false
-}</code></pre>
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/mc.hypixel.net"/></code></pre>
                         </div>
                     </div>
                 </div>
@@ -79,29 +79,120 @@
             <div class="column is-half">
                 <div class="card">
                     <header class="card-header">
-                        <p class="card-header-title">Multiple Servers</p>
+                        <p class="card-header-title">Night with capitalisation</p>
                     </header>
                     <div class="card-content" style="padding:0;">
                         <div class="content">
-                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/status/{IP}:{PORT},{IP2}:{PORT2}</div>
-                            <pre><code class="hljs json">{
-    "{IP}:{PORT}": {
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}/night,caps</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/mc.hypixel.net/night,caps"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Sunset</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}/sunset</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/mc.hypixel.net/sunset"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Nether with capitalisation</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}/nether,caps</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/mc.hypixel.net/nether,caps"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Default with capitalisation</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}/caps</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/mc.hypixel.net/caps"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Default Offline server [It's icon may change soon]</p>
+                    </header>
+                    <div class="card-content" style="padding:0;">
+                        <div class="content">
+                            <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/banner/{IP}:{PORT}/caps</div>
+                            <pre><code class="hljs json"><img src="https://use.gameapis.net/mc/query/banner/127.0.0.1"/></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <hr>
+                <h1 class="title" id="status"><a href="#status">Status Query</a></h1>
+                </div>
+                <div class="column is-half">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">Single Server</p>
+                        </header>
+                        <div class="card-content" style="padding:0;">
+                            <div class="content">
+                                <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/status/{IP}:{PORT}</div>
+                                <pre><code class="hljs json">{
         "status": true,
         "hostname": "{IP}",
         "port": {PORT},
         "protocol": "tcp",
         "ping": 2,
         "cached": false
-    },
-    "{IP2}:{PORT2}": {
-        "status": true,
-        "hostname": "{IP2}",
-        "port": {PORT2},
-        "protocol": "tcp",
-        "ping": 43,
-        "cached": false
-    }
-}</code></pre>
+    }</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">Multiple Servers</p>
+                        </header>
+                        <div class="card-content" style="padding:0;">
+                            <div class="content">
+                                <div class="request-url"><span class="tag is-dark" style="border-radius:0;">GET</span> https://use.gameapis.net/mc/query/status/{IP}:{PORT},{IP2}:{PORT2}</div>
+                                <pre><code class="hljs json">{
+        "{IP}:{PORT}": {
+            "status": true,
+            "hostname": "{IP}",
+            "port": {PORT},
+            "protocol": "tcp",
+            "ping": 2,
+            "cached": false
+        },
+        "{IP2}:{PORT2}": {
+            "status": true,
+            "hostname": "{IP2}",
+            "port": {PORT2},
+            "protocol": "tcp",
+            "ping": 43,
+            "cached": false
+        }
+    }</code></pre>
                         </div>
                     </div>
                 </div>
