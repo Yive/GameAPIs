@@ -7,6 +7,7 @@ use Redis;
 use Phalcon\Filter;
 use GDText\Box;
 use GDtext\Color;
+use GDText\TextWrapping;
 
 class IndexController extends ControllerBase {
 
@@ -221,6 +222,7 @@ class IndexController extends ControllerBase {
                 $motd->setFontSize(15);
                 $motd->setBox(95, 44, 449, 15);
                 $motd->setTextAlign('left', 'top');
+                $motd->setTextWrapping(TextWrapping::NoWrap);
                 $motdText = explode("\n", $response['cleanmotd']);
                 if($capitalised) {
                     $motd->draw(strtoupper(trim($motdText[0])));
@@ -267,6 +269,7 @@ class IndexController extends ControllerBase {
                     $motd->setFontSize(15);
                     $motd->setBox(95, 44, 449, 15);
                     $motd->setTextAlign('left', 'top');
+                    $motd->setTextWrapping(TextWrapping::NoWrap);
                     $motdText = explode("\n", $response['cleanmotd']);
                     if($capitalised) {
                         $motd->draw(strtoupper(trim($motdText[0])));
@@ -360,6 +363,7 @@ class IndexController extends ControllerBase {
                 $motd->setFontSize(15);
                 $motd->setBox(95, 44, 449, 15);
                 $motd->setTextAlign('left', 'top');
+                $motd->setTextWrapping(TextWrapping::NoWrap);
                 $motdText = explode("\n", $response['cleanmotd']);
                 if($capitalised) {
                     $motd->draw(strtoupper(trim($motdText[0])));
@@ -406,6 +410,7 @@ class IndexController extends ControllerBase {
                     $motd->setFontSize(15);
                     $motd->setBox(95, 44, 449, 15);
                     $motd->setTextAlign('left', 'top');
+                    $motd->setTextWrapping(TextWrapping::NoWrap);
                     $motdText = explode("\n", $response['cleanmotd']);
                     if($capitalised) {
                         $motd->draw(strtoupper(trim($motdText[0])));

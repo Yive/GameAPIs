@@ -28,53 +28,47 @@ class IndexController extends ControllerBase {
             $output = array("error" => "Only usernames are supported.");
             return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         } else {
-            if (ctype_alnum(str_replace('_', '', $target))) {
-                if(strpos($target, '-')) {
-                    $redis->set($cConfig['redis']['key']['avoid'].$target, true, 300);
-                    $output = array("error" => "Invalid username characters.");
+            if (ctype_alnum(strtr($target, array(' ' => '', '%20' => '', '-' => '', '_' => '', '$' => 'S', '.' => 'dot')))) {
+                if($redis->exists($cConfig['redis']['key']['avoid'].$target)) {
+                    $output = array("error" => "Requested username is on the avoid list. Check back later.");
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } else {
-                    if($redis->exists($cConfig['redis']['key']['avoid'].$target)) {
-                        $output = array("error" => "Requested username is on the avoid list. Check back later.");
-                        return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-                    } else {
-                        if($redis->exists($cConfig['redis']['key']['profile'].$target)) {
-                            $checkRedis = json_decode($redis->get($cConfig['redis']['key']['profile'].$target),true);
-                            if($checkRedis['expiresAt'] > time()) {
-                                $realOutput = array();
-                                $realOutput['name']             = $checkRedis['name'];
-                                $realOutput['id']               = $checkRedis['id'];
-                                $realOutput['uuid_formatted']   = $checkRedis['uuid_formatted'];
-                                return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-                            } else {
-                                if($redis->exists($cConfig['redis']['key']['overloaded'])) {
-                                    $output = array("error" => "API is overloaded. Please wait a few minutes.");
-                                    return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
-                                } else {
-                                    return $this->dispatcher->forward(
-                                        [
-                                            'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\UUID',
-                                            'controller'    => 'index',
-                                            'action'        => 'second',
-                                            'params'        => array(
-                                                'username'      => $target
-                                            )
-                                        ]
-                                    );
-                                }
-                            }
+                    if($redis->exists($cConfig['redis']['key']['profile'].$target)) {
+                        $checkRedis = json_decode($redis->get($cConfig['redis']['key']['profile'].$target),true);
+                        if($checkRedis['expiresAt'] > time()) {
+                            $realOutput = array();
+                            $realOutput['name']             = $checkRedis['name'];
+                            $realOutput['id']               = $checkRedis['id'];
+                            $realOutput['uuid_formatted']   = $checkRedis['uuid_formatted'];
+                            return json_encode($realOutput, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                         } else {
-                            return $this->dispatcher->forward(
-                                [
-                                    'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\UUID',
-                                    'controller'    => 'index',
-                                    'action'        => 'second',
-                                    'params'        => array(
-                                        'username'      => $target
-                                    )
-                                ]
-                            );
+                            if($redis->exists($cConfig['redis']['key']['overloaded'])) {
+                                $output = array("error" => "API is overloaded. Please wait a few minutes.");
+                                return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                            } else {
+                                return $this->dispatcher->forward(
+                                    [
+                                        'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\UUID',
+                                        'controller'    => 'index',
+                                        'action'        => 'second',
+                                        'params'        => array(
+                                            'username'      => $target
+                                        )
+                                    ]
+                                );
+                            }
                         }
+                    } else {
+                        return $this->dispatcher->forward(
+                            [
+                                'namespace'     => 'GameAPIs\Controllers\APIs\Minecraft\Player\UUID',
+                                'controller'    => 'index',
+                                'action'        => 'second',
+                                'params'        => array(
+                                    'username'      => $target
+                                )
+                            ]
+                        );
                     }
                 }
             } elseif ($target == NULL) {
