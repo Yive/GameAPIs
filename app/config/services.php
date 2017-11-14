@@ -65,14 +65,18 @@ $di->set('router', function () {
 
         $Overview = new RouterGroup();
         $Overview->setHostName('www.gameapis.net');
+        
+        $UserInterface = new RouterGroup();
+        $UserInterface->setHostName('ui.gameapis.net');
 
         require __DIR__.'/Routes/Overview/routes.php';
-        $routes = glob(__DIR__.'/Routes/*/*/*.php');
-        foreach ($routes as $routesKey => $routesValue) {
-            require $routesValue;
-        }
+        require __DIR__.'/Routes/UI/routes.php';
+        require __DIR__.'/Routes/APIs/routes.php';
+        require __DIR__.'/Routes/Documentation/routes.php';
+
         $router->mount($APIs);
         $router->mount($Documentation);
+        $router->mount($UserInterface);
         $router->mount($Overview);
         $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
         return $router;

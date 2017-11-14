@@ -138,7 +138,7 @@ class MCPing
 		$chars = array('§0', '§1', '§2', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§a', '§b', '§c', '§d', '§e', '§f', '§k', '§l', '§m', '§n', '§o', '§r');
 		$output = str_replace($chars, '', $string);
 		$output = str_replace('\n', '<br>', $output);
-		return $output;
+		return mb_convert_encoding($output, "UTF-8");
 	}
 
 	public static function MotdToHtml($minetext) {
@@ -253,7 +253,7 @@ class MCPing
 				}
 			}
 		}
-		return $returnstring;
+		return mb_convert_encoding($returnstring, "UTF-8");
 	}
 
 

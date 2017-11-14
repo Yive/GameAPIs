@@ -10,6 +10,28 @@ class IndexController extends ControllerBase {
         $this->tag->setTitle("GameAPIs");
     }
 
+    public function moveAction() {
+        function is_valid_domain_name($domain_name) {
+            return preg_match('/^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}$/m', $domain_name);
+        }
+        if($this->request->isPost()) {
+            $filter = new \Phalcon\Filter();
+            $ips = $this->request->getPost('ips');
+            $ips = explode(',',$ips);
+            $domains = array();
+            foreach ($ips as $key => $value) {
+                $value = $filter->sanitize($value, 'string');
+                if(is_valid_domain_name($value)) {
+                    array_push($domains, $value);
+                }
+            }
+            if(!empty($domains)) {
+                return $this->response->redirect('https://ui.gameapis.net/mc/extra/blockedservers/check/'.implode(',',$domains), true);
+            }
+        }
+        return $this->response->redirect('https://ui.gameapis.net/mc/extra/blockedservers', true);
+    }
+
     public function indexAction() {
         $this->tag->prependTitle("BlockedServers Check - ");
         function is_valid_domain_name($domain_name) {
@@ -27,7 +49,7 @@ class IndexController extends ControllerBase {
                 }
             }
             if(!empty($domains)) {
-                return $this->response->redirect('https://docs.gameapis.net/ui/mc/extra/blockedservers/check/'.implode(',',$domains), true);
+                return $this->response->redirect('https://ui.gameapis.net/mc/extra/blockedservers/check/'.implode(',',$domains), true);
             }
         }
         $redis = new Redis();

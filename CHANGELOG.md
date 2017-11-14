@@ -1,7 +1,6 @@
 ## Alpha 1.1.3:
 
 ### September 24th 2017 - XYZ
-- All of the updates released in September are dedicated to my cat who was put down on September 11th after living for over 14 years. He'll always be in my heart <3
 
 #### Added
 - Experimenting with dynamic banners (Minecraft only right now)
