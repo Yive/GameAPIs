@@ -67,8 +67,6 @@ $di->set('router', function () {
         require __DIR__.'/Routes/APIs/routes.php';
 
         $router->mount($APIs);
-        $router->mount($Documentation);
-        $router->mount($UserInterface);
         $router->mount($Overview);
         $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
         return $router;
