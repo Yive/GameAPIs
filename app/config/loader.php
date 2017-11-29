@@ -16,17 +16,6 @@ $loader->registerNamespaces(
     [
         'GameAPIs\Controllers'                                          => $config->application->controllersDir,
         'GameAPIs\Controllers\Overview'                                 => $config->application->controllersDir.'Overview/',
-        'GameAPIs\Controllers\Documentation'                            => $config->application->controllersDir.'Documentation/',
-        // 7 Days to Die Documentation //
-        'GameAPIs\Controllers\Documentation\SD2D'                       => $config->application->controllersDir.'Documentation/7D2D/',
-        // Alien Swarm Documentation //
-        'GameAPIs\Controllers\Documentation\AlienSwarm'                 => $config->application->controllersDir.'Documentation/AlienSwarm/',
-        // Minecraft Documentation //
-        'GameAPIs\Controllers\Documentation\Minecraft'                  => $config->application->controllersDir.'Documentation/Minecraft/',
-        'GameAPIs\Controllers\Documentation\Minecraft\Extra'            => $config->application->controllersDir.'Documentation/Minecraft/Extra/',
-        'GameAPIs\Controllers\Documentation\Minecraft\Query'            => $config->application->controllersDir.'Documentation/Minecraft/Query/',
-        'GameAPIs\Controllers\Documentation\Minecraft\Images'           => $config->application->controllersDir.'Documentation/Minecraft/Images/',
-        'GameAPIs\Controllers\Documentation\Minecraft\Ecommerce'        => $config->application->controllersDir.'Documentation/Minecraft/Ecommerce/',
         // 7 Days to Die APIs //
         'GameAPIs\Controllers\APIs\SD2D\Query'                          => $config->application->controllersDir.'APIs/7D2D/Query/',
         'GameAPIs\Controllers\APIs\SD2D\Query\Info'                     => $config->application->controllersDir.'APIs/7D2D/Query/Info/',
@@ -345,9 +334,7 @@ $loader->registerNamespaces(
         'GameAPIs\Controllers\APIs\WU\Query\Status'                     => $config->application->controllersDir.'APIs/WU/Query/Status/',
         'GameAPIs\Controllers\APIs\WU\Query\Players'                    => $config->application->controllersDir.'APIs/WU/Query/Players/',
         // Libraries //
-        'GameAPIs\Libraries\Minecraft\Query'                            => $config->application->libraryDir.'Minecraft/Query/',
-        // Minecraft UIs //
-        'GameAPIs\Controllers\UI\Minecraft\Extra'                       => $config->application->controllersDir.'UI/Minecraft/Extra/'
+        'GameAPIs\Libraries\Minecraft\Query'                            => $config->application->libraryDir.'Minecraft/Query/'
     ]
 );
 
