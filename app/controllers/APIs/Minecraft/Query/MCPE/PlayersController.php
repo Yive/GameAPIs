@@ -80,8 +80,6 @@ class PlayersController extends ControllerBase {
         } else {
             $status                = new McpePing();
             $response             = $status->ping($params['ip'], $params['port']);
-            $response['htmlmotd']  = $status->MotdToHtml($response['motd']);
-            $response['cleanmotd'] = $status->ClearMotd($response['motd']);
 
             if(!$response['online']) {
                 $output['status']   = $response['online'];
@@ -90,6 +88,8 @@ class PlayersController extends ControllerBase {
                 $output['protocol'] = "udp";
                 $output['error']    = $response['error'];
             } else {
+                $response['htmlmotd']           = $status->MotdToHtml($response['motd']);
+                $response['cleanmotd']          = $status->ClearMotd($response['motd']);
                 $output['status']               = $response['online'];
                 $output['hostname']             = $response['hostname'];
                 $output['port']                 = $response['port'];
@@ -147,8 +147,6 @@ class PlayersController extends ControllerBase {
             } else {
                 $status                = new McpePing();
                 $response              = $status->ping($value['ip'], $value['port']);
-                $response['htmlmotd']  = $status->MotdToHtml($response['motd']);
-                $response['cleanmotd'] = $status->ClearMotd($response['motd']);
 
                 if(!$response['online']) {
                     $output[$combined]['status']    = $response['online'];
@@ -157,6 +155,8 @@ class PlayersController extends ControllerBase {
                     $output[$combined]['protocol']  = "udp";
                     $output[$combined]['error']     = $response['error'];
                 } else {
+                    $response['htmlmotd']                   = $status->MotdToHtml($response['motd']);
+                    $response['cleanmotd']                  = $status->ClearMotd($response['motd']);
                     $output[$combined]['status']            = $response['online'];
                     $output[$combined]['hostname']          = $response['hostname'];
                     $output[$combined]['port']              = $response['port'];
