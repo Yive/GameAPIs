@@ -57,9 +57,6 @@ $di->set('router', function () {
             'action'        => 'index',
         ]);
 
-        $APIs = new RouterGroup();
-        $APIs->setHostName('use.gameapis.net');
-
         $Documentation = new RouterGroup();
         $Documentation->setHostName('docs.gameapis.net');
 
@@ -71,10 +68,8 @@ $di->set('router', function () {
 
         require __DIR__.'/Routes/Overview/routes.php';
         require __DIR__.'/Routes/UI/routes.php';
-        require __DIR__.'/Routes/APIs/routes.php';
         require __DIR__.'/Routes/Documentation/routes.php';
 
-        $router->mount($APIs);
         $router->mount($Documentation);
         $router->mount($UserInterface);
         $router->mount($Overview);
