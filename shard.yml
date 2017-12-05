@@ -1,0 +1,13 @@
+name: GameAPIs
+version: 0.1.0
+
+authors:
+  -  <>
+
+targets:
+  GameAPIs:
+    main: src/GameAPIs.cr
+
+crystal: 0.23.1
+
+license: MIT
