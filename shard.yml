@@ -2,7 +2,7 @@ name: GameAPIs
 version: 0.1.0
 
 authors:
-  -  <>
+  - Yive <admin@yive.me>
 
 targets:
   GameAPIs:
@@ -11,3 +11,15 @@ targets:
 crystal: 0.23.1
 
 license: MIT
+
+dependencies:
+  raze:
+    github: samueleaton/raze
+  redis:
+    github: stefanwille/crystal-redis
+    version: ~> 1.9.0
+  cossack:
+    github: crystal-community/cossack
+    version: ~> 0.1
+  magickwand-crystal:
+    github: blocknotes/magickwand-crystal

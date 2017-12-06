@@ -1,5 +1,10 @@
-require "./GameAPIs/*"
+require "./GameAPIs/**"
+require "raze"
+require "json"
+require "cossack"
+require "base64"
+require "magickwand-crystal"
 
 module GameAPIs
-  # TODO Put your code here
+  Raze.run
 end
