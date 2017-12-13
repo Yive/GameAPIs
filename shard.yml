@@ -13,8 +13,9 @@ crystal: 0.23.1
 license: MIT
 
 dependencies:
-  raze:
-    github: samueleaton/raze
+  kemal:
+    github: kemalcr/kemal
+    version: 0.21.0
   redis:
     github: stefanwille/crystal-redis
     version: ~> 1.9.0
@@ -23,3 +24,5 @@ dependencies:
     version: ~> 0.1
   magickwand-crystal:
     github: blocknotes/magickwand-crystal
+  dotenv:
+    github: gdotdesign/cr-dotenv

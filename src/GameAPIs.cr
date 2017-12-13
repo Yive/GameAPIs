@@ -1,10 +1,8 @@
+require "kemal"
 require "./GameAPIs/**"
-require "raze"
-require "json"
-require "cossack"
 require "base64"
 require "magickwand-crystal"
+require "redis"
+require "dotenv"
 
-module GameAPIs
-  Raze.run
-end
+Kemal.run
