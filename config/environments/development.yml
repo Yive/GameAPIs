@@ -1,0 +1,29 @@
+secret_key_base: GMB_ouLKYkRHUoA2xh6C1ydvTbNnZof-elTK-L1rkEs
+port: 3001
+name: skins_server
+logging:
+  severity: debug
+  colorize: true
+  filter:
+    - password
+    - confirm_password
+  skip:
+    -
+  context:
+    - 
+
+host: 0.0.0.0
+port_reuse: true
+process_count: 4
+# ssl_key_file:
+# ssl_cert_file:
+redis_url: "redis://localhost:6379"
+database_url: sqlite3:./db/skins_server_development.db
+session:
+  key: amber.session
+  store: signed_cookie
+  expires: 0
+
+secrets:
+  description: Store your development secrets credentials and settings here.
+

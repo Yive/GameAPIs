@@ -1,22 +1,56 @@
-# GameAPIs
+# skins_server
 
-TODO: Write a description here
+This project is powered by [Amber Framework](https://amberframework.org/).
 
 ## Installation
 
-TODO: Write installation instructions here
+1. [Install required dependencies](https://github.com/amberframework/online-docs/blob/master/getting-started/quickstart/zero-to-deploy.md#install-crystal-and-amber)
+2. Run `shards install`
 
 ## Usage
 
-TODO: Write usage instructions here
+To setup your database edit `database_url` inside `config/environments/development.yml` file.
 
-## Development
+To edit your production settings use `amber encrypt`. [See encrypt command guide](https://github.com/amberframework/online-docs/blob/master/getting-started/cli/encrypt.md#encrypt-command)
 
-TODO: Write development instructions here
+To run amber server in a **development** enviroment:
+
+```
+amber db create migrate
+amber watch
+```
+
+To build and run a **production** release:
+
+1. Add an environment variable `AMBER_ENV` with a value of `production`
+2. Run these commands:
+
+```
+npm run release
+amber db create migrate
+shards build --production
+./bin/skins_server
+```
+
+## Docker Compose
+
+To set up the database and launch the server:
+
+```
+docker-compose up -d
+```
+
+To view the logs:
+
+```
+docker-compose logs -f
+```
+
+> **Note:** The Docker images are compatible with Heroku.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/GameAPIs/fork )
+1. Fork it ( https://github.com/your-github-user/skins_server/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -24,4 +58,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name])  - creator, maintainer
+- [your-github-user](https://github.com/your-github-user) your-name-here - creator, maintainer
