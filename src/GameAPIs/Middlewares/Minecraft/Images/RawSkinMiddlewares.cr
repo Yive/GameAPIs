@@ -26,4 +26,5 @@ module GameAPIs
             redis.close
         end
     end
+    add_handler RawSkin.new
 end
