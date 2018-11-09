@@ -21,7 +21,6 @@ require "../src/controllers/**"
 # this file, we recommend to use yaml configurations before changing any settings here.
 # Any uncommented setting here will override the YAML with the value set here.
 
-
 Amber::Server.configure do |settings|
   # Use your environment variables settings here.
   #
@@ -40,7 +39,7 @@ Amber::Server.configure do |settings|
   # error, fatal, and unknown.
   #
   # settings.logging.colorize = true
-  # settings.logging.severity = debug
+  # settings.logging.severity = "debug"
   # settings.logging.filter = %w(password confirm_password)
   # settings.logging.skip = %w()
   # settings.logging.context = %w(request headers cookies session params)
@@ -52,7 +51,7 @@ Amber::Server.configure do |settings|
   # initialized to a random key present in `ENV["AMBER_SECRET_KEY"]` or
   # `.amber_secret_key` in this order.
   #
-  # settings.secret_key_base= kYan1E-jw5R3HgDC8F07T5BDVvI3kpe7PDVtvPdGH4E
+  # settings.secret_key_base= ZnoDujnKIY6-hKQ-uZslWXl8dCJgxS6jP-vtET5KoPM
   #
   #
   # Host: is the application server host address or ip address. Useful for when
@@ -65,7 +64,7 @@ Amber::Server.configure do |settings|
   # Port Reuse: Amber supports clustering mode which allows to spin
   # multiple app instances per core. This setting allows to bind the different
   # instances to the same port. Default this setting to true if the number or process
-  # is grater than 1.
+  # is greater than 1.
   #
   # > Read more about Linux PORT REUSE https://lwn.net/Articles/542629/
   #

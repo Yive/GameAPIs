@@ -1,39 +1,52 @@
 require "cossack"
 require "base64"
+require "redis"
 
 class SkinController < ApplicationController
   def skin
-    name = params[:user].nil? ? "steve" : "#{params[:user]}".downcase
+    name = params[:user].nil? ? "steve" : "#{params[:user]}".downcase.delete('-')
     response.content_type = "image/png"
-    begin
-      if File.exists?("#{Dir.current}/apis/rawskins/#{name.delete('-')}.png")
-        if Time.now.epoch - File.stat("#{Dir.current}/apis/rawskins/#{name.delete('-')}.png").mtime.epoch < 3600
-          check = File.read("#{Dir.current}/apis/rawskins/#{name.delete('-')}.png")
-          return check if !check.nil?
-        else
-          File.delete("#{Dir.current}/apis/rawskins/#{name.delete('-')}.png")
-        end
+    "#{name.delete('_')}".each_char do |char|
+      if !char.alphanumeric?
+        response.status_code = 400
         return File.read("steve.png")
       end
-      if File.exists?("#{Dir.current}/apis/profiles/#{name.delete('-')}.txt".downcase)
-        if Time.now.epoch - File.stat("#{Dir.current}/apis/profiles/#{name.delete('-')}.txt".downcase).mtime.epoch < 3600
-          check = JSON.parse(File.read("#{Dir.current}/apis/profiles/#{name.delete('-')}.txt".downcase))
-          properties = JSON.parse(Base64.decode_string("#{check["properties"][0]["value"]}"))
-          return File.read("steve.png") if properties["textures"]["SKIN"]? == nil
-          skin = Cossack.get("#{properties["textures"]["SKIN"]["url"]}")
-          return File.read("steve.png") if skin.status != 200
-          File.write("#{Dir.current}/apis/rawskins/#{check["id"]}.png", skin.body) if !File.exists?("#{Dir.current}/apis/rawskins/#{check["id"]}.png")
-          File.write("#{Dir.current}/apis/rawskins/#{check["name"]}.png".downcase, skin.body) if !File.exists?("#{Dir.current}/apis/rawskins/#{check["name"]}.png".downcase)
-          return skin.body
-        else
-          File.delete("#{Dir.current}/apis/profiles/#{name.delete('-')}.txt".downcase)
-        end
+    end
+    if name.size < 32
+      return File.read("steve.png")
+    end
+    begin
+      redis = Redis.new(unixsocket: "/var/run/redis/redis-server2.sock") # I know it's hard coded, but whatever.
+      if redis.exists("skins_server:rawskins:#{name}") == 1
+        check = redis.get("skins_server:rawskins:#{name}")
+        redis.close
+        return Base64.decode_string(check) if !check.nil?
+        return File.read("steve.png")
       end
-      if name.size < 32
+      if redis.exists("skins_server:profiles:#{name}") == 1
+        check_redis = redis.get("skins_server:profiles:#{name}")
+        if !check_redis.nil?
+          check = JSON.parse(check_redis)
+          if check["properties_decoded"]["textures"]["SKIN"]? == nil
+            redis.close
+            return File.read("steve.png")
+          end
+          skin = Cossack.get("#{check["properties_decoded"]["textures"]["SKIN"]["url"]}")
+          if skin.status != 200
+            redis.close
+            return File.read("steve.png")
+          end
+          redis.setex("skins_server:rawskins:#{check["id"]}", 3600, Base64.encode(skin.body))
+          redis.setex("skins_server:rawskins:#{check["name"]}".downcase, 3600, Base64.encode(skin.body))
+          redis.close
+          return skin.body
+        end
+        redis.close
         return File.read("steve.png")
       end
       ss = Cossack.get("https://sessionserver.mojang.com/session/minecraft/profile/#{name.delete('-')}?unsigned=false")
       if ss.status != 200
+        redis.close
         return File.read("steve.png")
       end
       profile = JSON.parse(ss.body)
@@ -95,32 +108,35 @@ class SkinController < ApplicationController
           end
         end
       end
-      File.write("#{Dir.current}/apis/profiles/#{profile["id"]}.txt", "#{save.to_s}")
-      File.write("#{Dir.current}/apis/profiles/#{profile["name"]}.txt".downcase, "#{save.to_s}")
+      redis.set("skins_server:uuids:#{profile["id"]}", "#{profile["id"]}")
+      redis.setex("skins_server:profiles:#{profile["id"]}", 43_200, "#{save.to_s}")
+      redis.setex("skins_server:profiles:#{profile["name"]}".downcase, 43_200, "#{save.to_s}")
       properties = JSON.parse(Base64.decode_string("#{profile["properties"][0]["value"]}"))
       if properties["textures"]["SKIN"]? == nil
-        File.write("#{Dir.current}/apis/uuids/#{profile["id"]}.txt", "#{profile["id"]}")
-        File.write("#{Dir.current}/apis/rawskins/#{profile["id"]}.png", File.read("steve.png"))
-        File.write("#{Dir.current}/apis/rawskins/#{profile["name"]}.png".downcase, File.read("steve.png"))
+        redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(File.read("steve.png")))
+        redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(File.read("steve.png")))
+        redis.close
         return File.read("steve.png")
       else
         skin = Cossack.get("#{properties["textures"]["SKIN"]["url"]}")
         if skin.status == 200
-          File.write("#{Dir.current}/apis/uuids/#{profile["id"]}.txt", "#{profile["id"]}")
-          File.write("#{Dir.current}/apis/rawskins/#{profile["id"]}.png", skin.body)
-          File.write("#{Dir.current}/apis/rawskins/#{profile["name"]}.png".downcase, skin.body)
+          redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(skin.body))
+          redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(skin.body))
+          redis.close
           return skin.body
         else
-          File.write("#{Dir.current}/apis/uuids/#{profile["id"]}.txt", "#{profile["id"]}")
-          File.write("#{Dir.current}/apis/rawskins/#{profile["id"]}.png", File.read("steve.png"))
-          File.write("#{Dir.current}/apis/rawskins/#{profile["name"]}.png".downcase, File.read("steve.png"))
+          redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(File.read("steve.png")))
+          redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(File.read("steve.png")))
+          redis.close
           return File.read("steve.png")
         end
       end
     rescue e
       puts e
+      if !redis.nil?
+        redis.close
+      end
       return File.read("steve.png")
     end
-    return File.read("steve.png")
   end
 end

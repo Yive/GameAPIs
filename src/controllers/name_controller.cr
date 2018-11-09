@@ -1,8 +1,8 @@
 require "cossack"
 require "redis"
 
-class ProfileController < ApplicationController
-  def profile
+class NameController < ApplicationController
+  def name
     name = params[:user].nil? ? "steve" : "#{params[:user]}".downcase.delete('-')
     response.content_type = "application/json"
     "#{name.delete('_')}".each_char do |char|
@@ -11,58 +11,38 @@ class ProfileController < ApplicationController
         return "{\"error\": \"UUID is not alphanumeric.\"}"
       end
     end
+    if name.size < 32
+      response.status_code = 400
+      return "{\"error\": \"UUIDs are only accepted.\"}"
+    end
     begin
       redis = Redis.new(unixsocket: "/var/run/redis/redis-server2.sock") # I know it's hard coded, but whatever.
       if redis.exists("skins_server:skip:#{name}") == 1
         redis.close
-        return "{\"error\": \"not a real username or UUID.\"}"
+        return "{\"error\": \"not a real UUID.\"}"
       end
       if redis.exists("skins_server:profiles:#{name}") == 1
         profile_redis = redis.get("skins_server:profiles:#{name}")
         if !profile_redis.nil?
           profile = JSON.parse(profile_redis)
+          string = JSON.build do |json|
+            json.object do
+              json.field "name", "#{profile["name"]}"
+              json.field "id", "#{profile["id"]}"
+              json.field "uuid_formatted", "#{profile["uuid_formatted"]}"
+            end
+          end
           redis.close
-          return profile.to_json.to_s
+          return "#{JSON.parse(string).to_json}"
         end
       end
-      if name.size < 32
-        response.status_code = 400
-        if name.size > 16
-          redis.close
-          return "{\"error\": \"not a real username.\"}"
-        end
-        response.status_code = 200
-        if redis.exists("skins_server:profiles:skip-all") == 1
-          redis.close
-          return "{\"error\": \"Mojang rate limit detected, check back soon.\"}"
-        end
-        id = Cossack.get("https://api.mojang.com/users/profiles/minecraft/#{name}")
-        if id.status == 429
-          redis.setex("skins_server:skip:skip-all", 600, "1")
-          redis.close
-          return "{\"error\": \"Mojang rate limit detected, check back soon.\"}"
-        end
-        if id.status != 200
-          response.status_code = 400
-          redis.setex("skins_server:skip:#{name}", 600, "1")
-          redis.close
-          return "{\"error\": \"Not a real username.\"}"
-        end
-        getid = JSON.parse(id.body)
-        if getid.nil?
-          response.status_code = 400
-          redis.setex("skins_server:skip:#{name}", 600, "1")
-          redis.close
-          return "{\"error\": \"id missing from mojang response.\"}"
-        else
-          name = "#{getid["id"]}"
-        end
-      end
-      response.status_code = 400
       ss = Cossack.get("https://sessionserver.mojang.com/session/minecraft/profile/#{name}?unsigned=false")
+      response.status_code = 400
       if ss.status != 200
+        response.status_code = 400
+        redis.setex("skins_server:skip:#{name}", 600, "1")
         redis.close
-        return "{\"error\": \"not a real UUID.\"}"
+        return "{\"error\": \"Not a real UUID for the username: #{name}?\"}"
       end
       response.status_code = 200
       profile = JSON.parse(ss.body)
@@ -72,7 +52,7 @@ class ProfileController < ApplicationController
         formatted = "#{formatted}".insert(15,'-')
         formatted = "#{formatted}".insert(11,'-')
         formatted = "#{formatted}".insert(7,'-')
-        string = JSON.build do |json|
+        save = JSON.build do |json|
           json.object do
             json.field "name", "#{profile["name"]}"
             json.field "id", "#{profile["id"]}"
@@ -125,11 +105,18 @@ class ProfileController < ApplicationController
             end
           end
         end
-        redis.set("skins_server:uuids:#{profile["id"]}", "#{profile["id"]}") if redis.exists("skins_server:uuids:#{profile["id"]}") == 0
-        redis.setex("skins_server:profiles:#{profile["id"]}", 43_200, "#{string.to_s}")
-        redis.setex("skins_server:profiles:#{profile["name"]}".downcase, 43_200, "#{string.to_s}")
+        redis.set("skins_server:uuids:#{profile["id"]}", "#{profile["id"]}")
+        redis.setex("skins_server:profiles:#{profile["id"]}", 43_200, "#{save.to_s}")
+        redis.setex("skins_server:profiles:#{profile["name"]}".downcase, 43_200, "#{save.to_s}")
+        string = JSON.build do |json|
+          json.object do
+            json.field "name", "#{profile["name"]}"
+            json.field "id", "#{profile["id"]}"
+            json.field "uuid_formatted", "#{formatted}"
+          end
+        end
         redis.close
-        return string.to_s
+        return "#{JSON.parse(string).to_json}"
       else
         redis.close
         return "{\"error\": \"id missing from mojang response.\"}"

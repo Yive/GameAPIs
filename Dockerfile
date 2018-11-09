@@ -1,9 +1,9 @@
-FROM amberframework/amber:v0.6.5
+FROM amberframework/amber:v0.9.0
 
 WORKDIR /app
 
 COPY shard.* /app/
-RUN crystal deps
+RUN shards install 
 
 COPY . /app
 
