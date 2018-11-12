@@ -131,6 +131,7 @@ class IndexController extends ControllerBase {
         if($cConfig['debug']) {
             $output['debug'] = $response;
         }
+        header("Cache-Control: max-age=15");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         if(!empty(json_last_error())) {
             var_dump($response);
@@ -223,6 +224,7 @@ class IndexController extends ControllerBase {
                 $redis->set($combinedRedis, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
+        header("Cache-Control: max-age=15");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 }

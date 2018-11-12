@@ -42,6 +42,7 @@ class IndexController extends ControllerBase {
                 }
             }
             $redis->set($cConfig['redis']['key']['listExtended'], json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 30);
+            header("Cache-Control: max-age=30");
             echo json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         }
     }
@@ -92,6 +93,7 @@ class IndexController extends ControllerBase {
                 echo $value.":".$check['domain']."\n";
             }
             $redis->set($cConfig['redis']['key']['listExtended'], json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 30);
+            header("Cache-Control: max-age=30");
         }
     }
 
@@ -509,6 +511,7 @@ class IndexController extends ControllerBase {
                 $output[$ip] = $unique;
             }
         }
+        header("Cache-Control: max-age=30");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 }

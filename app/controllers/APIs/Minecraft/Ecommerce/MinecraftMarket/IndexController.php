@@ -52,6 +52,7 @@ class IndexController extends ControllerBase {
            		}
                 $response = json_decode(file_get_contents_curl('http://www.minecraftmarket.com/api/1.5/'.$params['secret'].'/'.$params['action']), true);
                 $redis->set($cConfig['redis']['key'].$params['action'].':'.$hash, json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE), 120);
+                header("Cache-Control: max-age=120");
            		echo json_encode($response, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         }

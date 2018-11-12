@@ -466,6 +466,7 @@ class IndexController extends ControllerBase {
                 }
             }
             $redis->set($cConfig['redis']['key'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
+            header("Cache-Control: max-age=15");
         }
     }
 }

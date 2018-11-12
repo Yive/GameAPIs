@@ -167,6 +167,7 @@ class IndexController extends ControllerBase {
             ob_end_clean();
             $redis->set($cConfig['redis']['key'], base64_encode($imagedata), 120);
 
+            header("Cache-Control: max-age=120");
             echo $imagedata;
         }
     }
@@ -206,6 +207,7 @@ class IndexController extends ControllerBase {
                 $skin = file_get_contents_curl('http://assets.mojang.com/SkinTemplates/steve.png');
             }
             $redis->set($cConfig['redis']['key'], base64_encode($skin), 120);
+            header("Cache-Control: max-age=120");
             echo $skin;
         }
     }
