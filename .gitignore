@@ -52,7 +52,4 @@ $RECYCLE.BIN/
 # VSCode
 .vscode/
 
-# GameAPIs
-app/config/config.php
-
 # End of https://www.gitignore.io/api/git,phalcon,windows,composer,visualstudiocode
