@@ -101,7 +101,7 @@ class IndexController extends ControllerBase {
             imagedestroy($im);
             imagedestroy($av);
             $redis->set($cConfig['redis']['key'], base64_encode($imagedata), 120);
-            header("Cache-Control: max-age=120");
+            header("Cache-Control: s-maxage=120, max-age=120");
             echo $imagedata;
         }
     }

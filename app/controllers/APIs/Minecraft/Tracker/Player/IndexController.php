@@ -93,7 +93,7 @@ class IndexController extends ControllerBase {
             $output['cached'] = false;
             $redis->set('ping:'.$params['ip'].':'.$params['port'], base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
         }
-        header("Cache-Control: max-age=15");
+        header("Cache-Control: s-maxage=15, max-age=15");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 
@@ -158,7 +158,7 @@ class IndexController extends ControllerBase {
                 $redis->set('ping:'.$combined, base64_encode(json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)), 15);
             }
         }
-        header("Cache-Control: max-age=15");
+        header("Cache-Control: s-maxage=15, max-age=15");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 }

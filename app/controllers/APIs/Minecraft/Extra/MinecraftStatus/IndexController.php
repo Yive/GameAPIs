@@ -28,7 +28,7 @@ class IndexController extends ControllerBase {
         } else {
             $output = json_decode($redis->get($cConfig['redis']['key']),true);
         }
-        header("Cache-Control: max-age=60");
+        header("Cache-Control: s-maxage=60, max-age=60");
         echo json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     }
 

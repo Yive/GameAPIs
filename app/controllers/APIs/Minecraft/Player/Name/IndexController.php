@@ -72,7 +72,7 @@ class IndexController extends ControllerBase {
             } else {
                 $redis->set($cConfig['redis']['key']['avoid'].$target, true, 300);
                 $output = array("error" => "Invalid UUID characters.");
-                header("Cache-Control: max-age=300");
+                header("Cache-Control: s-maxage=300, max-age=300");
                 return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
             }
         } else {
@@ -191,12 +191,12 @@ class IndexController extends ControllerBase {
                 if(!empty($getUser['error'])) {
                     $output = array("error" => "Invalid UUID.");
                     $redis->set($cConfig['redis']['key']['avoid'].$uuid, true, 300);
-                    header("Cache-Control: max-age=300");
+                    header("Cache-Control: s-maxage=300, max-age=300");
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } elseif(empty($getUser['id'])) {
                     $output = array("error" => "API is overloaded. Please wait a few minutes.");
                     $redis->set($cConfig['redis']['key']['overloaded'], true, 300);
-                    header("Cache-Control: max-age=300");
+                    header("Cache-Control: s-maxage=300, max-age=300");
                     return json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
                 } else {
                     $uid = '';
