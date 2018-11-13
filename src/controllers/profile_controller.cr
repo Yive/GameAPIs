@@ -40,12 +40,14 @@ class ProfileController < ApplicationController
         if id.status == 429
           redis.setex("skins_server:skip:skip-all", 600, "1")
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
           return "{\"error\": \"Mojang rate limit detected, check back soon.\"}"
         end
         if id.status != 200
           response.status_code = 400
           redis.setex("skins_server:skip:#{name}", 600, "1")
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
           return "{\"error\": \"Not a real username.\"}"
         end
         getid = JSON.parse(id.body)
@@ -53,6 +55,7 @@ class ProfileController < ApplicationController
           response.status_code = 400
           redis.setex("skins_server:skip:#{name}", 600, "1")
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
           return "{\"error\": \"id missing from mojang response.\"}"
         else
           name = "#{getid["id"]}"
@@ -129,6 +132,7 @@ class ProfileController < ApplicationController
         redis.setex("skins_server:profiles:#{profile["id"]}", 43_200, "#{string.to_s}")
         redis.setex("skins_server:profiles:#{profile["name"]}".downcase, 43_200, "#{string.to_s}")
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=43200, max-age=43200")
         return string.to_s
       else
         redis.close

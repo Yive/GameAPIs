@@ -12,12 +12,11 @@ class UuidController < ApplicationController
       end
     end
     begin
-      redis = Redis.new(unixsocket: "/var/run/redis/redis-server2.sock") # I know it's hard coded, but whatever.
       if name.size > 16
         response.status_code = 400
-        redis.close
         return "{\"error\": \"Usernames are only accepted.\"}"
       end
+      redis = Redis.new(unixsocket: "/var/run/redis/redis-server2.sock") # I know it's hard coded, but whatever.
       if redis.exists("skins_server:profiles:skip-all") == 1
         redis.close
         return "{\"error\": \"Mojang rate limit detected, check back soon.\"}"
@@ -46,12 +45,14 @@ class UuidController < ApplicationController
       if id.status == 429
         redis.setex("skins_server:skip:skip-all", 600, "1")
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
         return "{\"error\": \"Mojang rate limit detected, check back soon.\"}"
       end
       if id.status != 200
         response.status_code = 400
         redis.setex("skins_server:skip:#{name}", 600, "1")
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
         return "{\"error\": \"Not a real username.\"}"
       end
       getid = JSON.parse(id.body)
@@ -61,6 +62,7 @@ class UuidController < ApplicationController
           response.status_code = 400
           redis.setex("skins_server:skip:#{name}", 600, "1")
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
           return "{\"error\": \"Not a real UUID for the username: #{name}?\"}"
         end
         response.status_code = 200
@@ -128,6 +130,7 @@ class UuidController < ApplicationController
           redis.setex("skins_server:profiles:#{profile["id"]}", 3600, "#{save.to_s}")
           redis.setex("skins_server:profiles:#{profile["name"]}".downcase, 3600, "#{save.to_s}")
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=3600, max-age=3600")
           string = JSON.build do |json|
             json.object do
               json.field "name", "#{profile["name"]}"

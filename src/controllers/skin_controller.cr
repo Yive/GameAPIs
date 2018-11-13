@@ -39,6 +39,7 @@ class SkinController < ApplicationController
           redis.setex("skins_server:rawskins:#{check["id"]}", 3600, Base64.encode(skin.body))
           redis.setex("skins_server:rawskins:#{check["name"]}".downcase, 3600, Base64.encode(skin.body))
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=3600, max-age=3600")
           return skin.body
         end
         redis.close
@@ -116,6 +117,7 @@ class SkinController < ApplicationController
         redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(File.read("steve.png")))
         redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(File.read("steve.png")))
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=3600, max-age=3600")
         return File.read("steve.png")
       else
         skin = Cossack.get("#{properties["textures"]["SKIN"]["url"]}")
@@ -123,11 +125,13 @@ class SkinController < ApplicationController
           redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(skin.body))
           redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(skin.body))
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=3600, max-age=3600")
           return skin.body
         else
           redis.setex("skins_server:rawskins:#{profile["id"]}", 3600, Base64.encode(File.read("steve.png")))
           redis.setex("skins_server:rawskins:#{profile["name"]}".downcase, 3600, Base64.encode(File.read("steve.png")))
           redis.close
+          response.headers.add("Cache-Control", "s-maxage=3600, max-age=3600")
           return File.read("steve.png")
         end
       end

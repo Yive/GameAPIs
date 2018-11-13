@@ -42,6 +42,7 @@ class NameController < ApplicationController
         response.status_code = 400
         redis.setex("skins_server:skip:#{name}", 600, "1")
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=600, max-age=600")
         return "{\"error\": \"Not a real UUID for the username: #{name}?\"}"
       end
       response.status_code = 200
@@ -116,6 +117,7 @@ class NameController < ApplicationController
           end
         end
         redis.close
+        response.headers.add("Cache-Control", "s-maxage=43200, max-age=43200")
         return "#{JSON.parse(string).to_json}"
       else
         redis.close
